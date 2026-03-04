@@ -183,6 +183,16 @@ function isFull(slots, tierIndex) {
   return countBalls(slots) >= TIER_CONFIG[tierIndex].slots
 }
 
+// Get tier indices to process in runStep based on architecture pattern.
+// When tiers are hidden, we skip them so data flows directly to the next visible tier.
+function getVisibleTierIndices(architecturePattern, comparisonMode) {
+  if (comparisonMode === 'traditional') return [0, 1, 2, 3]
+  if (architecturePattern === 'all') return [0, 1, 2, 3]
+  if (architecturePattern === 'hot-cold-frozen') return [0, 2, 3] // hot, cold, frozen (skip warm)
+  if (architecturePattern === 'hot-frozen') return [0, 3] // hot, frozen (skip warm and cold)
+  return [0, 1, 2, 3]
+}
+
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
@@ -201,44 +211,47 @@ function DataTieringScene() {
   const [comparisonMode, setComparisonMode] = useState('traditional') // 'elastic' or 'traditional'
   const [architecturePattern, setArchitecturePattern] = useState('all') // 'all', 'hot-cold-frozen', 'hot-frozen'
   
-  // One step of the continuous flow
+  // One step of the continuous flow - only processes visible tiers so data flows
+  // directly from hot to the next displayed tier (e.g. hot→cold when warm is hidden)
   const runStep = () => {
+    const visibleIndices = getVisibleTierIndices(architecturePattern, comparisonMode)
     setTiers(prevTiers => {
       const newTiers = prevTiers.map(t => [...t])
       
-      // Process tiers from Hot to Frozen
-      // Each tier: capture exiting ball, shift all balls toward exit, add incoming ball at entry
-      
-      let ballToPass = { id: nextBallIdRef.current } // New ball enters Hot
+      let ballToPass = { id: nextBallIdRef.current } // New ball enters first visible tier
       nextBallIdRef.current++
       
-      for (let tierIdx = 0; tierIdx <= 3; tierIdx++) {
-        // Capture the ball at exit slot (varies by tier) - this will go to next tier
+      for (const tierIdx of visibleIndices) {
         const exitSlot = getExitSlot(tierIdx)
         const exitingBall = newTiers[tierIdx][exitSlot - 1]
         
-        // Shift all balls one step toward exit (along snake path)
         newTiers[tierIdx] = shiftTier(newTiers[tierIdx], tierIdx)
         
-        // Add the incoming ball at entry point (max slot)
         const entryIndex = TIER_CONFIG[tierIdx].slots - 1
         newTiers[tierIdx][entryIndex] = ballToPass
         
-        // The exiting ball becomes the ball to pass to the next tier
         ballToPass = exitingBall
       }
-      // ballToPass from Frozen just disappears (ejected)
+      // ballToPass from last visible tier (e.g. frozen) is ejected
       
       return newTiers
     })
   }
   
-  // Animation loop
+  // Animation loop - depends on architecture pattern so interval uses correct tier flow
   useEffect(() => {
     if (!isRunning) return
     const timer = setInterval(runStep, STEP_DELAY)
     return () => clearInterval(timer)
-  }, [isRunning])
+  }, [isRunning, architecturePattern, comparisonMode])
+
+  // Reset animation when architecture pattern or comparison mode changes
+  // so the flow matches the newly displayed tiers
+  useEffect(() => {
+    setTiers(TIER_CONFIG.map(c => Array(c.slots).fill(null)))
+    nextBallIdRef.current = 1
+    setIsRunning(false)
+  }, [architecturePattern, comparisonMode])
   
   // Reset
   const reset = () => {
