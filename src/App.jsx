@@ -21,12 +21,14 @@ import ESQLScene from './scenes/ESQLScene'
 import ConsolidationScene from './scenes/ConsolidationScene'
 import DataTieringScene from './scenes/DataTieringScene'
 import ServicesScene from './scenes/ServicesScene'
+import RoadmapScene from './scenes/RoadmapScene'
 import DataMeshScene from './scenes/DataMeshScene'
 import TeamScene from './scenes/TeamScene'
 import NextStepsScene from './scenes/NextStepsScene'
 import Navigation from './components/Navigation'
 import ProgressBar from './components/ProgressBar'
 import SceneSettings, { useEnabledScenes } from './components/SceneSettings'
+import RoadmapConfigModal from './components/RoadmapConfigModal'
 
 // Scene configuration - reorder these to change presentation flow
 // The agenda will automatically reflect the order defined here
@@ -50,6 +52,7 @@ const scenes = [
   { id: 'licensing', component: LicensingScene, title: 'Licensing', description: 'One license, full power', duration: '3 min', hideFromAgenda: true },
   { id: 'consolidation', component: ConsolidationScene, title: 'Consolidation', description: 'Reduce tool sprawl', duration: '3 min', hideFromAgenda: true },
   { id: 'services', component: ServicesScene, title: 'Services & Support', description: 'Expert guidance at every stage', duration: '5 min', hideFromAgenda: true },
+  { id: 'roadmap', component: RoadmapScene, title: 'Product Roadmap', description: 'Investment in innovation', duration: '5 min', hideFromAgenda: true, hasConfig: true },
   { id: 'next-steps', component: NextStepsScene, title: 'Next Steps', description: 'Your path forward'}, //, duration: '2 min' },
 ]
 
@@ -209,6 +212,9 @@ function App() {
         onUpdateDuration={updateDuration}
         onReset={resetToDefault}
       />
+
+      {/* Roadmap config modal - rendered here so it can be opened from SceneSettings or RoadmapScene */}
+      <RoadmapConfigModal />
 
       {/* Scene content */}
       {isReady && (

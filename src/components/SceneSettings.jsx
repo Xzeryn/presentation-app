@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from '../context/ThemeContext'
 import { useTeamConfig } from '../context/TeamContext'
+import { useRoadmapConfig } from '../context/RoadmapContext'
 
 const STORAGE_KEY = 'presentation-scene-config'
 
@@ -95,7 +96,7 @@ export function useEnabledScenes(allScenes) {
   }
 }
 
-function SceneItem({ scene, index, isEnabled, isLastEnabled, onToggle, customDuration, onUpdateDuration, isDark }) {
+function SceneItem({ scene, index, isEnabled, isLastEnabled, onToggle, customDuration, onUpdateDuration, isDark, onConfigure }) {
   const [isEditingDuration, setIsEditingDuration] = useState(false)
   const [durationValue, setDurationValue] = useState(customDuration || scene.duration || '')
   const inputRef = useRef(null)
@@ -173,6 +174,19 @@ function SceneItem({ scene, index, isEnabled, isLastEnabled, onToggle, customDur
             </p>
           )}
         </div>
+
+        {/* Configure button (e.g. for Roadmap scene) */}
+        {onConfigure && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onConfigure(); }}
+            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
+              isDark ? 'bg-white/10 text-white/50 hover:bg-white/20 hover:text-elastic-teal' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/50 hover:bg-elastic-dev-blue/20 hover:text-elastic-blue'
+            }`}
+            title="Configure scene"
+          >
+            <FontAwesomeIcon icon={faGear} className="text-sm" />
+          </button>
+        )}
 
         {/* Duration Editor */}
         <div className="flex-shrink-0">
@@ -781,6 +795,7 @@ export default function SceneSettings({
   const [activeTab, setActiveTab] = useState('scenes') // 'scenes' or 'team'
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+  const { openConfigModal: openRoadmapConfig } = useRoadmapConfig()
 
   const enabledCount = enabledSceneIds.length
   const totalCount = scenes.length
@@ -949,6 +964,7 @@ export default function SceneSettings({
                             customDuration={customDurations?.[scene.id]}
                             onUpdateDuration={onUpdateDuration}
                             isDark={isDark}
+                            onConfigure={scene.hasConfig ? openRoadmapConfig : undefined}
                           />
                         )
                       })}
