@@ -34,11 +34,13 @@ function RoadmapConfigModal() {
     toggleItemSelection,
     filterLabels,
     filterKeyInitiatives,
+    filterProductAreas,
     filterReleaseTypes,
     filterStates,
     filterStatus,
     setFilterLabels,
     setFilterKeyInitiatives,
+    setFilterProductAreas,
     setFilterReleaseTypes,
     setFilterStates,
     setFilterStatus,
@@ -87,6 +89,15 @@ function RoadmapConfigModal() {
     return [...set].sort()
   }, [roadmapData.items])
 
+  const allProductAreas = useMemo(() => {
+    const set = new Set()
+    roadmapData.items.forEach((item) => {
+      const area = item.productArea || 'Other'
+      set.add(area)
+    })
+    return [...set].sort()
+  }, [roadmapData.items])
+
   const allReleaseTypes = useMemo(() => {
     const set = new Set()
     roadmapData.items.forEach((item) => item.releaseType && set.add(item.releaseType))
@@ -116,15 +127,17 @@ function RoadmapConfigModal() {
       const itemInitiatives = Array.isArray(ki) ? ki : ki ? [ki] : []
       const itemReleaseType = item.releaseType
 
+      const itemProductArea = item.productArea || 'Other'
       const matchesLabels = filterLabels.length === 0 || itemLabels.some((l) => filterLabels.includes(l))
       const matchesInitiatives = filterKeyInitiatives.length === 0 || itemInitiatives.some((k) => filterKeyInitiatives.includes(k))
+      const matchesProductArea = filterProductAreas.length === 0 || filterProductAreas.includes(itemProductArea)
       const matchesReleaseType = filterReleaseTypes.length === 0 || (itemReleaseType && filterReleaseTypes.includes(itemReleaseType))
       const matchesState = filterStates.length === 0 || (item.state && filterStates.includes(item.state))
       const matchesStatus = filterStatus.length === 0 || (item.status && filterStatus.includes(item.status))
 
-      return matchesLabels && matchesInitiatives && matchesReleaseType && matchesState && matchesStatus
+      return matchesLabels && matchesInitiatives && matchesProductArea && matchesReleaseType && matchesState && matchesStatus
     })
-  }, [roadmapData.items, filterLabels, filterKeyInitiatives, filterReleaseTypes, filterStates, filterStatus])
+  }, [roadmapData.items, filterLabels, filterKeyInitiatives, filterProductAreas, filterReleaseTypes, filterStates, filterStatus])
 
   const getDescriptionPreview = (body, maxLength = 120) => {
     if (!body || typeof body !== 'string') return ''
@@ -474,8 +487,30 @@ function RoadmapConfigModal() {
                   exit={{ height: 0, opacity: 0 }}
                   className="mt-4 overflow-hidden"
                 >
-                  {/* Primary filters: Status, State, Release Type */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  {/* Primary filters: Product Area, Status, State */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                    {allProductAreas.length > 0 && (
+                      <div>
+                        <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                          Product Area
+                        </span>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {allProductAreas.map((area) => (
+                            <button
+                              key={area}
+                              onClick={() => toggleFilter(area, filterProductAreas, setFilterProductAreas)}
+                              className={`px-2 py-1 rounded text-xs transition-all ${
+                                filterProductAreas.includes(area)
+                                  ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                  : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                              }`}
+                            >
+                              {formatProductAreaDisplay(area)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     {allStatus.length > 0 && (
                       <div>
                         <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
@@ -520,32 +555,10 @@ function RoadmapConfigModal() {
                         </div>
                       </div>
                     )}
-                    {allReleaseTypes.length > 0 && (
-                      <div>
-                        <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                          Release Type
-                        </span>
-                        <div className="flex flex-wrap gap-1.5 mt-1.5">
-                          {allReleaseTypes.map((rt) => (
-                            <button
-                              key={rt}
-                              onClick={() => toggleFilter(rt, filterReleaseTypes, setFilterReleaseTypes)}
-                              className={`px-2 py-1 rounded text-xs transition-all ${
-                                filterReleaseTypes.includes(rt)
-                                  ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
-                                  : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                              }`}
-                            >
-                              {rt}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
-                  {/* More filters: Key Initiatives, Labels */}
-                  {(allKeyInitiatives.length > 0 || allLabels.length > 0) && (
+                  {/* More filters: Release Type, Key Initiatives, Labels */}
+                  {(allKeyInitiatives.length > 0 || allLabels.length > 0 || allReleaseTypes.length > 0) && (
                     <div className={`rounded-lg border ${isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'}`}>
                       <button
                         onClick={() => setMoreFiltersExpanded(!moreFiltersExpanded)}
@@ -555,13 +568,13 @@ function RoadmapConfigModal() {
                       >
                         <span>
                           More filters
-                          {(filterKeyInitiatives.length + filterLabels.length) > 0 && (
+                          {(filterKeyInitiatives.length + filterLabels.length + filterReleaseTypes.length) > 0 && (
                             <span
                               className={`ml-1.5 px-1.5 py-0.5 rounded text-xs ${
                                 isDark ? 'bg-elastic-teal/20 text-elastic-teal' : 'bg-elastic-blue/20 text-elastic-blue'
                               }`}
                             >
-                              {filterKeyInitiatives.length + filterLabels.length} active
+                              {filterKeyInitiatives.length + filterLabels.length + filterReleaseTypes.length} active
                             </span>
                           )}
                         </span>
@@ -578,6 +591,28 @@ function RoadmapConfigModal() {
                             className="overflow-hidden"
                           >
                             <div className="px-3 pb-3 pt-1 space-y-3 max-h-40 overflow-y-auto">
+                              {allReleaseTypes.length > 0 && (
+                                <div>
+                                  <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                                    Release Type
+                                  </span>
+                                  <div className="flex flex-wrap gap-1.5 mt-1">
+                                    {allReleaseTypes.map((rt) => (
+                                      <button
+                                        key={rt}
+                                        onClick={() => toggleFilter(rt, filterReleaseTypes, setFilterReleaseTypes)}
+                                        className={`px-2 py-1 rounded text-xs transition-all ${
+                                          filterReleaseTypes.includes(rt)
+                                            ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                            : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                                        }`}
+                                      >
+                                        {rt}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
                               {allKeyInitiatives.length > 0 && (
                                 <div>
                                   <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>

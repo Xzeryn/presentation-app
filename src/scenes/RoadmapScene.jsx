@@ -70,6 +70,7 @@ function RoadmapScene() {
   const [activeProductArea, setActiveProductArea] = useState(null)
   const [detailItem, setDetailItem] = useState(null)
   const [currentColumnIndex, setCurrentColumnIndex] = useState(0)
+  const [trackFits, setTrackFits] = useState(false)
 
   useEffect(() => {
     fetch('/config/roadmap.json')
@@ -117,15 +118,17 @@ function RoadmapScene() {
 
   const scrollRef = useRef(null)
   const columnRefs = useRef([])
+  const programmaticScrollUntil = useRef(0)
 
   const hasOverflow = !isEmpty && timelineBands.bands.length > 1
 
   const scrollToColumn = (index) => {
     const i = Math.max(0, Math.min(index, timelineBands.bands.length - 1))
-    setCurrentColumnIndex(i)
     const el = columnRefs.current[i]
     if (el && scrollRef.current) {
+      programmaticScrollUntil.current = Date.now() + 500
       scrollRef.current.scrollTo({ left: el.offsetLeft, behavior: 'smooth' })
+      setCurrentColumnIndex(i)
     }
   }
 
@@ -140,9 +143,9 @@ function RoadmapScene() {
     const el = scrollRef.current
     if (!el || isEmpty) return
 
-    const onScroll = () => {
+    const updateColumnFromScroll = () => {
+      if (Date.now() < programmaticScrollUntil.current) return
       const scrollLeft = el.scrollLeft
-      const containerWidth = el.clientWidth
       let best = 0
       let bestDist = Infinity
       columnRefs.current.forEach((col, i) => {
@@ -156,14 +159,48 @@ function RoadmapScene() {
       setCurrentColumnIndex(best)
     }
 
+    let scrollTimeout
+    const onScroll = () => {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(updateColumnFromScroll, 150)
+    }
+
+    const onScrollEnd = () => {
+      clearTimeout(scrollTimeout)
+      updateColumnFromScroll()
+    }
+
     el.addEventListener('scroll', onScroll)
-    return () => el.removeEventListener('scroll', onScroll)
+    if ('onscrollend' in window) {
+      el.addEventListener('scrollend', onScrollEnd)
+    }
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      el.removeEventListener('scrollend', onScrollEnd)
+      clearTimeout(scrollTimeout)
+    }
   }, [isEmpty, timelineBands.bands.length])
 
   // Reset column index when bands change
   useEffect(() => {
     setCurrentColumnIndex(0)
   }, [timelineBands.bands.length])
+
+  // Detect if timeline track fits container (for centering when it does)
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el || isEmpty) return
+
+    const check = () => {
+      const fits = el.scrollWidth <= el.clientWidth
+      setTrackFits(fits)
+    }
+
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [isEmpty, timelineBands.bands.length, displayedItems.length])
 
   // Keyboard: arrow keys scroll timeline when it has overflow (otherwise App handles scene nav)
   useEffect(() => {
@@ -325,7 +362,10 @@ function RoadmapScene() {
                   </button>
                 </>
               )}
-              <div ref={scrollRef} className="roadmap-timeline-scroll-container">
+              <div
+                ref={scrollRef}
+                className={`roadmap-timeline-scroll-container ${trackFits ? 'roadmap-timeline-centered' : ''}`}
+              >
                 <div className="roadmap-timeline-track">
                   {timelineBands.bands.map((band, i) => {
                     const items = timelineBands.byBand[band] || []

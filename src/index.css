@@ -186,7 +186,13 @@ body {
   scroll-snap-type: x mandatory;
 }
 
+.roadmap-timeline-scroll-container.roadmap-timeline-centered {
+  display: flex;
+  justify-content: center;
+}
+
 .roadmap-timeline-track {
+  position: relative;
   display: flex;
   flex-wrap: nowrap;
   width: max-content;

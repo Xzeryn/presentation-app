@@ -6,6 +6,7 @@ const DEFAULT_ROADMAP_CONFIG = {
   selectedItemIds: [],
   filterLabels: [],
   filterKeyInitiatives: [],
+  filterProductAreas: [],
   filterReleaseTypes: [],
   filterStates: [],
   filterStatus: [],
@@ -24,6 +25,7 @@ export function RoadmapProvider({ children }) {
           selectedItemIds: parsed.selectedItemIds ?? DEFAULT_ROADMAP_CONFIG.selectedItemIds,
           filterLabels: parsed.filterLabels ?? [],
           filterKeyInitiatives: parsed.filterKeyInitiatives ?? [],
+          filterProductAreas: parsed.filterProductAreas ?? [],
           filterReleaseTypes: parsed.filterReleaseTypes ?? [],
           filterStates: parsed.filterStates ?? [],
           filterStatus: parsed.filterStatus ?? [],
@@ -65,6 +67,10 @@ export function RoadmapProvider({ children }) {
     setConfig((prev) => ({ ...prev, filterKeyInitiatives: initiatives }))
   }, [])
 
+  const setFilterProductAreas = useCallback((areas) => {
+    setConfig((prev) => ({ ...prev, filterProductAreas: areas }))
+  }, [])
+
   const setFilterReleaseTypes = useCallback((types) => {
     setConfig((prev) => ({ ...prev, filterReleaseTypes: types }))
   }, [])
@@ -86,6 +92,7 @@ export function RoadmapProvider({ children }) {
       selectedItemIds: config.selectedItemIds,
       filterLabels: config.filterLabels ?? [],
       filterKeyInitiatives: config.filterKeyInitiatives ?? [],
+      filterProductAreas: config.filterProductAreas ?? [],
       filterReleaseTypes: config.filterReleaseTypes ?? [],
       filterStates: config.filterStates ?? [],
       filterStatus: config.filterStatus ?? [],
@@ -96,6 +103,7 @@ export function RoadmapProvider({ children }) {
       toggleItemSelection,
       setFilterLabels,
       setFilterKeyInitiatives,
+      setFilterProductAreas,
       setFilterReleaseTypes,
       setFilterStates,
       setFilterStatus,
@@ -110,6 +118,7 @@ export function RoadmapProvider({ children }) {
       toggleItemSelection,
       setFilterLabels,
       setFilterKeyInitiatives,
+      setFilterProductAreas,
       setFilterReleaseTypes,
       setFilterStates,
       setFilterStatus,

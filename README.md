@@ -4,7 +4,7 @@ An interactive web presentation showcasing the Elastic Search AI Platform, built
 
 ## Features
 
-- **17+ Interactive Scenes** - Comprehensive, animated storytelling experience
+- **18+ Interactive Scenes** - Comprehensive, animated storytelling experience including Product Roadmap
 - **Scene Settings Panel** - Customize which scenes to include, reorder via drag-and-drop, and set time allocations
 - **Team Editor** - Add, edit, and manage team members directly in the browser with photo upload support
 - **Keyboard Navigation** - Use arrow keys, space, or number keys to navigate
@@ -12,6 +12,7 @@ An interactive web presentation showcasing the Elastic Search AI Platform, built
 - **Dark/Light Theme** - Toggle between visual modes (button in bottom-left corner)
 - **Elastic Brand Styling** - Colors, typography, and design aligned with Elastic brand guidelines
 - **Persistent Settings** - Scene and team configuration saved to localStorage
+- **Product Roadmap** - Timeline view of Elastic roadmap items from GitHub Projects, with filters and LLM summarization
 - **Vercel Web Analytics** - Privacy-friendly analytics integration ready to use (see [Analytics Guide](docs/VERCEL_ANALYTICS.md))
 
 ## Quick Start
@@ -27,6 +28,21 @@ npm run dev
 npm run build
 ```
 
+### Product Roadmap (Optional)
+
+To populate the Product Roadmap scene with live data from Elastic's GitHub Projects:
+
+```bash
+# Copy env template and add your GitHub token
+cp .env.example .env
+# Edit .env: set GITHUB_TOKEN=ghp_xxx (create at https://github.com/settings/tokens with read:org, read:project)
+
+# Fetch roadmap data
+npm run fetch:roadmap
+```
+
+See [Product Roadmap](#product-roadmap) for full setup and optional LLM summarization.
+
 ## Navigation
 
 | Input | Action |
@@ -38,7 +54,7 @@ npm run build
 | Nav Menu | Click scene names in top bar |
 | Chevron Buttons | Click arrows on sides |
 
-> **Note**: Number keys are disabled when typing in input fields.
+> **Note**: Number keys are disabled when typing in input fields. On the Product Roadmap scene, when the timeline overflows, `←` and `→` scroll the timeline instead of changing scenes.
 
 ## Settings Panel
 
@@ -122,6 +138,7 @@ This file loads as the default when no localStorage data exists.
 | ES\|QL | Piped query language demo | 3 min |
 | Data Tiering | ILM and searchable snapshots | 3 min |
 | Licensing | Simplified licensing model | 3 min |
+| Product Roadmap | Timeline of Elastic roadmap items from GitHub Projects | 5 min |
 | Consolidation | Tool sprawl reduction | 3 min |
 | Services & Support | Zero-downtime migration demo | 5 min |
 | Next Steps | Action items and contact info | 2 min |
@@ -183,6 +200,69 @@ Edit `src/index.css` for CSS variables:
 - **Scenes**: Edit components in `src/scenes/`
 - **Scene Order**: Modify `scenes` array in `src/App.jsx`
 - **Team Defaults**: Edit `public/config/team.json`
+- **Roadmap Summaries**: Edit `public/config/summarize-prompt.txt` for custom LLM prompts (e.g. PUBSEC/DOD focus)
+
+## Product Roadmap
+
+The Product Roadmap scene displays items from Elastic's GitHub Projects roadmap. Configure which items appear and how they're summarized.
+
+### Fetching Roadmap Data
+
+1. **Create a GitHub token** at https://github.com/settings/tokens with scopes `read:org` and `read:project`.
+
+2. **Configure environment** – Copy `.env.example` to `.env` and set:
+   ```
+   GITHUB_TOKEN=ghp_your_token_here
+   ```
+
+3. **Run the fetch script**:
+   ```bash
+   npm run fetch:roadmap
+   ```
+   This writes `public/config/roadmap.json` with items from the Elastic Public Roadmap project.
+
+### Optional: LLM Summarization
+
+To add AI-generated summaries (For/Value/Scope) to each item:
+
+1. **Enable summarization** in `.env`:
+   ```
+   FETCH_ROADMAP_SUMMARIZE=true
+   ```
+
+2. **Configure AWS Bedrock** – Set `BEDROCK_MODEL_ID`, `AWS_REGION`, and AWS credentials (or use `~/.aws/credentials`).
+
+3. **Custom prompt** (optional) – Set `SUMMARIZE_PROMPT_FILE=public/config/summarize-prompt.txt` to use a custom prompt. The default `summarize-prompt.txt` is tuned for US public sector, DOD, and defense audiences.
+
+4. **Re-run fetch** – `npm run fetch:roadmap` will add summaries to existing items.
+
+### Configuring the Timeline
+
+1. Open the Product Roadmap scene.
+2. Click the **gear icon** (top-right of the roadmap) to open the config modal.
+3. **Filters** – Narrow items by Product Area, Status, State (primary), and Release Type, Key Initiatives, Labels (More filters).
+4. **Select items** – Check items to include in the timeline; selections persist in localStorage.
+5. **Select All / Unselect All** – Bulk actions for the filtered list.
+6. Close the modal – the timeline updates with your selections.
+
+### Timeline Navigation
+
+- **Arrow buttons** – Click left/right to scroll between timeline bands.
+- **Keyboard** – When the timeline has overflow, `←` and `→` scroll the timeline (not the presentation).
+- **Scroll** – Swipe or scroll horizontally when content overflows.
+- **Centering** – When the timeline fits the viewport, it centers automatically.
+
+### Field Mapping (Advanced)
+
+If the GitHub project schema changes, run discovery and update the mapping:
+
+```bash
+FETCH_ROADMAP_DISCOVER=true npm run fetch:roadmap
+```
+
+This dumps the project schema to `public/config/roadmap-schema.json`. Update `scripts/roadmap-field-mapping.json` to map field names (e.g. `productArea`, `releaseType`, `status`) to the actual GitHub field names.
+
+---
 
 ## Project Structure
 
@@ -191,8 +271,11 @@ src/
 ├── components/           # Reusable UI components
 │   ├── Navigation.jsx    # Top navigation bar
 │   ├── ProgressBar.jsx   # Progress indicator
+│   ├── RoadmapConfigModal.jsx  # Roadmap item selection & filters
+│   ├── RoadmapDetailModal.jsx  # Item detail view
 │   └── SceneSettings.jsx # Settings panel with scene & team editors
 ├── context/              # React context providers
+│   ├── RoadmapContext.jsx  # Roadmap selection & filter state
 │   ├── ThemeContext.jsx  # Dark/light theme state
 │   └── TeamContext.jsx   # Team configuration state
 ├── hooks/                # Custom React hooks
@@ -200,14 +283,22 @@ src/
 ├── scenes/               # Individual presentation scenes
 │   ├── HeroScene.jsx
 │   ├── TeamScene.jsx
+│   ├── RoadmapScene.jsx  # Product roadmap timeline
 │   ├── AccessControlSceneDev.jsx
 │   └── ...
 ├── App.jsx               # Main app with scene configuration
 └── index.css             # Global styles & CSS variables
 
+scripts/
+├── fetch-roadmap.js      # Fetches roadmap from GitHub Projects
+└── roadmap-field-mapping.json  # Maps GitHub fields to app schema
+
 public/
 ├── config/
-│   └── team.json         # Default team configuration
+│   ├── team.json         # Default team configuration
+│   ├── roadmap.json      # Roadmap data (from npm run fetch:roadmap)
+│   ├── roadmap-schema.json  # Project schema (from discovery mode)
+│   └── summarize-prompt.txt  # Custom LLM prompt for summaries
 ├── photos/               # Team member photos
 └── *.svg, *.png          # Logo and brand assets
 ```
@@ -218,6 +309,7 @@ public/
 |-----|---------|
 | `presentation-scene-config` | Scene visibility, order, and durations |
 | `presentation-team-config` | Team member data (including uploaded photos as base64) |
+| `presentation-roadmap-config` | Roadmap selected item IDs and filter state |
 | `theme` | Dark/light mode preference |
 
 ## 📊 Analytics
