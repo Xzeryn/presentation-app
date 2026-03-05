@@ -1,0 +1,6 @@
+Summarize this product roadmap item for a sales presenter engaging US public sector, DOD, and defense audiences. Output exactly three lines in this format:
+For: [1-line audience - government/defense program managers, procurement officers, or mission owners who would care]
+Value: [1-line benefit - emphasize mission impact, compliance (FedRAMP, IL4/IL5, CMMC), security posture, data sovereignty, or interoperability for public sector/defense]
+Scope: [1-line what's included - key capabilities]
+
+Focus on relevance to DOD, defense, and public sector requirements. Be concise. No other text.
