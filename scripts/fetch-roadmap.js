@@ -5,6 +5,7 @@
  *
  * Optional: Set FETCH_ROADMAP_SUMMARIZE=true to add AI summaries via AWS Bedrock.
  * Requires BEDROCK_MODEL_ID, AWS_REGION, and AWS credentials.
+ * Optional: Set SUMMARIZE_PROMPT_FILE=public/config/summarize-prompt.txt to use a custom prompt (e.g. for PUBSEC/DOD).
  *
  * Discovery: Set FETCH_ROADMAP_DISCOVER=true to dump project schema and sample field values
  * to public/config/roadmap-schema.json. Use this to find actual field names, then update
@@ -26,12 +27,27 @@ const OUTPUT_PATH = join(__dirname, '..', 'public', 'config', 'roadmap.json')
 const SCHEMA_PATH = join(__dirname, '..', 'public', 'config', 'roadmap-schema.json')
 const MAPPING_PATH = join(__dirname, 'roadmap-field-mapping.json')
 
-const SUMMARIZE_PROMPT = `Summarize this product roadmap item for a sales presenter. Output exactly three lines in this format:
+const DEFAULT_SUMMARIZE_PROMPT = `Summarize this product roadmap item for a sales presenter. Output exactly three lines in this format:
 For: [1-line audience - who is this for]
 Value: [1-line customer benefit - why it matters]
 Scope: [1-line what's included - key capabilities]
 
 Be concise. No other text.`
+
+let _cachedPrompt = null
+function getSummarizePrompt() {
+  if (_cachedPrompt !== null) return _cachedPrompt
+  const promptPath = process.env.SUMMARIZE_PROMPT_FILE
+  if (promptPath) {
+    const resolved = join(__dirname, '..', promptPath)
+    if (existsSync(resolved)) {
+      _cachedPrompt = readFileSync(resolved, 'utf8').trim()
+      return _cachedPrompt
+    }
+  }
+  _cachedPrompt = DEFAULT_SUMMARIZE_PROMPT
+  return _cachedPrompt
+}
 
 const GITHUB_GRAPHQL = 'https://api.github.com/graphql'
 const ORG = 'elastic'
@@ -360,7 +376,7 @@ async function summarizeWithBedrock(item) {
     messages: [
       {
         role: 'user',
-        content: [{ type: 'text', text: `${SUMMARIZE_PROMPT}\n\n---\n\n${input}` }],
+        content: [{ type: 'text', text: `${getSummarizePrompt()}\n\n---\n\n${input}` }],
       },
     ],
   }

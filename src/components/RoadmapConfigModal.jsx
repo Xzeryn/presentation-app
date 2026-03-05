@@ -36,6 +36,7 @@ function RoadmapConfigModal() {
   const [roadmapData, setRoadmapData] = useState({ items: [] })
   const [loading, setLoading] = useState(true)
   const [filterExpanded, setFilterExpanded] = useState(true)
+  const [moreFiltersExpanded, setMoreFiltersExpanded] = useState(false)
   const [detailItem, setDetailItem] = useState(null)
   const [tooltipItemId, setTooltipItemId] = useState(null)
   const [tooltipRect, setTooltipRect] = useState(null)
@@ -199,6 +200,13 @@ function RoadmapConfigModal() {
       if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
     }
   }, [])
+
+  const activeFilterCount =
+    filterLabels.length +
+    filterKeyInitiatives.length +
+    filterReleaseTypes.length +
+    filterStates.length +
+    filterStatus.length
 
   const toggleFilter = (value, current, setter) => {
     const next = current.includes(value)
@@ -381,17 +389,44 @@ function RoadmapConfigModal() {
 
           {/* Filters */}
           <div className={`p-4 border-b ${isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'}`}>
-            <div className="flex items-center justify-between gap-4">
-              <button
-                onClick={() => setFilterExpanded(!filterExpanded)}
-                className={`flex items-center gap-2 text-sm font-medium ${
-                  isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'
-                }`}
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setFilterExpanded(!filterExpanded)}
+                  className={`flex items-center gap-2 text-sm font-medium ${
+                    isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faFilter} />
+                  Filters
+                  {activeFilterCount > 0 && (
+                    <span
+                      className={`px-1.5 py-0.5 rounded text-xs ${
+                        isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                      }`}
+                    >
+                      {activeFilterCount} active
+                    </span>
+                  )}
+                  {filterExpanded ? ' ▲' : ' ▼'}
+                </button>
+                {activeFilterCount > 0 && (
+                  <button
+                    onClick={resetRoadmapConfig}
+                    className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50 hover:text-white' : 'text-elastic-dev-blue/50 hover:text-elastic-dev-blue'}`}
+                  >
+                    <FontAwesomeIcon icon={faRotateLeft} className="text-[10px]" />
+                    Reset all
+                  </button>
+                )}
+              </div>
+              <span
+                className={`text-xs ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}
               >
-                <FontAwesomeIcon icon={faFilter} />
-                Filters
-                {filterExpanded ? ' ▲' : ' ▼'}
-              </button>
+                {activeFilterCount > 0
+                  ? `Showing ${filteredItems.length} of ${roadmapData.items.length} items`
+                  : `Showing ${filteredItems.length} items`}
+              </span>
               {filteredItems.length > 0 && (
                 <div className="flex items-center gap-2">
                   <button
@@ -425,145 +460,162 @@ function RoadmapConfigModal() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="mt-3 space-y-3 overflow-hidden"
+                  className="mt-4 overflow-hidden"
                 >
-                  {allLabels.length > 0 && (
-                    <div>
-                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Labels
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {allLabels.map((label) => (
-                          <button
-                            key={label}
-                            onClick={() => toggleFilter(label, filterLabels, setFilterLabels)}
-                            className={`px-2 py-1 rounded text-xs transition-all ${
-                              filterLabels.includes(label)
-                                ? isDark
-                                  ? 'bg-elastic-teal/30 text-elastic-teal'
-                                  : 'bg-elastic-blue/30 text-elastic-blue'
-                                : isDark
-                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
-                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                            }`}
-                          >
-                            {label}
-                          </button>
-                        ))}
+                  {/* Primary filters: Status, State, Release Type */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    {allStatus.length > 0 && (
+                      <div>
+                        <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                          Status
+                        </span>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {allStatus.map((status) => (
+                            <button
+                              key={status}
+                              onClick={() => toggleFilter(status, filterStatus, setFilterStatus)}
+                              className={`px-2 py-1 rounded text-xs transition-all ${
+                                filterStatus.includes(status)
+                                  ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                  : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                              }`}
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
                       </div>
+                    )}
+                    {allStates.length > 0 && (
+                      <div>
+                        <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                          State
+                        </span>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {allStates.map((state) => (
+                            <button
+                              key={state}
+                              onClick={() => toggleFilter(state, filterStates, setFilterStates)}
+                              className={`px-2 py-1 rounded text-xs transition-all ${
+                                filterStates.includes(state)
+                                  ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                  : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                              }`}
+                            >
+                              {state}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {allReleaseTypes.length > 0 && (
+                      <div>
+                        <span className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                          Release Type
+                        </span>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {allReleaseTypes.map((rt) => (
+                            <button
+                              key={rt}
+                              onClick={() => toggleFilter(rt, filterReleaseTypes, setFilterReleaseTypes)}
+                              className={`px-2 py-1 rounded text-xs transition-all ${
+                                filterReleaseTypes.includes(rt)
+                                  ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                  : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                              }`}
+                            >
+                              {rt}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* More filters: Key Initiatives, Labels */}
+                  {(allKeyInitiatives.length > 0 || allLabels.length > 0) && (
+                    <div className={`rounded-lg border ${isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'}`}>
+                      <button
+                        onClick={() => setMoreFiltersExpanded(!moreFiltersExpanded)}
+                        className={`w-full px-3 py-2 flex items-center justify-between text-sm ${
+                          isDark ? 'text-white/70 hover:bg-white/5' : 'text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/5'
+                        }`}
+                      >
+                        <span>
+                          More filters
+                          {(filterKeyInitiatives.length + filterLabels.length) > 0 && (
+                            <span
+                              className={`ml-1.5 px-1.5 py-0.5 rounded text-xs ${
+                                isDark ? 'bg-elastic-teal/20 text-elastic-teal' : 'bg-elastic-blue/20 text-elastic-blue'
+                              }`}
+                            >
+                              {filterKeyInitiatives.length + filterLabels.length} active
+                            </span>
+                          )}
+                        </span>
+                        <span className="text-xs">
+                          {moreFiltersExpanded ? '▲' : '▼'}
+                        </span>
+                      </button>
+                      <AnimatePresence>
+                        {moreFiltersExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-3 pb-3 pt-1 space-y-3 max-h-40 overflow-y-auto">
+                              {allKeyInitiatives.length > 0 && (
+                                <div>
+                                  <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                                    Key Initiatives
+                                  </span>
+                                  <div className="flex flex-wrap gap-1.5 mt-1">
+                                    {allKeyInitiatives.map((ki) => (
+                                      <button
+                                        key={ki}
+                                        onClick={() => toggleFilter(ki, filterKeyInitiatives, setFilterKeyInitiatives)}
+                                        className={`px-2 py-1 rounded text-xs transition-all ${
+                                          filterKeyInitiatives.includes(ki)
+                                            ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                            : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                                        }`}
+                                      >
+                                        {ki}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {allLabels.length > 0 && (
+                                <div>
+                                  <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                                    Labels
+                                  </span>
+                                  <div className="flex flex-wrap gap-1.5 mt-1">
+                                    {allLabels.map((label) => (
+                                      <button
+                                        key={label}
+                                        onClick={() => toggleFilter(label, filterLabels, setFilterLabels)}
+                                        className={`px-2 py-1 rounded text-xs transition-all ${
+                                          filterLabels.includes(label)
+                                            ? isDark ? 'bg-elastic-teal/30 text-elastic-teal' : 'bg-elastic-blue/30 text-elastic-blue'
+                                            : isDark ? 'bg-white/10 text-white/70 hover:bg-white/20' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                                        }`}
+                                      >
+                                        {label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
-                  {allKeyInitiatives.length > 0 && (
-                    <div>
-                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Key Initiatives
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {allKeyInitiatives.map((ki) => (
-                          <button
-                            key={ki}
-                            onClick={() => toggleFilter(ki, filterKeyInitiatives, setFilterKeyInitiatives)}
-                            className={`px-2 py-1 rounded text-xs transition-all ${
-                              filterKeyInitiatives.includes(ki)
-                                ? isDark
-                                  ? 'bg-elastic-teal/30 text-elastic-teal'
-                                  : 'bg-elastic-blue/30 text-elastic-blue'
-                                : isDark
-                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
-                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                            }`}
-                          >
-                            {ki}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {allReleaseTypes.length > 0 && (
-                    <div>
-                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Release Type
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {allReleaseTypes.map((rt) => (
-                          <button
-                            key={rt}
-                            onClick={() => toggleFilter(rt, filterReleaseTypes, setFilterReleaseTypes)}
-                            className={`px-2 py-1 rounded text-xs transition-all ${
-                              filterReleaseTypes.includes(rt)
-                                ? isDark
-                                  ? 'bg-elastic-teal/30 text-elastic-teal'
-                                  : 'bg-elastic-blue/30 text-elastic-blue'
-                                : isDark
-                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
-                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                            }`}
-                          >
-                            {rt}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {allStates.length > 0 && (
-                    <div>
-                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        State
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {allStates.map((state) => (
-                          <button
-                            key={state}
-                            onClick={() => toggleFilter(state, filterStates, setFilterStates)}
-                            className={`px-2 py-1 rounded text-xs transition-all ${
-                              filterStates.includes(state)
-                                ? isDark
-                                  ? 'bg-elastic-teal/30 text-elastic-teal'
-                                  : 'bg-elastic-blue/30 text-elastic-blue'
-                                : isDark
-                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
-                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                            }`}
-                          >
-                            {state}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {allStatus.length > 0 && (
-                    <div>
-                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Status
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {allStatus.map((status) => (
-                          <button
-                            key={status}
-                            onClick={() => toggleFilter(status, filterStatus, setFilterStatus)}
-                            className={`px-2 py-1 rounded text-xs transition-all ${
-                              filterStatus.includes(status)
-                                ? isDark
-                                  ? 'bg-elastic-teal/30 text-elastic-teal'
-                                  : 'bg-elastic-blue/30 text-elastic-blue'
-                                : isDark
-                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
-                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
-                            }`}
-                          >
-                            {status}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <button
-                    onClick={resetRoadmapConfig}
-                    className={`flex items-center gap-2 text-xs ${isDark ? 'text-white/50 hover:text-white' : 'text-elastic-dev-blue/50 hover:text-elastic-dev-blue'}`}
-                  >
-                    <FontAwesomeIcon icon={faRotateLeft} />
-                    Reset all
-                  </button>
                 </motion.div>
               )}
             </AnimatePresence>

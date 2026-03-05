@@ -72,9 +72,9 @@ export default function RoadmapDetailModal({ item, onClose }) {
                 isDark ? 'border-white/10 text-white/50' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'
               }`}
             >
-              {item.status && <span>{item.status}</span>}
-              {item.releaseType && <span>{item.releaseType}</span>}
-              {item.state && <span>{item.state}</span>}
+              {item.status && <span><span className="font-medium">Status:</span> {item.status}</span>}
+              {item.releaseType && <span><span className="font-medium">Release:</span> {item.releaseType}</span>}
+              {item.state && <span><span className="font-medium">State:</span> {item.state}</span>}
             </div>
           )}
           <div
