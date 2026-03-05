@@ -288,7 +288,7 @@ function RoadmapConfigModal() {
             transform: 'translateY(-100%)',
           }}
         >
-          <div className="flex items-center gap-2 mb-2 pb-2 border-b border-current/10">
+          <div className="flex flex-col gap-1 mb-2 pb-2 border-b border-current/10">
             {selectedItemIds.includes(tooltipItemId) ? (
               <span className="flex items-center gap-1.5 text-xs font-medium text-green-500">
                 <FontAwesomeIcon icon={faCheck} className="text-[10px]" />
@@ -298,6 +298,11 @@ function RoadmapConfigModal() {
               <span className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
                 <span className="text-[10px]">○</span>
                 Not selected
+              </span>
+            )}
+            {tooltipItem?.title && (
+              <span className={`text-xs line-clamp-2 ${isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'}`}>
+                {tooltipItem.title}
               </span>
             )}
           </div>
