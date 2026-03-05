@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-03-04T22:21:36.570Z",
+  "fetchedAt": "2026-03-05T16:01:36.541Z",
   "source": "https://github.com/orgs/elastic/projects/2066",
   "items": [
     {
@@ -21,6 +21,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Audit trail for your Elastic Cloud organization"
+      },
+      "summary": {
+        "for": "Elastic Cloud administrators and security teams managing governance and compliance",
+        "value": "Centralized, searchable audit trail answering \"who changed what and when\" to improve accountability and security posture",
+        "scope": "Organization-wide audit logging via Cloud Console UI covering hosted deployment changes, member management, and API key activity"
       }
     },
     {
@@ -41,6 +46,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "AWS PrivateLink support in Elastic Cloud Serverless"
+      },
+      "summary": {
+        "for": "Enterprise customers in regulated industries with strict security or data governance requirements",
+        "value": "Eliminates public internet exposure for serverless workloads, reducing attack surface and unblocking compliance-sensitive adoption",
+        "scope": "AWS PrivateLink connectivity, VPC filtering for access control, and private endpoint configuration via the Elastic Cloud console"
       }
     },
     {
@@ -61,6 +71,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Adding Serverless regions: 4 Azure"
+      },
+      "summary": {
+        "for": "Customers requiring Azure-based Serverless deployments closer to their users or data",
+        "value": "Reduces latency and supports data residency/compliance by deploying in-region",
+        "scope": "4 new Azure regions — Virginia, Spain, Singapore, and Frankfurt (26 total across all hyperscalers)"
       }
     },
     {
@@ -80,6 +95,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Lovable, Relevant Service Map"
+      },
+      "summary": {
+        "for": "Platform teams and architects managing complex, large-scale service environments",
+        "value": "Faster understanding of service dependencies and their impact on overall system health",
+        "scope": "Improved large-map navigation, clear dependency visualization, health indicators, and dashboard embedding"
       }
     },
     {
@@ -102,6 +122,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "More flexible CCS version compatibility between clusters"
+      },
+      "summary": {
+        "for": "Enterprise customers managing multiple Elasticsearch clusters with Cross-Cluster Search (CCS)",
+        "value": "Simplifies upgrade planning by removing the constraint that forces older versions to stay unpatched due to remote cluster dependencies",
+        "scope": "Expanded CCS version compatibility allowing remote clusters to diverge beyond one minor version from the local cluster"
       }
     },
     {
@@ -125,6 +150,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Admins have insights about CCS queries health and performance via dashboard and alerts"
+      },
+      "summary": {
+        "for": "Enterprise, government, and Security Solution admins managing multiple remote clusters",
+        "value": "Eliminate manual workarounds by getting native, reliable visibility into CCS query health and performance",
+        "scope": "Built-in dashboard and alerts surfacing CCS query performance metrics and remote cluster health status"
       }
     },
     {
@@ -146,6 +176,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Fine-grained log delivery controls in Elastic Cloud"
+      },
+      "summary": {
+        "for": "Cloud administrators and DevOps teams managing Elastic Cloud Hosted or Serverless deployments",
+        "value": "Reduces storage costs and improves compliance by enabling only the logs that matter with flexible retention and routing",
+        "scope": "Granular controls to enable, route, and retain audit, query, and diagnostic logs across CSP regions per log type"
       }
     },
     {
@@ -166,6 +201,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Serverless monitoring with AutoOps - EIS Tier"
+      },
+      "summary": {
+        "for": "Serverless users running AI inference workloads who need cost and performance visibility",
+        "value": "Links inference performance to token billing so customers can optimize usage and control costs",
+        "scope": "EIS Tier view in AutoOps showing token consumption, model-level resource usage, and workload efficiency metrics"
       }
     },
     {
@@ -185,6 +225,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "AutoOps for Self Managed Clusters (Cloud Connected)"
+      },
+      "summary": {
+        "for": "Enterprise admins, DevOps, and SRE teams running self-managed Elasticsearch clusters",
+        "value": "Real-time diagnostics and tailored recommendations that reduce hardware costs, resolve issues faster, and cut manual operational effort",
+        "scope": "Performance tuning, issue detection, resource insights, and secure Support engineer access—included with Enterprise subscription at no extra cost"
       }
     },
     {
@@ -205,6 +250,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Draft Cases"
+      },
+      "summary": {
+        "for": "Security operations teams managing high alert volumes and incident metrics",
+        "value": "Investigate potential threats without skewing MTTR or triggering false-alarm workflows until a real incident is confirmed",
+        "scope": "Draft case creation and collaboration, one-click promotion to live cases, and schema-level filtering for reporting and automation"
       }
     },
     {
@@ -227,6 +277,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL: Effectively search unmapped data"
+      },
+      "summary": {
+        "for": "Data engineers and analysts working with unstructured or partially mapped log data",
+        "value": "Eliminates the need to pre-map every field, enabling faster access and analysis of raw, unstructured data",
+        "scope": "ES|QL support for querying and searching unmapped fields directly in Elasticsearch"
       }
     },
     {
@@ -249,6 +304,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Split view in Discover"
+      },
+      "summary": {
+        "for": "Analysts and developers who investigate and compare data in Discover",
+        "value": "Eliminates the need for multiple browser windows by enabling side-by-side data comparison in a single, focused workspace",
+        "scope": "Split-pane view with independent tabs, drag-and-drop tab management, resizable panes, and linked or independent time pickers"
       }
     },
     {
@@ -271,6 +331,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Generate ES|QL with natural language in Kibana"
+      },
+      "summary": {
+        "for": "Data analysts and Kibana users of all skill levels who work with ES|QL queries",
+        "value": "Instantly generate valid ES|QL queries from plain English, eliminating manual query writing and copy-paste friction",
+        "scope": "In-editor NLP query generation triggered by keyboard shortcut, context-aware from selected data source, with editable output"
       }
     },
     {
@@ -292,6 +357,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Improved memory monitoring for vector use cases"
+      },
+      "summary": {
+        "for": "Engineers and platform teams running hybrid or semantic search on Elasticsearch",
+        "value": "Proactive alerts and recommendations prevent vector search slowdowns before they impact users",
+        "scope": "AutoOps off-heap (system) memory monitoring with early warnings and optimization guidance"
       }
     },
     {
@@ -315,6 +385,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Variable controls for index pattern in ES|QL (FROM ?index)"
+      },
+      "summary": {
+        "for": "Dashboard users managing ES|QL visualizations across multiple index patterns or data streams",
+        "value": "Eliminates duplicate dashboards by letting a single dashboard dynamically switch data sources via a control",
+        "scope": "Named parameter support in ES|QL FROM clause, linkable dashboard controls, and dynamic multi-index switching"
       }
     },
     {
@@ -334,6 +409,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Personalized Entity Retrohunting Recommendations"
+      },
+      "summary": {
+        "for": "Security analysts and threat hunters in enterprise SOC teams",
+        "value": "Accelerates threat detection by surfacing personalized, actionable hunt recommendations tied to your organization's real historical activity",
+        "scope": "AI-driven retrohunting suggestions that match new entity-based threats to customer-specific environmental context and behavioral history"
       }
     },
     {
@@ -353,6 +433,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "AI-Driven Entity Analytics"
+      },
+      "summary": {
+        "for": "Security operations teams including analysts, threat hunters, and insider threat investigators",
+        "value": "Enables faster, proactive threat detection using natural language—no deep query expertise required",
+        "scope": "AI-powered entity analytics with risk scoring, behavioral baselines, NL queries, entity graph, and privileged user monitoring"
       }
     },
     {
@@ -372,6 +457,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Historical Context Changes & Behavioral Baseline"
+      },
+      "summary": {
+        "for": "Security analysts investigating anomalous entity behavior",
+        "value": "Reduces MTTR by surfacing historical baselines alongside anomalous events, eliminating manual context hunting",
+        "scope": "Historical behavioral context, baseline comparisons, and relationship mapping for flagged entity anomalies"
       }
     },
     {
@@ -395,6 +485,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Materialized Views: Accelerate queries by defining automatically refreshing, pre-calculated views"
+      },
+      "summary": {
+        "for": "Security and Observability teams running frequent, complex queries on large datasets",
+        "value": "Transforms slow dashboards and analytical queries from minutes to seconds with pre-calculated results",
+        "scope": "Automated, policy-driven query pre-calculation with full lifecycle management (create, refresh, alter, drop)"
       }
     },
     {
@@ -415,6 +510,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Adding Serverless regions: 3 Azure, 3 GCP and 2 AWS regions"
+      },
+      "summary": {
+        "for": "Organizations requiring low-latency deployments, data residency compliance, or multicloud flexibility",
+        "value": "Deploy Elastic Cloud Serverless closer to users and data to reduce latency and meet regional compliance requirements",
+        "scope": "8 new regions across Azure (Ireland, Australia, Washington), GCP (South Carolina, N. Virginia, Oregon), and AWS (London, Tokyo)"
       }
     },
     {
@@ -435,6 +535,11 @@
       "productArea": "product-area:search",
       "fieldValues": {
         "Title": "Semantic search - on any deployment type"
+      },
+      "summary": {
+        "for": "Organizations running Elasticsearch on any infrastructure — self-hosted, Cloud Hosted, or Serverless",
+        "value": "Enables AI-quality, meaning-based search regardless of how or where Elasticsearch is deployed",
+        "scope": "Semantic search via ES|QL and Query DSL across all three deployment types"
       }
     },
     {
@@ -454,6 +559,11 @@
       "productArea": "product-area:search",
       "fieldValues": {
         "Title": "Semantic search with Jina multilingual embeddings"
+      },
+      "summary": {
+        "for": "Organizations running multilingual or global search applications on Elasticsearch",
+        "value": "Delivers accurate semantic search across multiple languages with minimal setup using a best-in-class embedding model",
+        "scope": "Jina v3 multilingual embeddings via Elastic Inference Service, accessible through semantic_text field type or the /_inference API"
       }
     },
     {
@@ -473,6 +583,11 @@
       "productArea": "product-area:search",
       "fieldValues": {
         "Title": "Improve context management of AI Agents using Elastic Agent Builder "
+      },
+      "summary": {
+        "for": "Developers and technical teams building AI agents on the Elastic platform",
+        "value": "Smarter, more efficient AI agents that make better decisions while reducing operational costs through lower token usage",
+        "scope": "Skill-based tool selection, improved in-session memory, workflow integrations, and enhanced ES|QL generation"
       }
     },
     {
@@ -492,6 +607,11 @@
       "productArea": "product-area:search",
       "fieldValues": {
         "Title": "Semantic reranking - even higher accuracy with Jina reranking"
+      },
+      "summary": {
+        "for": "Search and AI developers building multilingual or multimodal retrieval applications",
+        "value": "Delivers higher accuracy search results by reranking retrieved content across languages and data types",
+        "scope": "Jina jina-reranker-m0 model via Elastic Inference Service, accessible through the inference API, ES|QL rerank command, and text similarity retriever"
       }
     },
     {
@@ -511,6 +631,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Introduce Elastic Observability Logs Essentials for Cost-Effective Serverless Log Analytics"
+      },
+      "summary": {
+        "for": "SREs and operations teams needing a simple, dedicated log analytics solution",
+        "value": "Lowest-cost entry into Elastic Serverless Observability with pay-only-for-what-you-use pricing and zero infrastructure management",
+        "scope": "Serverless log ingestion and retention, fast log search with filters, and ES|QL for structured log exploration"
       }
     },
     {
@@ -531,6 +656,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Metrics exploration in Discover"
+      },
+      "summary": {
+        "for": "Developers, SREs, and DevOps engineers who work with metrics data",
+        "value": "Faster incident investigation by exploring metrics natively in Discover without switching tools",
+        "scope": "Interactive chart-based metrics exploration with dimension slicing, anomaly detection, metadata inspection, and dashboard/case export"
       }
     },
     {
@@ -551,6 +681,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Adding Serverless regions: 4 GCP"
+      },
+      "summary": {
+        "for": "Customers needing Serverless deployments in Asia-Pacific or Europe",
+        "value": "Reduced latency, improved data residency compliance, and closer alignment with user geography",
+        "scope": "4 new GCP Serverless regions — Singapore, London, Frankfurt, and Netherlands — bringing total coverage to 22 regions"
       }
     },
     {
@@ -572,6 +707,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Faster and more efficient vector rescoring: Direct I/O vector rescoring"
+      },
+      "summary": {
+        "for": "Teams running vector search workloads who need predictable, high-performance query responses",
+        "value": "Lower and more consistent query latency with easier memory planning and sizing",
+        "scope": "Direct I/O-based vector rescoring for all HNSW index types, including bbq_hnsw and bbq_disk"
       }
     },
     {
@@ -592,6 +732,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Adding 4 Serverless Regions"
+      },
+      "summary": {
+        "for": "Customers needing Serverless deployments in the Middle East, UAE, Canada, or Australia",
+        "value": "Reduced latency, improved data residency compliance, and deployments closer to users and data",
+        "scope": "Four new regions added (GCP Saudi Arabia, Azure UAE, AWS Canada, AWS Sydney), bringing total to 30 regions across AWS, Azure, and GCP"
       }
     },
     {
@@ -612,6 +757,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "IPv6 support for Elastic Cloud Hosted in GovCloud Moderate"
+      },
+      "summary": {
+        "for": "U.S. Federal Government agencies and customers in FedRAMP Moderate environments",
+        "value": "Meets OMB M-21-07 IPv6 mandates at no extra cost while improving scalability, security, and network simplicity",
+        "scope": "Dual-stack IPv4/IPv6 support for ingress and egress traffic on Elastic Cloud Hosted in GovCloud Moderate"
       }
     },
     {
@@ -633,6 +783,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Elastic Cloud free trials on GCP and Azure marketplaces"
+      },
+      "summary": {
+        "for": "New GCP and Azure customers evaluating Elastic Cloud before committing to a purchase",
+        "value": "Try Elastic Cloud for free within your preferred cloud marketplace with no upfront commitment",
+        "scope": "Free trial access for Elastic serverless and hosted offerings on GCP and Azure marketplaces"
       }
     },
     {
@@ -654,6 +809,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Marketplace Reseller Support: AWS and GCP "
+      },
+      "summary": {
+        "for": "Organizations procuring cloud services through authorized channel partners on AWS or GCP marketplaces",
+        "value": "Simplifies billing with a single partner invoice while counting Elastic spend toward existing cloud commitment agreements",
+        "scope": "Private offer delivery via reseller partners on AWS and GCP marketplaces with consolidated invoicing and discount program eligibility"
       }
     },
     {
@@ -675,6 +835,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Proactive budget alerts for Elastic Cloud Serverless and Hosted usage and costs"
+      },
+      "summary": {
+        "for": "Elastic Cloud admins responsible for monitoring and controlling cloud spending",
+        "value": "Prevents surprise invoices by alerting teams before budgets are exceeded, without interrupting services",
+        "scope": "Configurable ECU budget thresholds and automated email alerts at org, service, project, or deployment level"
       }
     },
     {
@@ -696,6 +861,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "New Elastic Cloud homepage surfacing key resources and intuitive navigations"
+      },
+      "summary": {
+        "for": "All Elastic Cloud users, from new trial users to experienced customers",
+        "value": "Faster, personalized access to resources, billing, and account management from one organized hub",
+        "scope": "Redesigned homepage with unified Serverless and hosted resource view, key widgets, and persistent navigation"
       }
     },
     {
@@ -717,6 +887,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Marketplace Reseller Support: Azure "
+      },
+      "summary": {
+        "for": "Organizations procuring cloud services through authorized channel partners on Azure Marketplace",
+        "value": "Simplifies billing with a single partner invoice and counts toward existing Azure committed spend agreements",
+        "scope": "Private offer support enabling reseller-managed Elastic Cloud subscriptions via Azure Marketplace"
       }
     },
     {
@@ -737,6 +912,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Cross-region AWS PrivateLink support in Elastic Cloud Hosted"
+      },
+      "summary": {
+        "for": "Cloud administrators managing Elastic Cloud Hosted deployments across multiple AWS regions",
+        "value": "Enables secure private connectivity between workloads and Elastic deployments in different regions, reducing costs and operational complexity",
+        "scope": "Cross-region AWS PrivateLink (VPC endpoint) configuration support for Elastic Cloud Hosted deployments"
       }
     },
     {
@@ -757,6 +937,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Information about slow ES|QL queries is available in ES logs"
+      },
+      "summary": {
+        "for": "Elasticsearch administrators managing query performance and compliance",
+        "value": "Identify slow or expensive ES|QL queries and maintain an audit trail for policy and compliance needs",
+        "scope": "Configurable query logging to file, capturing ES|QL execution details for historical analysis and trend review"
       }
     },
     {
@@ -778,6 +963,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Elastic Cloud user membership in multiple Elastic Cloud organizations"
+      },
+      "summary": {
+        "for": "Elastic Cloud users who need access to multiple organizations or teams",
+        "value": "Users can seamlessly switch between organizations without leaving and rejoining, enabling easier collaboration",
+        "scope": "Multi-org membership via a single email, with full RBAC and admin controls preserved per organization"
       }
     },
     {
@@ -798,6 +988,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Encryption at rest with customer-managed keys in existing Elastic Cloud deployments"
+      },
+      "summary": {
+        "for": "Cloud administrators managing existing Elastic Cloud deployments with strict security or compliance requirements",
+        "value": "Gain full control over encryption keys using AWS KMS, Azure Key Vault, or Google KMS—without downtime or data migration",
+        "scope": "Retrofit customer-managed encryption keys onto existing hosted deployments, covering data and snapshots at rest"
       }
     },
     {
@@ -818,6 +1013,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Strong identity verification for remote clusters"
+      },
+      "summary": {
+        "for": "Security and Observability customers using Cross-Cluster Search or Cross-Cluster Replication",
+        "value": "Prevents unauthorized data access by ensuring only trusted, verified clusters can connect remotely",
+        "scope": "Dual-credential verification combining cross-cluster API keys with TLS certificate-based identity proof"
       }
     },
     {
@@ -839,6 +1039,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Analyze nanosecond precision log data with ES|QL"
+      },
+      "summary": {
+        "for": "Engineers and observability teams migrating to OpenTelemetry or working with mixed-timestamp data streams",
+        "value": "Eliminates query failures and broken dashboards when data contains both date and date nanosecond formats",
+        "scope": "ES|QL auto-casting of date types to date nanoseconds for seamless cross-format querying in 9.2"
       }
     },
     {
@@ -860,6 +1065,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Advanced AI Inference in ES|QL: Reranking, Text Generation, and Embeddings"
+      },
+      "summary": {
+        "for": "Search engineers, app developers, and data scientists building AI-powered search and generative AI applications",
+        "value": "Eliminates the need for separate ML tools by embedding AI inference natively into queries, improving search quality and development speed",
+        "scope": "ES|QL RERANK command, COMPLETION command, and TEXT_EMBEDDING function with built-in Elastic managed LLM support"
       }
     },
     {
@@ -880,6 +1090,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL queries can return partial results when they encounter issues"
+      },
+      "summary": {
+        "for": "Data and analytics teams running ES|QL queries across distributed or multi-cluster environments",
+        "value": "Queries return usable results even when some shards or nodes are unavailable, reducing failed searches",
+        "scope": "New allow_partial_results setting (on by default) with partial result indicators and continued query execution on shard failures"
       }
     },
     {
@@ -901,6 +1116,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Random sampling in ES|QL to balance speed and accuracy"
+      },
+      "summary": {
+        "for": "Data analysts and engineers running exploratory queries on large datasets",
+        "value": "Get fast, statistically meaningful insights without waiting for full dataset processing",
+        "scope": "Random sampling in ES|QL to reduce data volume in aggregations and visualizations"
       }
     },
     {
@@ -924,6 +1144,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Logical Views: Users can define and reuse named query definitions"
+      },
+      "summary": {
+        "for": "Data analysts and data teams who write and manage complex ES|QL queries",
+        "value": "Saves time and reduces errors by letting teams define reusable query logic once and share it consistently",
+        "scope": "Named view definitions with CRUD management, direct query support, RBAC permissions, and Kibana autocomplete integration"
       }
     },
     {
@@ -947,6 +1172,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Enabling Direct Data Migration with Reindex from Remote for Serverless"
+      },
+      "summary": {
+        "for": "Technical users and operators migrating data into Elastic Serverless projects",
+        "value": "Simplifies and accelerates data migration into Serverless without requiring custom client-side tooling",
+        "scope": "Server-side reindex API with ingest pipeline transformation support, scoped to Elastic Cloud sources (ECH and Serverless)"
       }
     },
     {
@@ -968,6 +1198,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Interact with data through ES|QL in my desired timezone"
+      },
+      "summary": {
+        "for": "Kibana users who analyze time-series data across Discover, Lens, and Dashboards",
+        "value": "Ensures time-based data displays in the user's preferred timezone, eliminating inconsistencies between ES|QL and DSL visualizations",
+        "scope": "Timezone-aware ES|QL query results across Discover, Lens, and Dashboards, aligned with Kibana space-level timezone settings"
       }
     },
     {
@@ -990,6 +1225,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Search flattened fields in ES|QL to avoid mapping explosion"
+      },
+      "summary": {
+        "for": "Data analysts and security teams working with high-cardinality or dynamic datasets like AWS CloudTrail logs",
+        "value": "Unlocks the ability to query, filter, and aggregate previously inaccessible flattened fields directly in ES|QL",
+        "scope": "ES|QL support for flattened field types, including field retrieval, filtering, and aggregation capabilities"
       }
     },
     {
@@ -1011,6 +1251,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Reduce Log Storage Costs with Transparent Pattern-Based Compression"
+      },
+      "summary": {
+        "for": "Enterprise customers storing large volumes of logs in Elasticsearch LogsDB",
+        "value": "Reduces log message storage by ~50%, delivering ~13% additional overall storage savings on top of existing LogsDB optimizations",
+        "scope": "New `pattern_text` field type that automatically separates log templates from arguments at ingest and reconstructs messages transparently at query time"
       }
     },
     {
@@ -1033,6 +1278,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Process very large data and result sets with ES|QL"
+      },
+      "summary": {
+        "for": "Data analysts, compliance teams, and developers working with large-scale ES|QL queries",
+        "value": "Query and export millions of rows without performance bottlenecks or rerunning queries",
+        "scope": "Pagination for large result sets, spill-to-disk processing, and high-volume data export capabilities"
       }
     },
     {
@@ -1054,6 +1304,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Time series data can efficiently display in the expected order"
+      },
+      "summary": {
+        "for": "Data analysts and engineers querying logs and metrics in Kibana",
+        "value": "Faster, time-ordered search results with ES|QL — no more waiting for slow timestamp sorting",
+        "scope": "Optimized timestamp sorting in ES|QL that matches or beats DSL query performance"
       }
     },
     {
@@ -1077,6 +1332,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL subquery: Enable multi-phased analytics with query within a query"
+      },
+      "summary": {
+        "for": "Security analysts and engineers performing complex, multi-stage investigations",
+        "value": "Reduces friction and accelerates insights by chaining analytical steps within a single query",
+        "scope": "ES|QL subquery support enabling inner query results to dynamically filter or inform outer queries"
       }
     },
     {
@@ -1099,6 +1359,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL: Lookup on more flexible criteria than single exact match"
+      },
+      "summary": {
+        "for": "Data analysts and engineers using ES|QL for complex data enrichment and correlation queries",
+        "value": "Join datasets on richer, multi-field conditions without restructuring data or using workarounds",
+        "scope": "Expanded join predicates including multi-field matches, inequality operators, AND/OR logic, and full-text matching"
       }
     },
     {
@@ -1119,6 +1384,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Serverless users can search across multiple projects"
+      },
+      "summary": {
+        "for": "Enterprise customers running multiple Elastic Serverless projects with data residency, scalability, or tenant isolation requirements",
+        "value": "Unified search across all linked projects without query changes, complex configuration, or inconsistent access controls",
+        "scope": "Flat-world cross-project search, single-step Cloud UI/API linking, UIAM-enforced consistent permissions, and universal API key support"
       }
     },
     {
@@ -1139,6 +1409,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL name qualifiers to manage duplicated column names in a query"
+      },
+      "summary": {
+        "for": "Data analysts and developers querying multiple datasets with ES|QL",
+        "value": "Eliminates field name conflicts in complex queries, reducing errors and maintenance overhead",
+        "scope": "Table/index aliasing in FROM and LOOKUP JOIN to disambiguate duplicate column names across joins, views, and subqueries"
       }
     },
     {
@@ -1161,6 +1436,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Preserve input columns when calculating STATS (INLINE STATS)"
+      },
+      "summary": {
+        "for": "Data analysts and engineers who need to combine row-level and aggregated data in a single query",
+        "value": "Eliminates complex workarounds by letting users compare individual records against group aggregations without losing original data",
+        "scope": "INLINE STATS command that appends aggregated results as new columns while preserving all input fields, GA in 9.3"
       }
     },
     {
@@ -1183,6 +1463,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL Lookup Join functionality equivalent to Enrich for usage at query time"
+      },
+      "summary": {
+        "for": "Data engineers and analysts using ES|QL for query-time data enrichment",
+        "value": "Eliminates confusion between ENRICH and Lookup Join by making Lookup Join the single, superior choice for all enrichment scenarios",
+        "scope": "Feature parity for Lookup Join including range matches (date, IP, numeric) and direct index updates without policy execution"
       }
     },
     {
@@ -1204,6 +1489,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Indexing dense vectors using Nvidia GPUs"
+      },
+      "summary": {
+        "for": "AI/ML engineers and data teams building large-scale vector search applications",
+        "value": "Index vectors ~10x faster and at lower cost by offloading HNSW graph building to NVIDIA GPUs",
+        "scope": "GPU-accelerated vector indexing into HNSW graphs using NVIDIA hardware"
       }
     },
     {
@@ -1224,6 +1514,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Replace proprietary RUM Agent with new OTel-based Javascript SDK"
+      },
+      "summary": {
+        "for": "Engineering and DevOps teams adopting OpenTelemetry standards for real user monitoring",
+        "value": "Customers get vendor-agnostic RUM instrumentation with Elastic-enhanced support, faster feature delivery, and no lock-in to proprietary agents",
+        "scope": "EDOT JavaScript SDK with Core Web Vitals, error capture, RUM metadata enrichment, prebuilt Kibana dashboards, and full OTel compatibility across all deployment types"
       }
     },
     {
@@ -1247,13 +1542,18 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Simplified search in ES|QL editors"
+      },
+      "summary": {
+        "for": "Analysts, support engineers, and SREs who find ES|QL syntax too complex for quick searches",
+        "value": "Instantly search data without learning ES|QL syntax, then seamlessly deepen analysis in the full editor",
+        "scope": "KQL-like free-text input, automatic ES|QL query translation, and smooth handoff to the full ES|QL editor"
       }
     },
     {
       "id": "PVTI_lADOAGc3Zs4BDhChzggpzfU",
       "contentId": "I_kwDOQCjvg87VhGNV",
       "title": "Open API for AutoOps data",
-      "body": "**What the feature is and who it’s for**\n\nAutoOps now offers a way to retrieve insights and recommendations through an open API, which unlocks many new opportunities for all users eager to get access to AutoOps data in a programmatic way.\n\n**Value proposition**\n\nAutoOps-derived intelligence and insights are now available for users to build upon. Exported AutoOps data can now be consumed in a number of different ways, e.g. to create tools for an MCP server, as an input for the new Workflow engine, or simply to be exported into another data store and enrich it.",
+      "body": "**What the feature is and who it’s for**\n\nAutoOps now offers a way to retrieve insights and recommendations through an open API, which unlocks many new opportunities for all users eager to get access to AutoOps data in a programmatic way.\n\n**Value proposition**\n\nAutoOps-derived intelligence and insights are now available for users to build upon. Exported AutoOps data can now be consumed in a number of different ways, e.g. to create tools for an MCP server, agent skills, as an input for the new Workflow engine, or simply to be exported into another data store and enrich it.",
       "url": "https://github.com/elastic/roadmap/issues/144",
       "state": "OPEN",
       "labels": [
@@ -1268,6 +1568,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Open API for AutoOps data"
+      },
+      "summary": {
+        "for": "Technical users and developers who want programmatic access to AutoOps insights",
+        "value": "Enables teams to integrate AutoOps intelligence into their own tools, workflows, and data systems",
+        "scope": "Open API access to AutoOps data, supporting MCP servers, agent skills, workflow automation, and external data exports"
       }
     },
     {
@@ -1288,6 +1593,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Azure Private Link support in Elastic Cloud Serverless"
+      },
+      "summary": {
+        "for": "Enterprise customers in regulated industries with strict network security or compliance requirements",
+        "value": "Keeps sensitive data off the public internet, reducing attack surface and unblocking serverless adoption",
+        "scope": "Azure Private Link connectivity, private endpoint configuration, and VPC filtering managed via Elastic Cloud console"
       }
     },
     {
@@ -1308,6 +1618,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Google Private Service Connect support in Elastic Cloud Serverless"
+      },
+      "summary": {
+        "for": "Enterprise customers in regulated industries with strict security or data governance requirements",
+        "value": "Eliminates public internet exposure for serverless workloads, reducing attack surface and unblocking compliance-sensitive adoption",
+        "scope": "Google Private Service Connect integration with private endpoint configuration and VPC filtering, managed via Elastic Cloud console"
       }
     },
     {
@@ -1327,6 +1642,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Freely place dashboard controls"
+      },
+      "summary": {
+        "for": "Business users and analysts who build and consume data dashboards",
+        "value": "Enables optimized, flexible dashboard layouts with targeted filtering of specific visualizations",
+        "scope": "Drag-and-drop controls anywhere on the dashboard, including placement within collapsible sections"
       }
     },
     {
@@ -1350,6 +1670,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Read-only dashboards sharing"
+      },
+      "summary": {
+        "for": "Teams and dashboard owners who need to share insights without risking unintended edits",
+        "value": "Protects dashboard integrity by ensuring only the owner can make changes, reducing accidental modifications",
+        "scope": "Write-protected dashboards where non-owners retain view access but cannot edit content"
       }
     },
     {
@@ -1371,6 +1696,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Create classic streams"
+      },
+      "summary": {
+        "for": "Data engineers and Kibana users who need to set up log data pipelines",
+        "value": "Instantly create classic streams in one click, eliminating multi-step navigation and the need to ingest data first",
+        "scope": "One-click classic stream creation directly within the Kibana streams interface"
       }
     },
     {
@@ -1391,6 +1721,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Support RCS2.0 in GovCloud FedRAMP ECH"
+      },
+      "summary": {
+        "for": "Elastic Cloud customers operating in GovCloud FedRAMP regulated environments",
+        "value": "Enables full use of latest security features, including strong identity verification for cross-cluster operations, within compliance boundaries",
+        "scope": "RCS2.0 support for CCS/CCR remote cluster interactions in the GovCloud FedRAMP ECH environment"
       }
     },
     {
@@ -1412,6 +1747,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Time-series support in ES|QL (Tech Preview) "
+      },
+      "summary": {
+        "for": "Data engineers, analysts, and observability teams working with time-series metrics and logs",
+        "value": "Enables richer, more precise time-series analysis—from smoothing trends to detecting anomalies—without leaving Elasticsearch",
+        "scope": "New ES|QL aggregations (percentile, stddev, deriv, clamp), window functions, advanced dimension filtering, and exponential histogram support"
       }
     },
     {
@@ -1435,6 +1775,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Chaining variable controls"
+      },
+      "summary": {
+        "for": "Organizations managing complex environments with data distributed across multiple indices",
+        "value": "Simplifies navigation by letting each filter automatically narrow down the next, reducing noise and speeding up analysis",
+        "scope": "Chaining support for both variable controls and filter controls within dashboards"
       }
     },
     {
@@ -1455,6 +1800,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Improve downsampling - Full ESQL support and coverage of counters and histograms"
+      },
+      "summary": {
+        "for": "Data engineers and architects managing large-scale time series and observability metrics",
+        "value": "Reduces storage costs while maintaining full query accuracy and performance across all metric types",
+        "scope": "Full ES|QL support on downsampled data, accurate counter rate preservation, and histogram field downsampling"
       }
     },
     {
@@ -1475,6 +1825,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "TSDB++ - Improve storage efficiency, ingestion throughput and query latency"
+      },
+      "summary": {
+        "for": "Observability and platform teams managing high-volume metrics monitoring at scale",
+        "value": "Ingest more metrics, retain data longer, and query faster — without proportional hardware cost increases",
+        "scope": "Up to 70% storage reduction, 2x indexing throughput gains, and improved query latency for slow queries"
       }
     },
     {
@@ -1496,6 +1851,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Improve LogsDB storage efficiency and query performance"
+      },
+      "summary": {
+        "for": "DevOps, SRE, and platform engineering teams managing high-volume log data at scale",
+        "value": "Retain more logs longer at lower cost while troubleshooting faster during outages",
+        "scope": "Up to 2x additional storage savings, improved ingestion throughput, and query performance gains via columnar storage, high-cardinality field optimization, and ES|QL compute improvements"
       }
     },
     {
@@ -1516,6 +1876,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Faster and more efficient vector rescoring: Bulk vector rescoring"
+      },
+      "summary": {
+        "for": "Organizations running vector search workloads, especially on serverless or uncached data",
+        "value": "Faster query responses and lower resource costs through more efficient vector processing",
+        "scope": "Bulk vector fetching and rescoring for all quantized HNSW index types, including bbq_hnsw and bbq_disk"
       }
     },
     {
@@ -1538,6 +1903,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Geospatial support in ES|QL: Hash, Tile, and Hex Support for geo_shape "
+      },
+      "summary": {
+        "for": "Geospatial analysts and developers using Elasticsearch for location-based data",
+        "value": "Simplifies geo queries with an easier-to-learn language, reducing development time and cost",
+        "scope": "ST_GEOHASH, ST_GEOTILE, and ST_GEOHEX functions for geo_shape grid searches and aggregations in ES|QL"
       }
     },
     {
@@ -1558,6 +1928,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Improve vector ingest and indexing performance"
+      },
+      "summary": {
+        "for": "Data engineers and architects managing large-scale vector search pipelines",
+        "value": "Faster time-to-search and reduced infrastructure costs when loading or updating vector data",
+        "scope": "Optimized indexing engine with binary format support, delivering up to 50% faster dense vector ingest"
       }
     },
     {
@@ -1578,6 +1953,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Improving ES|QL search performance"
+      },
+      "summary": {
+        "for": "Data and engineering teams running high-volume queries on Elasticsearch",
+        "value": "Faster query results—latency reduced by tens of percent—so users spend less time waiting and more time acting on insights",
+        "scope": "ES|QL query performance optimizations delivering significantly improved document retrieval speeds"
       }
     },
     {
@@ -1598,6 +1978,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Blend relevance signals with Hybrid Search in ES|QL with FORK and FUSE"
+      },
+      "summary": {
+        "for": "Search engineers, app developers, and data analysts using Elasticsearch for hybrid search",
+        "value": "Delivers more relevant search results by combining keyword and vector search in a single, low-complexity query",
+        "scope": "New ES|QL FORK and FUSE commands supporting concurrent multi-search execution with RRF and Linear Combination reranking"
       }
     },
     {
@@ -1618,6 +2003,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Reranking using 3rd party rerankers"
+      },
+      "summary": {
+        "for": "Enterprises using Elasticsearch that require high-precision search results at scale",
+        "value": "Delivers more accurate search rankings without sacrificing performance or driving up infrastructure costs",
+        "scope": "ES|QL support for integrating third-party reranking models as a final-stage reranking step on top results"
       }
     },
     {
@@ -1638,6 +2028,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Easy setup for RCS2.0 Strong Identity Verification via Kibana UI"
+      },
+      "summary": {
+        "for": "Kibana administrators managing cross-cluster API keys in RCS 2.0 environments",
+        "value": "Simplifies setup and improves visibility of strong identity verification without manual configuration steps",
+        "scope": "UI controls to specify, manage, and view remote identity information on cross-cluster API keys"
       }
     },
     {
@@ -1659,6 +2054,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "ECH/self-managed agents can send data to Serverless projects"
+      },
+      "summary": {
+        "for": "Existing ECH and self-managed Elastic customers managing agents on traditional deployments",
+        "value": "Easily test, evaluate, or migrate data to Serverless by routing agent data to a Serverless project",
+        "scope": "Support for configuring a remote Serverless project as an agent data destination from ECH/self-managed deployments"
       }
     },
     {
@@ -1679,6 +2079,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "GitOps for Kibana content: new APIs and terraform resources for dashboards, visualizations, maps, and more"
+      },
+      "summary": {
+        "for": "Platform/DevOps teams managing Kibana content across multiple environments or regions",
+        "value": "Eliminates manual, error-prone dashboard replication by enabling automated, version-controlled deployments",
+        "scope": "New APIs and Terraform resources for dashboards, visualizations, maps, links, Discover sessions, and images"
       }
     },
     {
@@ -1700,6 +2105,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Downsampling: more efficient \"Last value only\" downsampling"
+      },
+      "summary": {
+        "for": "Teams using time-series data who prioritize storage efficiency over statistical precision",
+        "value": "Reduces resource costs by storing only the last value per bucket, eliminating unnecessary metrics overhead",
+        "scope": "New \"last value only\" downsampling method that preserves original index mapping with full operation support"
       }
     },
     {
@@ -1721,6 +2131,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Stateless for Self-Managed: Easier to operate, reduced indexing costs"
+      },
+      "summary": {
+        "for": "Large self-managed Elastic Enterprise customers managing petabyte-scale deployments with high infrastructure costs",
+        "value": "Dramatically lower TCO by decoupling storage from compute and leveraging cheap object storage (S3, GCS, Azure Blob) with independent scaling",
+        "scope": "Object store as primary data repository, independent indexing/search compute tiers, Kibana UI/APIs for management, and migration paths for existing customers"
       }
     },
     {
@@ -1743,6 +2158,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Dedup command: Filter out or dedup duplicate data in ES|QL queries"
+      },
+      "summary": {
+        "for": "Data analysts and security investigators using ES|QL to query and report on large datasets",
+        "value": "Eliminates duplicate records automatically, delivering cleaner, more accurate and trustworthy analysis results",
+        "scope": "New DEDUP command for ES|QL that filters duplicate events based on user-specified field combinations"
       }
     },
     {
@@ -1764,6 +2184,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Lookup IP database information in ES|QL queries"
+      },
+      "summary": {
+        "for": "Security analysts and threat hunters who analyze network activity and IP-based data in Elasticsearch",
+        "value": "Dynamically enrich IP addresses with geo-location data at query time—no re-indexing or upfront pipeline changes required",
+        "scope": "ES|QL command leveraging internal MMDB databases to return country, city, and coordinates for any IP field on demand"
       }
     },
     {
@@ -1785,6 +2210,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Streamstats in ES|QL: running statistics over time windows"
+      },
+      "summary": {
+        "for": "Data analysts and security/observability engineers using ES|QL for real-time data analysis",
+        "value": "Instantly enrich events with running stats like averages and totals to spot trends, anomalies, and performance issues in context",
+        "scope": "Running sums, counts, averages, and standard deviations computed per event over time windows or groups without losing raw event detail"
       }
     },
     {
@@ -1807,6 +2237,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "CCS support in all new ES|QL features and functions: INLINE STATS, FORK, RERANK, COMPLETION"
+      },
+      "summary": {
+        "for": "Enterprises running federated search across multiple Elasticsearch clusters",
+        "value": "Unlocks the full power of new ES|QL capabilities without being blocked by cross-cluster search limitations",
+        "scope": "CCS support added to INLINE STATS, FORK, RERANK, and COMPLETION functions, enabling GA release"
       }
     },
     {
@@ -1829,6 +2264,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Serverless Cross Project Search: Users can control which linked projects to include in their Cross-project search query using user-friendly attributes"
+      },
+      "summary": {
+        "for": "Enterprise users managing multi-project search environments in Kibana",
+        "value": "Faster, more relevant search results by easily targeting only the projects that matter",
+        "scope": "Project routing via metadata tags (default and custom), configurable at dashboard or panel level"
       }
     },
     {
@@ -1849,6 +2289,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Serverless Backup & Restore"
+      },
+      "summary": {
+        "for": "Teams running production Search, Observability, or Security workloads on Elastic Cloud Serverless",
+        "value": "Recover from mistakes or bad deploys with confidence using simple point-in-time restore—no snapshot expertise required",
+        "scope": "Cloud UI and API for viewing, scheduling, and restoring backups, with optional bring-your-own object store (S3, GCP, Azure)"
       }
     },
     {
@@ -1871,6 +2316,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Customize the solution navigation in Kibana"
+      },
+      "summary": {
+        "for": "Kibana users on Serverless, ECH, or on-prem who rely on a specific subset of applications daily",
+        "value": "Reduces navigation clutter so users reach their most-used tools faster and stay focused on their workflow",
+        "scope": "Reorder and hide left-hand menu items via a settings panel; hidden items remain searchable via Kibana's main search bar"
       }
     },
     {
@@ -1893,6 +2343,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Canvas layout options in Dashboards"
+      },
+      "summary": {
+        "for": "Business analysts and dashboard creators who need precise, presentation-ready data displays",
+        "value": "Build pixel-perfect, fixed layouts optimized for large screens that look identical every time they're viewed",
+        "scope": "Fixed layout mode with multi-page/slide support, layered content placement, and z-index control"
       }
     },
     {
@@ -1912,6 +2367,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "SLO-Health at a Glance for APM"
+      },
+      "summary": {
+        "for": "SREs, developers, and team leads managing application service health",
+        "value": "Faster incident resolution by instantly identifying degraded services and their SLO status during investigations",
+        "scope": "SLO health visibility in APM service inventory/views, plus streamlined SLO creation directly from those views"
       }
     },
     {
@@ -1933,6 +2393,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Trace Investigation in Discover"
+      },
+      "summary": {
+        "for": "Developers, SREs, and DevOps engineers investigating distributed traces",
+        "value": "Analyze traces directly in Discover using ESQL, eliminating context switching between APM UI and other tools",
+        "scope": "Trace search and filtering, span relationship navigation, and correlation with logs and other telemetry in Discover"
       }
     },
     {
@@ -1954,6 +2419,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Search Management Dashboard in Kibana"
+      },
+      "summary": {
+        "for": "Elasticsearch cluster administrators managing search performance",
+        "value": "Quickly identify, track, and cancel long-running queries to maintain cluster health and peak performance",
+        "scope": "Centralized Kibana dashboard showing active queries, runtime details, query origin, and one-click cancellation"
       }
     },
     {
@@ -1975,6 +2445,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Search Management Dashboard in AutoOps"
+      },
+      "summary": {
+        "for": "Elasticsearch cluster administrators managing search performance and query health",
+        "value": "Quickly identify, investigate, and cancel problematic queries before they impact cluster performance",
+        "scope": "Centralized dashboard showing long-running queries with user/origin details, latency insights, and optimization suggestions"
       }
     },
     {
@@ -1997,6 +2472,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Terraform Elasticstack - Security rules, CCS API Keys, Synthetics"
+      },
+      "summary": {
+        "for": "Stack and cloud administrators managing Elastic environments with Infrastructure-as-Code",
+        "value": "Automate and standardize configuration of security, monitoring, and synthetic testing resources at scale",
+        "scope": "Terraform support for Security detection rules and exceptions, Anomaly Detection Jobs, and Synthetics APIs"
       }
     },
     {
@@ -2019,6 +2499,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Search Analytics Logs"
+      },
+      "summary": {
+        "for": "Elasticsearch administrators and search managers needing deeper search visibility",
+        "value": "Quickly identify performance bottlenecks, inefficient queries, and slow clusters to deliver faster, more reliable search",
+        "scope": "Comprehensive logging of DSL, ES|QL, EQL, and SQL queries with latency, wall-clock time, and query source tracking"
       }
     },
     {
@@ -2040,6 +2525,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "AutoOps for air-gapped environments"
+      },
+      "summary": {
+        "for": "Admins managing Elastic Stack in air-gapped, regulated environments (federal, government, banking)",
+        "value": "Gain actionable diagnostics and optimization insights without sending data outside the secure network",
+        "scope": "Local deployment of AutoOps with correlated monitoring, guided troubleshooting, and recommendations for ECK, ECE, and bare-metal"
       }
     },
     {
@@ -2061,6 +2551,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Cost forecasting and analysis in Elastic Cloud"
+      },
+      "summary": {
+        "for": "Elastic Cloud admins and FinOps teams managing cloud spend and budgeting",
+        "value": "Eliminates billing surprises with predictive end-of-month cost forecasts and granular spend visibility",
+        "scope": "Projected cost forecasting, contract burndown tracking, and interactive usage page with filtering by product, resource, and infrastructure type"
       }
     },
     {
@@ -2081,6 +2576,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Manage alerts tasks with AutoOps"
+      },
+      "summary": {
+        "for": "Administrators managing alert engine operations",
+        "value": "Automatically monitor and manage alert tasks without manually digging through logs or scattered settings",
+        "scope": "AutoOps integration with Task Manager for automated health improvement and centralized visibility"
       }
     },
     {
@@ -2101,6 +2601,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Unify Observability and stack alerts"
+      },
+      "summary": {
+        "for": "IT operations teams and developers managing alerts across multiple monitoring tools",
+        "value": "Manage all alerts in one place, reducing complexity and saving time",
+        "scope": "Consolidated rules and alert management combining Stack and Observability alerting capabilities"
       }
     },
     {
@@ -2123,6 +2628,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Per user authentication support in Kibana connectors"
+      },
+      "summary": {
+        "for": "Organizations integrating Kibana with third-party systems requiring user-level access control",
+        "value": "Ensures personalized, user-specific access to connected systems instead of shared service accounts",
+        "scope": "Per-user authentication mode support within Kibana connectors"
       }
     },
     {
@@ -2145,6 +2655,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Schedule alert rule execution"
+      },
+      "summary": {
+        "for": "Operations teams and engineers managing alert rules in Kibana",
+        "value": "Gives precise control over when alert rules run, reducing noise and improving relevance",
+        "scope": "In-product schedule configuration directly within existing alert rule settings"
       }
     },
     {
@@ -2167,6 +2682,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Create dashboards with natural language in chat"
+      },
+      "summary": {
+        "for": "Security analysts and business users who need fast insights without dashboard-building expertise",
+        "value": "Dramatically reduces time-to-insights by generating and editing dashboards instantly through natural language—no manual build required",
+        "scope": "Create new dashboards, iterate on existing ones, and make edits via chat commands using an AI reasoning agent"
       }
     },
     {
@@ -2189,6 +2709,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Dashboard usage analytics in Kibana"
+      },
+      "summary": {
+        "for": "Kibana administrators and team leads managing end-user adoption",
+        "value": "Understand which dashboards are used, how often, and by whom to better support and enable users",
+        "scope": "Optional usage data collection toggle plus a pre-built dashboard for analyzing dashboard engagement"
       }
     },
     {
@@ -2210,6 +2735,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "PromQL support in ES|QL"
+      },
+      "summary": {
+        "for": "DevOps engineers, SREs, and platform teams doing advanced metric analysis",
+        "value": "Perform complex time-series queries natively in ES|QL without switching to external tools like Prometheus",
+        "scope": "PromQL-parity functions, rate calculations, variable windows, and guided autocompletion in the ES|QL editor"
       }
     },
     {
@@ -2230,6 +2760,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Browse indexes and fields by type in ES|QL editor"
+      },
+      "summary": {
+        "for": "Data analysts and developers who write and edit ES|QL queries regularly",
+        "value": "Instantly find indices and fields without interrupting or modifying your current query",
+        "scope": "Searchable in-editor browser for indices, streams, and fields with direct selection support"
       }
     },
     {
@@ -2250,6 +2785,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Serverless monitoring with AutoOps - Search AI lake and Search Tier"
+      },
+      "summary": {
+        "for": "Teams running Elastic Cloud Serverless projects who need to understand and control their resource costs",
+        "value": "Connects workload performance directly to billing dimensions so teams can reduce waste and forecast costs accurately",
+        "scope": "Auto-enabled dashboards covering Search Tier VCU consumption and Search AI Lake ingest and storage retention metrics"
       }
     },
     {
@@ -2270,6 +2810,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Serverless monitoring with AutoOps - Indexing Tier"
+      },
+      "summary": {
+        "for": "Elastic Cloud Serverless users managing high-volume or variable data ingest workloads",
+        "value": "Connects indexing performance directly to VCU compute costs so users can optimize pipelines and control spending",
+        "scope": "New Indexing Tier view in AutoOps showing how ingest load and throughput drive VCU consumption, complementing existing Search Tier and Search AI Lake views"
       }
     },
     {
@@ -2292,6 +2837,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Elastic Inference Service (EIS) for Self Managed Clusters via Cloud Connected"
+      },
+      "summary": {
+        "for": "Enterprise admins, developers, and data teams running self-managed Elasticsearch clusters",
+        "value": "Access GPU-powered, Elastic-managed AI models without provisioning local hardware or managing complex ML infrastructure",
+        "scope": "Cloud Connect integration enabling auto-provisioned inference endpoints for LLM, vector, and rerank models supporting RAG, semantic search, and AI Assistants"
       }
     },
     {
@@ -2314,6 +2864,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Convert Lens visualizations to ES|QL"
+      },
+      "summary": {
+        "for": "Kibana users who build dashboards and analyze data using Lens visualizations",
+        "value": "Unlocks powerful ES|QL features like variable controls and advanced analytics without needing to manually write queries",
+        "scope": "One-click Lens-to-ES|QL conversion, full-screen flyout view from dashboards, and ES|QL visualization saving to the library"
       }
     },
     {
@@ -2336,6 +2891,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Information about slow ES|QL queries is available in AutoOps"
+      },
+      "summary": {
+        "for": "Security engineers, observability teams, and any users running ES|QL queries at scale",
+        "value": "Pinpoints why ES|QL queries run slowly, helping teams build faster, more reliable queries with confidence",
+        "scope": "AutoOps detection of long-running ES|QL queries with latency analysis, origin tracking, and performance insights"
       }
     },
     {
@@ -2357,6 +2917,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Improved AI Suggestions for Stream Partitioning and Processing"
+      },
+      "summary": {
+        "for": "Data engineers and analysts onboarding new log or streaming data into the platform",
+        "value": "Reduces manual effort by delivering smarter, end-to-end AI-guided pipeline setup that works out of the box",
+        "scope": "Improved Grok/Dissect pattern generation, full multi-step pipeline suggestions, and editable AI recommendations before saving"
       }
     },
     {
@@ -2377,6 +2942,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Intelligent Asset Suggestions and AI Generation"
+      },
+      "summary": {
+        "for": "Security engineers, SREs, and analysts onboarding new data sources into Elastic",
+        "value": "Eliminates the \"blank slate\" problem by instantly surfacing insights without manual dashboard or rule configuration",
+        "scope": "AI-powered asset suggestions from a knowledge base, proactive starter dashboard generation, and natural language asset creation"
       }
     },
     {
@@ -2398,6 +2968,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Logs Streams"
+      },
+      "summary": {
+        "for": "Observability, security, and platform engineers managing large-scale log data",
+        "value": "Eliminates manual, error-prone log configuration by automating inheritance of processing, schema, and retention across all data sources",
+        "scope": "Hierarchical log organization, automatic settings inheritance, OTel normalization, and centralized lifecycle management"
       }
     },
     {
@@ -2419,6 +2994,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Query Streams and Draft Mode"
+      },
+      "summary": {
+        "for": "Data engineers and platform teams managing complex log and observability pipelines",
+        "value": "Safely experiment with data processing rules and create flexible virtual views without disrupting production data",
+        "scope": "ES|QL-powered virtual streams across multiple sources and a sandbox Draft Mode to test, preview, and promote ingest logic"
       }
     },
     {
@@ -2439,6 +3019,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Island Browser Integration"
+      },
+      "summary": {
+        "for": "SOC analysts and security teams using Island's enterprise browser in their environment",
+        "value": "Correlates risky browsing behavior with endpoint and identity data to catch insider threats and compromised accounts faster",
+        "scope": "Two dedicated datastreams ingesting Island browser user and device telemetry for real-time monitoring and threat correlation in Elastic"
       }
     },
     {
@@ -2459,6 +3044,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Cyera Integration"
+      },
+      "summary": {
+        "for": "Security and data security engineers managing sensitive data risks across cloud environments",
+        "value": "Unified visibility into Cyera data security violations alongside other events for faster incident response",
+        "scope": "Ingests active Cyera issues with datastore context, data classifications, risk severity, and remediation guidance"
       }
     },
     {
@@ -2479,6 +3069,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "IBM QRadar Integration"
+      },
+      "summary": {
+        "for": "SOC analysts migrating from or running IBM QRadar alongside Elastic Security",
+        "value": "Unifies QRadar threat detections with Elastic AI-powered analytics to accelerate investigation and response",
+        "scope": "Ingests QRadar offenses into Elastic with full context—severity, categories, rules, and network details—enabling EASE automation"
       }
     },
     {
@@ -2499,6 +3094,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Airlock Digital Integration"
+      },
+      "summary": {
+        "for": "SOC analysts and security teams managing endpoint application control in enterprise environments",
+        "value": "Gain real-time visibility into blocked malware, ransomware attempts, and policy violations across all endpoints",
+        "scope": "Ingests Airlock Digital agent health, execution histories, and server activities to monitor trusted, blocked, and untrusted application executions"
       }
     },
     {
@@ -2519,6 +3119,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Entity Risk Scoring Alert Filtering"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams managing entity risk scoring in their environment",
+        "value": "Eliminates manual, error-prone saved object edits by providing a supported, intuitive way to filter alerts",
+        "scope": "New UI controls in entity risk management settings to configure and save alert filtering rules"
       }
     },
     {
@@ -2538,6 +3143,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Watchlist"
+      },
+      "summary": {
+        "for": "Security analysts and threat hunters in enterprise SOC teams",
+        "value": "Rapidly focus investigations on pre-tagged, high-risk entities to uncover stealthy threats without sifting through all data",
+        "scope": "Manual entity tagging, risk-scored watchlists, behavioral baselines, and anomaly tracking for users, machines, and AI agents"
       }
     },
     {
@@ -2558,6 +3168,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Risk Score Privilege User Risk Score Enhancements"
+      },
+      "summary": {
+        "for": "Security teams managing privileged user access and insider threat risk",
+        "value": "More accurate risk scoring by automatically weighting privileged user behavior in threat detection",
+        "scope": "Enhanced Bayesian risk model updated to incorporate privileged user data into entity risk calculations"
       }
     },
     {
@@ -2578,6 +3193,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Entity GenAI Highlights"
+      },
+      "summary": {
+        "for": "Security analysts and threat hunters investigating risky users, hosts, or services",
+        "value": "Instantly understand why an entity is high-risk without manually sifting through alerts and anomalies",
+        "scope": "AI-generated summaries of entity behavior, risk, and context surfaced directly in the Entity Flyout"
       }
     },
     {
@@ -2597,6 +3217,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Dynamic Alert Risk Score"
+      },
+      "summary": {
+        "for": "Security operations teams and analysts who manage high volumes of alerts",
+        "value": "Automatically prioritizes alerts based on real-time entity risk, reducing triage time and focusing attention on what matters most",
+        "scope": "Dynamic risk scoring that factors in all alert entities and related activity, replacing static rule-based scores with intelligent, multi-layered prioritization"
       }
     },
     {
@@ -2618,6 +3243,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Privilege User Monitoring"
+      },
+      "summary": {
+        "for": "Security teams managing users with elevated system or data access permissions",
+        "value": "Proactively detects suspicious behavior like over-provisioning and insider threats before damage occurs",
+        "scope": "Continuous monitoring and auditing of privileged user activity to surface anomalies and reduce risk"
       }
     },
     {
@@ -2638,6 +3268,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Automatic Migration for Detection Rules: Expansion Supported Query Languages: QRadar"
+      },
+      "summary": {
+        "for": "Security teams migrating from IBM QRadar to Elastic",
+        "value": "Reduces manual effort by automatically translating QRadar detection rules into ES|QL",
+        "scope": "Identification of QRadar data sources and basic rule translation to ES|QL"
       }
     },
     {
@@ -2658,6 +3293,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Granular permissions for Detection Engineers"
+      },
+      "summary": {
+        "for": "Security admins and MSSP administrators managing detection engineering teams",
+        "value": "Enforce least-privilege access by controlling who can view or modify Rules, Exceptions, and Alerts independently",
+        "scope": "New granular role permissions for read-only and restricted access to Rules, Exceptions, and Alerts"
       }
     },
     {
@@ -2678,6 +3318,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Automatic security rule gap remediation"
+      },
+      "summary": {
+        "for": "Security and compliance teams managing automated rule execution pipelines",
+        "value": "Eliminates false negatives by automatically detecting and filling missed rule execution gaps without manual intervention",
+        "scope": "Configurable auto-remediation that identifies execution gaps and reschedules missed rule runs automatically"
       }
     },
     {
@@ -2699,6 +3344,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Improved Search and Filtering for the Case List"
+      },
+      "summary": {
+        "for": "Security analysts who manage and investigate cases daily",
+        "value": "Faster case discovery by searching across all case data and filtering by time range, reducing manual effort",
+        "scope": "Expanded quick search (comments, indicators, IDs) and new time-range filtering on the Case list page"
       }
     },
     {
@@ -2718,6 +3368,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Detection rule changes history"
+      },
+      "summary": {
+        "for": "Security analysts and team leads who collaboratively manage detection rules",
+        "value": "Quickly audit, trace, and understand every rule change to improve accountability and troubleshooting",
+        "scope": "Timeline view of saved rule modifications showing who changed what and when"
       }
     },
     {
@@ -2738,6 +3393,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Flexible Case Templates"
+      },
+      "summary": {
+        "for": "Administrators and security, observability, and SRE teams managing incident workflows",
+        "value": "Teams can enforce consistent data collection and reduce manual work with purpose-built case structures",
+        "scope": "Admin-defined case templates with custom fields (text, number, dropdowns), default values, and per-use-case selection at case creation"
       }
     },
     {
@@ -2757,6 +3417,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Entity Analytics - Entity Graph"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams investigating threats and incidents",
+        "value": "Dramatically accelerates investigations by surfacing full attack scope, root cause, and relationships in one view",
+        "scope": "Unified entity graph consolidating process, network, and authentication logs with relationship mapping and attack path visualization"
       }
     },
     {
@@ -2778,6 +3443,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Incremental Case IDs"
+      },
+      "summary": {
+        "for": "Security and observability teams who manage and collaborate on cases in Elastic",
+        "value": "Simplifies case tracking and sharing with short, memorable IDs like \"Case #123\" instead of complex UUIDs",
+        "scope": "Sequential numeric IDs for all cases, visible in the UI, with search and filter support"
       }
     },
     {
@@ -2798,6 +3468,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Auto-Extract Observables for Cases"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams managing case investigations",
+        "value": "Eliminates manual data entry to speed up triage, reduce errors, and surface related threats faster",
+        "scope": "Auto-extraction of observables (IPs, file hashes, agent IDs) from alerts into Cases, with automatic Similar Cases matching"
       }
     },
     {
@@ -2818,6 +3493,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Event Attachments for Cases"
+      },
+      "summary": {
+        "for": "Security analysts managing investigations and building evidence within cases",
+        "value": "Capture any suspicious event as evidence, even without a formal alert, for complete investigation context",
+        "scope": "Attach individual events from multiple Security Solution views to new or existing cases"
       }
     },
     {
@@ -2838,6 +3518,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Surface Agent Builder as an Opt In Experience"
+      },
+      "summary": {
+        "for": "Security teams, customers, and partners seeking customizable AI-driven security workflows",
+        "value": "Enables faster innovation and consistent experiences by standardizing chat and agentic tools on one scalable platform",
+        "scope": "Opt-in access to Agent Builder within Security, supporting custom domain-specific agent creation and workflow integration"
       }
     },
     {
@@ -2859,6 +3544,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Unified and Searchable Case Attachments"
+      },
+      "summary": {
+        "for": "Security analysts managing complex, evidence-heavy investigations",
+        "value": "Faster evidence retrieval reduces manual scrolling and lowers Mean Time To Respond (MTTR)",
+        "scope": "Unified Attachments tab consolidating Alerts, Events, and Observables with filtering and summary views"
       }
     },
     {
@@ -2879,6 +3569,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Share AI Assistant Chats within Security"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams collaborating on investigations and incident response",
+        "value": "Instantly share AI-driven insights with teammates, eliminating manual screenshots and speeding up threat response",
+        "scope": "Secure, attributed sharing of AI Assistant chat conversations across the organization"
       }
     },
     {
@@ -2900,6 +3595,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Attack Discovery API"
+      },
+      "summary": {
+        "for": "Security operations teams and SOAR engineers who rely on automation and programmatic workflows",
+        "value": "Enables Attack Discovery to integrate seamlessly into existing automation pipelines, reducing manual investigation effort",
+        "scope": "REST API access to trigger Attack Discovery, update workflow state, and manage sharing options"
       }
     },
     {
@@ -2920,6 +3620,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Introduce Value Reports in Elastic Cloud Hosted"
+      },
+      "summary": {
+        "for": "Security Managers, CISOs, and SOC Leads on Elastic Cloud Hosted",
+        "value": "Easily quantify and communicate ROI by showing time, money saved, and security outcomes",
+        "scope": "Monthly summaries of detected attacks, response actions, efficiency gains, and visual ROI reports"
       }
     },
     {
@@ -2940,6 +3645,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Proofpoint Essentials Integration"
+      },
+      "summary": {
+        "for": "SMB and mid-market security teams using Proofpoint Essentials",
+        "value": "Gives smaller organizations the same email threat visibility as enterprise customers, enabling faster detection of compromised users",
+        "scope": "Ingests Essentials Threat API data into Elastic, covering malicious URLs, attachments, phishing, and impersonation attacks for cross-source correlation"
       }
     },
     {
@@ -2959,6 +3669,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Axonius Integration"
+      },
+      "summary": {
+        "for": "Security engineers and SOC teams managing hybrid cloud, on-prem, and OT environments",
+        "value": "Unified asset visibility across all device types enables faster threat hunting and eliminates blind spots from unmanaged assets",
+        "scope": "Normalized, deduplicated asset data synced from Axonius into Elastic, including device IDs, software inventory, and security tool coverage"
       }
     },
     {
@@ -2978,6 +3693,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Forescout Integration"
+      },
+      "summary": {
+        "for": "SOC analysts and security teams managing large, mixed-device environments (IT, IoT, OT)",
+        "value": "Instantly correlate device compliance and risk posture with alerts to prioritize and accelerate incident response",
+        "scope": "Agentless, real-time visibility and inventory sync for 2M+ endpoints via Forescout eyeExtend Connect integration"
       }
     },
     {
@@ -2998,6 +3718,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "macOS Unified Logs Integration"
+      },
+      "summary": {
+        "for": "SOC analysts and security teams monitoring macOS endpoints",
+        "value": "Cuts macOS log volume by 90%+ by surfacing only security-relevant events, eliminating operational noise",
+        "scope": "Covers authentication, privilege escalation, process execution, file changes, and network activity on macOS"
       }
     },
     {
@@ -3018,6 +3743,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Browser locale language support in Kibana"
+      },
+      "summary": {
+        "for": "Global enterprises with multilingual workforces using Kibana on Serverless, Cloud, or on-premises",
+        "value": "Users see Kibana in their preferred language automatically, improving adoption and usability without admin intervention",
+        "scope": "Auto-detection of browser locale (French, German, Japanese, Chinese, English) plus a UI override control for all deployment types"
       }
     },
     {
@@ -3039,6 +3769,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Improved datetime picker for faster incident response and data analysis"
+      },
+      "summary": {
+        "for": "Security analysts, observability engineers, and data analysts using Kibana for incident response",
+        "value": "Cuts time spent configuring time ranges so teams resolve incidents faster and analyze data more accurately across global timezones",
+        "scope": "One-click range presets, save/share custom ranges, copy-paste across tabs, and persistent timezone visibility"
       }
     },
     {
@@ -3059,6 +3794,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Integrated Multi-Modal Search: Generate and Search Image Vectors Directly in Elasticsearch"
+      },
+      "summary": {
+        "for": "Developers building search applications that need to understand both text and images",
+        "value": "Eliminates the need for external platforms by generating and searching multi-modal vectors natively in Elasticsearch",
+        "scope": "Inference API support for text and image vector generation enabling image-to-text, image-to-image, and RAG search scenarios"
       }
     },
     {
@@ -3079,6 +3819,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "DiskBBQ, a new default for vector search in Elasticsearch"
+      },
+      "summary": {
+        "for": "Customers running vector search workloads in Elasticsearch",
+        "value": "Faster, more cost-efficient vector search without manual configuration or tuning",
+        "scope": "DiskBBQ algorithm enabled by default for all Elasticsearch vector workloads, now GA"
       }
     },
     {
@@ -3101,6 +3846,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Terraform support for anomaly detection and datafeeds"
+      },
+      "summary": {
+        "for": "Enterprise platform and DevOps teams managing ML anomaly detection at scale",
+        "value": "Automates and standardizes anomaly detection deployment, enabling self-service adoption across hundreds of teams without expert dependency",
+        "scope": "Terraform provider support for anomaly detector jobs and datafeed APIs, enabling infrastructure-as-code lifecycle management"
       }
     },
     {
@@ -3122,6 +3872,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Fast, approximate ES|QL queries for analyzing very large datasets"
+      },
+      "summary": {
+        "for": "Data analysts and SREs working with very large datasets in Discover and Dashboards",
+        "value": "Get near-instant analytical insights without waiting for slow, resource-intensive exact computations",
+        "scope": "Approximate ES|QL aggregations with confidence intervals and reliability indicators across log analysis, metric visualizations, and dashboards"
       }
     },
     {
@@ -3142,6 +3897,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Find the signal in the noise with ESQL-powered Log Pattern Analysis in Discover"
+      },
+      "summary": {
+        "for": "IT ops, SRE, and DevOps teams investigating log data and troubleshooting incidents",
+        "value": "Dramatically reduces time-to-resolution by surfacing meaningful log patterns and root causes without switching tools",
+        "scope": "ES|QL-powered log clustering, change detection, and root cause drill-down natively within Discover"
       }
     },
     {
@@ -3163,6 +3923,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "One syntax to rule your models: Elastic Inference API adds more chat completions"
+      },
+      "summary": {
+        "for": "AI developers and engineering teams building GenAI applications on Elasticsearch",
+        "value": "Ship AI features faster with one unified syntax across model providers, eliminating vendor lock-in and custom integration code",
+        "scope": "Chat completions support added for Azure OpenAI, NVIDIA NIM, and Red Hat OpenShift AI via the Elastic Inference API"
       }
     },
     {
@@ -3184,6 +3949,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Late Chunking support for JinaAI embeddings"
+      },
+      "summary": {
+        "for": "Enterprises and developers building RAG or semantic search pipelines over long documents",
+        "value": "Delivers more accurate, context-aware retrieval results on long-form content without losing meaning across chunk boundaries",
+        "scope": "Late Chunking support for JinaAI embeddings via the Inference API, preserving full-document context before splitting"
       }
     },
     {
@@ -3203,6 +3973,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Enhanced Insight and Usability for Kubernetes OOTB Dashboards"
+      },
+      "summary": {
+        "for": "Kubernetes operators, DevOps, and platform engineering teams managing cluster health",
+        "value": "Faster troubleshooting and confident cluster management through clearer, immediately actionable insights",
+        "scope": "Redesigned OOTB dashboards with task-oriented navigation, contextual drill-downs, and smart filtering"
       }
     },
     {
@@ -3222,6 +3997,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "[LLM Observability] Amazon Bedrock AgentCore observability"
+      },
+      "summary": {
+        "for": "Developers and SREs building and operating agentic AI applications on Amazon Bedrock AgentCore",
+        "value": "Faster troubleshooting and full visibility into performance, cost, and output quality of agentic workloads",
+        "scope": "Pre-built dashboards, vended AWS metrics/logs integration, and OTel-native APM traces for agents, LLMs, and tool calls"
       }
     },
     {
@@ -3241,6 +4021,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Enhanced Insight and Usability of OOTB Dashboards for popular off-the-shelf services"
+      },
+      "summary": {
+        "for": "SREs and developers operating popular off-the-shelf services",
+        "value": "Faster troubleshooting and confident service health management through clearer, actionable operational data",
+        "scope": "Redesigned OOTB dashboards with use-case-driven navigation, contextual drill-downs, and smart filtering"
       }
     },
     {
@@ -3260,6 +4045,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Best-Practice OOTB Alerts for popular off-the-shelf services with Elastic Integrations"
+      },
+      "summary": {
+        "for": "SREs and developers monitoring critical off-the-shelf services like AWS S3, NGINX, and PostgreSQL",
+        "value": "Go from integration deployment to production-grade alerting coverage in minutes, not days, with no manual research required",
+        "scope": "Pre-configured, Elastic-maintained alert rule templates for key signals across popular integrations, automatically updated as services evolve"
       }
     },
     {
@@ -3280,6 +4070,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "Easy CSP Ingest with EDOT Cloud Forwarder"
+      },
+      "summary": {
+        "for": "Organizations using AWS, Azure, or GCP who want to send cloud data to Elastic",
+        "value": "Eliminates the need to manage agents by providing auto-scaling, agentless cloud data ingest",
+        "scope": "Pre-packaged EDOT Collector that connects CSP accounts/projects to Elastic Cloud Hosted and Serverless"
       }
     },
     {
@@ -3300,6 +4095,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "OTLP Endpoint for Elastic Cloud Hosted"
+      },
+      "summary": {
+        "for": "Teams running Elastic Cloud Hosted who want to send OpenTelemetry data directly to their clusters",
+        "value": "Eliminates the need for a gateway or APM Server, simplifying OTLP data ingestion and reducing operational overhead",
+        "scope": "A managed OTLP endpoint on Elastic Cloud Hosted that natively accepts OTLP data, mirroring existing Serverless functionality"
       }
     },
     {
@@ -3320,6 +4120,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "FedRAMP High Authorization for Elastic Cloud Hosted on AWS GovCloud"
+      },
+      "summary": {
+        "for": "Federal, state, and local agencies handling highly sensitive data (law enforcement, healthcare, emergency response, financial systems)",
+        "value": "Enables public sector customers to run mission-critical workloads on a fully FedRAMP High-authorized cloud, accelerating compliance and strengthening cybersecurity resilience",
+        "scope": "Elastic Cloud Hosted on AWS GovCloud with FedRAMP High authorization, covering search, observability, and security capabilities across 400+ rigorous federal controls"
       }
     },
     {
@@ -3342,6 +4147,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Windows Memory Dump response action"
+      },
+      "summary": {
+        "for": "SOC analysts and forensic investigators using Elastic Security on Windows environments",
+        "value": "Enables remote memory capture without additional tooling, accelerating in-memory threat detection and forensic analysis",
+        "scope": "Kernel and process-level memory dumps via the Response Console, stored as downloadable .DMP artifacts compatible with tools like Volatility"
       }
     },
     {
@@ -3364,6 +4174,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Browser history and amcache osquery tables"
+      },
+      "summary": {
+        "for": "Security analysts and threat hunters using Elastic Security for endpoint investigations",
+        "value": "Faster triage and evidence collection by surfacing browser history and program execution data directly in Elastic",
+        "scope": "Two new osquery tables—browser_history (Chrome, Edge, Firefox, Safari) and Amcache (Windows)—with ECS-normalized fields for querying via Kibana"
       }
     },
     {
@@ -3385,6 +4200,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Memory dump Linux response action"
+      },
+      "summary": {
+        "for": "SOC and forensic analysts investigating Linux endpoint threats",
+        "value": "Rapidly capture and analyze Linux process memory to detect in-memory malware and accelerate investigations",
+        "scope": "Remote process memory dump via Response Console, secure storage in Elastic, and downloadable DMP file export"
       }
     },
     {
@@ -3404,6 +4224,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Improved Attack Triage Experience"
+      },
+      "summary": {
+        "for": "Security analysts triaging and responding to detected attacks",
+        "value": "Faster, more confident attack response by surfacing grouped, contextualized alerts in a familiar workflow",
+        "scope": "Searchable, filterable attack detail view with full linked alert access and attack-aware prioritization during standard triage"
       }
     },
     {
@@ -3425,6 +4250,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Endpoint Forensics - Osquery"
+      },
+      "summary": {
+        "for": "Security analysts, incident responders, SOC investigators, and threat hunters using Elastic Security",
+        "value": "Accelerates triage and investigation by surfacing deep forensic artifacts directly in Elastic without switching tools",
+        "scope": "New osquery tables (browser history, Amcache, jumplists, open handles), prebuilt query packs, and a redesigned osquery UI with performance improvements"
       }
     },
     {
@@ -3446,6 +4276,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Custom YARA rules"
+      },
+      "summary": {
+        "for": "Security analysts, incident responders, and administrators using Elastic Defend",
+        "value": "Detect known and custom malware faster with automated YARA scans that surface as actionable alerts inside Elastic Security",
+        "scope": "Custom YARA rule creation/import, automated scanning via Elastic Defend, and detection alerts integrated with investigation workflows"
       }
     },
     {
@@ -3465,6 +4300,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Add Windows ARM support for Elastic Defend"
+      },
+      "summary": {
+        "for": "Security teams managing mixed-architecture Windows fleets including ARM-based laptops and Copilot+ PCs",
+        "value": "Eliminates endpoint coverage gaps with full detection, response, and investigation parity across ARM and x86 devices",
+        "scope": "Native ARM agent with low CPU overhead, fast event collection, and compatibility with existing rules, dashboards, and workflows"
       }
     },
     {
@@ -3484,6 +4324,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Alert Close with Reason"
+      },
+      "summary": {
+        "for": "Security analysts and detection engineering teams managing alert triage workflows",
+        "value": "Captures standardized closure reasons to reduce false positives and improve detection rule quality over time",
+        "scope": "Required close-reason selection on alert closure, API support for automation, and storage in a dedicated alert field"
       }
     },
     {
@@ -3503,6 +4348,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "New Attack Viewer for Context Pivoting"
+      },
+      "summary": {
+        "for": "Security analysts who investigate alerts, events, entities, and cases",
+        "value": "Eliminates disruptive app switching by letting analysts preview attack details without losing their current context",
+        "scope": "A dedicated attack viewer panel enabling in-context attack previews across alerts, events, entities, and cases"
       }
     },
     {
@@ -3522,6 +4372,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "New Detection Overview Dashboard"
+      },
+      "summary": {
+        "for": "Security Operations Center (SOC) leads and analysts managing alert and attack response",
+        "value": "Faster, clearer visibility into detection performance with actionable insights to improve response times",
+        "scope": "Centralized dashboard with alert/attack KPIs, false positive tracking, trend comparisons, and AI-powered guidance"
       }
     },
     {
@@ -3541,6 +4396,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Release of Improved Attack Experience"
+      },
+      "summary": {
+        "for": "Security analysts who triage and investigate attacks",
+        "value": "Faster, more accurate attack response through consistent, context-rich alert workflows",
+        "scope": "GA release featuring improved alert correlations, table grouping, and new attack viewer capabilities"
       }
     },
     {
@@ -3560,6 +4420,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "User Defined Alert Templates"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams managing diverse alert types across authentication, network, endpoint, and cloud",
+        "value": "Eliminates repetitive manual configuration by letting teams save and share consistent, curated alert views",
+        "scope": "Save customized alert layouts—including filters, table columns, groupings, and visualizations—as shareable templates"
       }
     },
     {
@@ -3579,6 +4444,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "More Advanced Insights for Increased Correlations"
+      },
+      "summary": {
+        "for": "Security analysts and SOC teams triaging and investigating suspicious activity",
+        "value": "Faster, more informed investigations by surfacing related alerts, attacks, entities, and prior cases in one place",
+        "scope": "Cross-correlated insights linking related cases, alerts, attacks, entities, and investigation chats"
       }
     },
     {
@@ -3600,6 +4470,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Script library and runscript response action"
+      },
+      "summary": {
+        "for": "SOC analysts, detection engineers, and IR teams managing endpoint response workflows",
+        "value": "Faster, consistent, and auditable incident response without relying on ad-hoc or duplicated commands",
+        "scope": "Centralized Script Library, interactive runscript via Response Console, and automated execution in SIEM detection rules"
       }
     },
     {
@@ -3621,6 +4496,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Connect to external MCP with Agent Builder (Tech Preview)"
+      },
+      "summary": {
+        "for": "Technical buyers and DevOps/ITOps teams building AI-powered automation workflows",
+        "value": "AI Agents can act across external systems—not just search Elastic data—enabling end-to-end intelligent automation",
+        "scope": "Connect external MCP servers, import third-party tools, and combine them with Elastic built-in tools inside Agent Builder"
       }
     },
     {
@@ -3641,6 +4521,11 @@
       "productArea": "Component: Kibana",
       "fieldValues": {
         "Title": "Terraform Elasticstack - Better fleet integration, Dashboards as code tech preview"
+      },
+      "summary": {
+        "for": "Platform and DevOps engineers managing Elastic Stack environments with Infrastructure-as-Code workflows",
+        "value": "Simplifies and automates Elastic environment management, reducing manual effort and increasing consistency",
+        "scope": "Fleet integration bug fixes and a tech preview of Dashboards as code via Terraform HCL using new Kibana APIs"
       }
     },
     {
@@ -3661,6 +4546,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Highlight support in ES|QL"
+      },
+      "summary": {
+        "for": "Developers and search teams building ES|QL-powered search experiences",
+        "value": "Instantly show end users exactly where their search terms match within results, improving search relevance and clarity",
+        "scope": "Highlight support via unified highlighter, returning match snippets alongside ES|QL query results"
       }
     },
     {
@@ -3681,6 +4571,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL FORK command"
+      },
+      "summary": {
+        "for": "Data engineers and developers building advanced search applications with Elasticsearch",
+        "value": "Run multiple query strategies simultaneously and merge results, enabling powerful hybrid search experiences",
+        "scope": "GA release of ES|QL FORK command supporting parallel execution branches, result fusion, and custom retrieval combining"
       }
     },
     {
@@ -3701,6 +4596,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "Remove limitations on full text functions in ES|QL"
+      },
+      "summary": {
+        "for": "Data engineers and developers using ES|QL for advanced search and analytics workflows",
+        "value": "Eliminates query restrictions, enabling richer full-text search including rescoring and runtime column matching not possible in Query DSL",
+        "scope": "Full-text functions supported after pipeline breakers (e.g., LIMIT) and on runtime/aggregated columns in ES|QL"
       }
     },
     {
@@ -3721,6 +4621,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "User-friendly multimodal image search support"
+      },
+      "summary": {
+        "for": "Developers and data teams who want to add image search to their applications",
+        "value": "Eliminates complex setup so teams can implement image search in hours, not weeks",
+        "scope": "Text-based image search powered by ES|QL with automated backend plumbing"
       }
     },
     {
@@ -3740,6 +4645,11 @@
       "productArea": "product-area:search",
       "fieldValues": {
         "Title": "AI Agent monitoring and evaluation"
+      },
+      "summary": {
+        "for": "Teams building and deploying AI Agents with Elastic Agent Builder",
+        "value": "Accelerates path to production by giving teams measurable confidence in agent performance",
+        "scope": "Trace visualization, LLM-as-a-judge evaluation metrics, groundedness/hallucination tracking, and custom/third-party evaluator support"
       }
     },
     {
@@ -3759,6 +4669,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Permissions for Detection Engineers with extended granularity"
+      },
+      "summary": {
+        "for": "Security admins managing detection engineering teams with role-based access needs",
+        "value": "Enforces least-privilege by giving admins fine-grained control over who can view, edit, or manage Rules, Exceptions, and Alerts",
+        "scope": "New granular permissions and prebuilt roles covering read, enable, modify, and exception-management capabilities for Security Rules and Alerts"
       }
     },
     {
@@ -3779,6 +4694,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "[GA] Attack Discovery API"
+      },
+      "summary": {
+        "for": "Security operations teams and SOAR engineers who automate threat detection workflows",
+        "value": "Enables Attack Discovery to be triggered and managed programmatically, integrating AI-driven attack insights into existing automation pipelines",
+        "scope": "API access for triggering Attack Discovery, updating workflow state, managing sharing options, and full SOAR platform integration"
       }
     },
     {
@@ -3796,6 +4716,11 @@
       "productArea": "Other",
       "fieldValues": {
         "Title": "Automatic Import Updates"
+      },
+      "summary": {
+        "for": "Data teams and developers managing ongoing data integrations",
+        "value": "More reliable, maintainable imports with less manual intervention and long-term stability",
+        "scope": "Multi-stream support, integration editing/versioning, and creation from existing indexes"
       }
     },
     {
@@ -3815,6 +4740,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "Automatic Import Updates"
+      },
+      "summary": {
+        "for": "Organizations managing multiple data sources who rely on automated data ingestion workflows",
+        "value": "More reliable, scalable imports with the flexibility to edit, version, and expand integrations over time",
+        "scope": "Multi-stream support, integration editing/versioning, and creation from existing indexes with improved AI-driven reliability"
       }
     },
     {
@@ -3837,6 +4767,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL: Lookup Join on wildcard match"
+      },
+      "summary": {
+        "for": "Data analysts and engineers using ES|QL for complex data enrichment and correlation workflows",
+        "value": "Enables flexible, wildcard-based joins so teams can enrich data without restructuring schemas or building workarounds",
+        "scope": "Extends Lookup Join in ES|QL to support wildcard match predicates alongside existing exact-match joins"
       }
     },
     {
@@ -3859,6 +4794,11 @@
       "productArea": "Component: Elasticsearch",
       "fieldValues": {
         "Title": "ES|QL: Lookup on more flexible criteria than single exact match"
+      },
+      "summary": {
+        "for": "Data analysts and engineers using ES|QL to query and enrich data across multiple indices",
+        "value": "Enables more powerful, flexible joins without workarounds or schema changes, saving time and effort",
+        "scope": "Multi-field matching, inequality operators (<, >, !=), AND/OR logic, and full-text function support in join predicates"
       }
     },
     {
@@ -3878,6 +4818,11 @@
       "productArea": "product-area:security",
       "fieldValues": {
         "Title": "SIEM Readiness: Visibility Health & Data Coverage"
+      },
+      "summary": {
+        "for": "SOC managers, detection engineers, platform engineers, and compliance teams using Elastic Security",
+        "value": "Eliminates manual gap analysis by continuously showing whether your SIEM has the right data to detect threats and meet compliance requirements",
+        "scope": "Centralized readiness dashboard covering data source coverage, log quality, pipeline continuity, and retention benchmarking with guided remediation actions"
       }
     },
     {
@@ -3897,6 +4842,11 @@
       "productArea": "product-area:observability",
       "fieldValues": {
         "Title": "ES|QL support in Grafana Elasticsearch plugin"
+      },
+      "summary": {
+        "for": "Existing Grafana users who rely on Elasticsearch as a data source",
+        "value": "Enables powerful, flexible analytics on logs, metrics, and traces directly within Grafana using ES|QL",
+        "scope": "ES|QL query execution, result visualization, syntax highlighting, and AST support in the Grafana Elasticsearch plugin"
       }
     }
   ]

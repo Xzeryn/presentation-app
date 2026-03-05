@@ -20,6 +20,15 @@ const ensureLabelColons = (body) => {
     .replace(/\*\*(Value proposition)\*\*(?!:)/g, '**$1:**')
 }
 
+// Custom strong renderer for markdown - colors bold labels (e.g. "What the feature is...", "Value proposition") dynamically
+const createMarkdownComponents = (isDark) => ({
+  strong: ({ children }) => (
+    <strong className={isDark ? 'font-bold text-elastic-poppy' : 'font-bold text-elastic-blue'}>
+      {children}
+    </strong>
+  ),
+})
+
 function RoadmapConfigModal() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
@@ -681,12 +690,12 @@ function RoadmapConfigModal() {
                                 <h4 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
                                   Original description
                                 </h4>
-                                <ReactMarkdown>{ensureLabelColons(detailItem.body)}</ReactMarkdown>
+                                <ReactMarkdown components={createMarkdownComponents(isDark)}>{ensureLabelColons(detailItem.body)}</ReactMarkdown>
                               </>
                             )}
                           </>
                         ) : (
-                          <ReactMarkdown>{ensureLabelColons(detailItem.body || '')}</ReactMarkdown>
+                          <ReactMarkdown components={createMarkdownComponents(isDark)}>{ensureLabelColons(detailItem.body || '')}</ReactMarkdown>
                         )}
                       </div>
                     </motion.div>

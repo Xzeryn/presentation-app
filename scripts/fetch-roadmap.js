@@ -3,6 +3,9 @@
  * Fetches Elastic product roadmap from GitHub Projects and writes to public/config/roadmap.json.
  * Requires GITHUB_TOKEN with read:org and read:project scopes.
  *
+ * Optional: Set FETCH_ROADMAP_SUMMARIZE=true to add AI summaries via AWS Bedrock.
+ * Requires BEDROCK_MODEL_ID, AWS_REGION, and AWS credentials.
+ *
  * Usage: npm run fetch:roadmap
  * Or:    GITHUB_TOKEN=xxx node scripts/fetch-roadmap.js
  */
@@ -11,9 +14,17 @@ import 'dotenv/config'
 import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT_PATH = join(__dirname, '..', 'public', 'config', 'roadmap.json')
+
+const SUMMARIZE_PROMPT = `Summarize this product roadmap item for a sales presenter. Output exactly three lines in this format:
+For: [1-line audience - who is this for]
+Value: [1-line customer benefit - why it matters]
+Scope: [1-line what's included - key capabilities]
+
+Be concise. No other text.`
 
 const GITHUB_GRAPHQL = 'https://api.github.com/graphql'
 const ORG = 'elastic'
@@ -209,6 +220,55 @@ function quarterFromDate(dateStr) {
   return `Q${q} ${d.getFullYear()}`
 }
 
+function truncateBody(body, maxLen = 200) {
+  if (!body || typeof body !== 'string') return ''
+  const stripped = body
+    .replace(/\*\*[^*]+\*\*/g, '')
+    .replace(/#{1,6}\s/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[#*_`]/g, '')
+    .replace(/\n+/g, ' ')
+    .trim()
+  return stripped.length <= maxLen ? stripped : stripped.slice(0, maxLen).trim() + '…'
+}
+
+async function summarizeWithBedrock(item) {
+  const modelId = process.env.BEDROCK_MODEL_ID || 'anthropic.claude-3-haiku-20240307-v1:0'
+  const region = process.env.AWS_REGION || 'us-east-1'
+
+  const client = new BedrockRuntimeClient({ region })
+  const input = `${item.title}\n\n${item.body || ''}`.slice(0, 8000)
+
+  const payload = {
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: 200,
+    messages: [
+      {
+        role: 'user',
+        content: [{ type: 'text', text: `${SUMMARIZE_PROMPT}\n\n---\n\n${input}` }],
+      },
+    ],
+  }
+
+  const response = await client.send(
+    new InvokeModelCommand({
+      contentType: 'application/json',
+      body: JSON.stringify(payload),
+      modelId,
+    })
+  )
+
+  const responseBody = JSON.parse(new TextDecoder().decode(response.body))
+  const text = responseBody.content?.[0]?.text?.trim() || ''
+
+  const summary = { for: null, value: null, scope: null }
+  for (const line of text.split('\n')) {
+    const m = line.match(/^(For|Value|Scope):\s*(.+)$/i)
+    if (m) summary[m[1].toLowerCase()] = m[2].trim()
+  }
+  return summary
+}
+
 async function main() {
   console.log('Fetching Elastic roadmap from GitHub...')
 
@@ -285,6 +345,25 @@ async function main() {
     }
   } else {
     console.log('Skipping comments (set FETCH_ROADMAP_COMMENTS=true to include)')
+  }
+
+  // Optional: AI summarization via Bedrock
+  const shouldSummarize = process.env.FETCH_ROADMAP_SUMMARIZE === 'true'
+  if (shouldSummarize) {
+    console.log('Summarizing items with Bedrock...')
+    for (let i = 0; i < allItems.length; i++) {
+      const item = allItems[i]
+      try {
+        item.summary = await summarizeWithBedrock(item)
+        if ((i + 1) % 10 === 0) console.log(`  Summarized ${i + 1}/${allItems.length}...`)
+        await new Promise((r) => setTimeout(r, 300))
+      } catch (err) {
+        console.warn(`  Summary failed for "${item.title}": ${err.message}`)
+        item.summary = null
+      }
+    }
+  } else {
+    console.log('Skipping summarization (set FETCH_ROADMAP_SUMMARIZE=true to enable)')
   }
 
   const output = {
