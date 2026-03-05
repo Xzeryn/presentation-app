@@ -212,12 +212,27 @@ function RoadmapConfigModal() {
         <motion.div
           key={tooltipItemId}
           data-roadmap-tooltip
+          role="button"
+          tabIndex={0}
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 4 }}
           onMouseEnter={handleTooltipMouseEnter}
           onMouseLeave={handleTooltipMouseLeave}
-          className={`fixed z-[200] w-80 max-w-[calc(100vw-2rem)] p-3 rounded-lg shadow-xl border ${
+          onClick={() => {
+            toggleItemSelection(tooltipItemId)
+            setTooltipItemId(null)
+            setTooltipRect(null)
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              toggleItemSelection(tooltipItemId)
+              setTooltipItemId(null)
+              setTooltipRect(null)
+            }
+          }}
+          className={`fixed z-[200] w-80 max-w-[calc(100vw-2rem)] p-3 rounded-lg shadow-xl border cursor-pointer ${
             isDark ? 'bg-elastic-dev-blue border-white/20' : 'bg-white border-elastic-dev-blue/20'
           }`}
           style={{
@@ -226,6 +241,19 @@ function RoadmapConfigModal() {
             transform: 'translateY(-100%)',
           }}
         >
+          <div className="flex items-center gap-2 mb-2 pb-2 border-b border-current/10">
+            {selectedItemIds.includes(tooltipItemId) ? (
+              <span className="flex items-center gap-1.5 text-xs font-medium text-green-500">
+                <FontAwesomeIcon icon={faCheck} className="text-[10px]" />
+                Selected
+              </span>
+            ) : (
+              <span className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                <span className="text-[10px]">○</span>
+                Not selected
+              </span>
+            )}
+          </div>
           <div className={`text-xs leading-relaxed whitespace-pre-line space-y-2 ${isDark ? 'text-white/90' : 'text-elastic-dev-blue/90'}`}>
             {tooltipItem && hasTooltipSummary(tooltipItem) ? (
               <>
