@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faRocket } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from '../context/ThemeContext'
 import { useRoadmapConfig } from '../context/RoadmapContext'
+import RoadmapDetailModal from '../components/RoadmapDetailModal'
 
 const PRODUCT_AREA_COLORS = {
   Search: '#0B64DD',
@@ -22,6 +23,7 @@ function RoadmapScene() {
 
   const [roadmapData, setRoadmapData] = useState({ items: [] })
   const [activeProductArea, setActiveProductArea] = useState(null)
+  const [detailItem, setDetailItem] = useState(null)
 
   useEffect(() => {
     fetch('/config/roadmap.json')
@@ -176,10 +178,11 @@ function RoadmapScene() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`relative p-5 rounded-xl border ${
+                  onClick={() => setDetailItem(item)}
+                  className={`relative p-5 rounded-xl border cursor-pointer transition-all ${
                     isDark
-                      ? 'bg-white/[0.03] border-white/10'
-                      : 'bg-white/80 border-elastic-dev-blue/10'
+                      ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20'
+                      : 'bg-white/80 border-elastic-dev-blue/10 hover:bg-white hover:border-elastic-dev-blue/20'
                   }`}
                 >
                   <div
@@ -204,11 +207,11 @@ function RoadmapScene() {
                           .replace(/[#*_`]/g, '')
                           .replace(/\n+/g, ' ')
                           .trim()
-                        display = stripped.slice(0, 200) + (stripped.length > 200 ? '…' : '')
+                        display = stripped
                       }
                       return (
                         <p
-                          className={`text-sm mt-2 line-clamp-3 ${
+                          className={`text-sm mt-2 ${
                             isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'
                           }`}
                         >
@@ -240,6 +243,16 @@ function RoadmapScene() {
                 </motion.div>
               ))}
             </div>
+
+            <AnimatePresence>
+              {detailItem && (
+                <RoadmapDetailModal
+                  key={detailItem.id}
+                  item={detailItem}
+                  onClose={() => setDetailItem(null)}
+                />
+              )}
+            </AnimatePresence>
           </>
         )}
       </div>

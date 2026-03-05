@@ -1,33 +1,15 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import ReactMarkdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faXmark, faCheck, faFilter, faRotateLeft, faSquareCheck, faSquare, faExpand } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from '../context/ThemeContext'
 import { useRoadmapConfig } from '../context/RoadmapContext'
+import RoadmapDetailModal from './RoadmapDetailModal'
 
 const TOOLTIP_DELAY_MS = 250
 const TOOLTIP_PREVIEW_LENGTH = 280
 
-// Ensure colons after common bold labels in GitHub body markdown
-const ensureLabelColons = (body) => {
-  if (!body || typeof body !== 'string') return body
-  return body
-    .replace(/\*\*(What the feature is and who is it for)\*\*(?!:)/g, '**$1:**')
-    .replace(/\*\*(What the feature is and who it's for)\*\*(?!:)/g, '**$1:**')
-    .replace(/\*\*(What the feature is)\*\*(?!:)/g, '**$1:**')
-    .replace(/\*\*(Value proposition)\*\*(?!:)/g, '**$1:**')
-}
-
-// Custom strong renderer for markdown - colors bold labels (e.g. "What the feature is...", "Value proposition") dynamically
-const createMarkdownComponents = (isDark) => ({
-  strong: ({ children }) => (
-    <strong className={isDark ? 'font-bold text-elastic-poppy' : 'font-bold text-elastic-blue'}>
-      {children}
-    </strong>
-  ),
-})
 
 function RoadmapConfigModal() {
   const { theme } = useTheme()
@@ -319,11 +301,20 @@ function RoadmapConfigModal() {
               isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'
             }`}
           >
-            <div className="flex items-center gap-2">
-              <FontAwesomeIcon icon={faGear} className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'} />
-              <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
-                Roadmap Configuration
-              </h2>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <FontAwesomeIcon icon={faGear} className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'} />
+                <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+                  Roadmap Configuration
+                </h2>
+              </div>
+              <span
+                className={`px-2.5 py-1 rounded-lg text-sm font-medium ${
+                  isDark ? 'bg-white/10 text-white/80' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/80'
+                }`}
+              >
+                {selectedItemIds.length} selected
+              </span>
             </div>
             <button
               onClick={closeConfigModal}
@@ -610,96 +601,11 @@ function RoadmapConfigModal() {
               {/* Detail modal */}
               <AnimatePresence>
                 {detailItem && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[110] flex items-center justify-center p-4"
-                    onClick={() => setDetailItem(null)}
-                  >
-                    <div
-                      className={`absolute inset-0 ${isDark ? 'bg-black/80' : 'bg-black/60'}`}
-                      aria-hidden="true"
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      className={`relative w-full max-w-2xl max-h-[85vh] rounded-2xl overflow-hidden flex flex-col ${
-                        isDark ? 'bg-elastic-dev-blue' : 'bg-white'
-                      } shadow-2xl`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div
-                        className={`flex items-center justify-between p-4 border-b ${
-                          isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'
-                        }`}
-                      >
-                        <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
-                          {detailItem.title}
-                        </h3>
-                        <button
-                          onClick={() => setDetailItem(null)}
-                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                            isDark ? 'hover:bg-white/10 text-white/70' : 'hover:bg-elastic-dev-blue/10 text-elastic-dev-blue/70'
-                          }`}
-                        >
-                          <FontAwesomeIcon icon={faXmark} className="text-xl" />
-                        </button>
-                      </div>
-                      <div
-                        className={`flex-1 overflow-y-auto p-4 prose prose-sm max-w-none space-y-4 ${
-                          isDark
-                            ? 'prose-invert prose-headings:text-white prose-p:text-white/80 prose-strong:text-elastic-poppy prose-a:text-elastic-teal'
-                            : 'prose-headings:text-elastic-dark-ink prose-p:text-elastic-dev-blue/80 prose-strong:text-elastic-blue prose-a:text-elastic-blue'
-                        }`}
-                      >
-                        {detailItem.summary?.for || detailItem.summary?.value || detailItem.summary?.scope ? (
-                          <>
-                            <div
-                              className={`rounded-lg p-4 border space-y-3 ${
-                                isDark ? 'bg-white/5 border-white/10' : 'bg-elastic-dev-blue/5 border-elastic-dev-blue/10'
-                              }`}
-                            >
-                              <h4 className={`text-sm font-semibold mb-2 ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>
-                                Summary
-                              </h4>
-                              <div className={`text-sm leading-relaxed space-y-3 ${isDark ? 'text-white/90' : 'text-elastic-dev-blue/90'}`}>
-                                {detailItem.summary.for && (
-                                  <div>
-                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>For: </span>
-                                    {detailItem.summary.for}
-                                  </div>
-                                )}
-                                {detailItem.summary.value && (
-                                  <div>
-                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Value: </span>
-                                    {detailItem.summary.value}
-                                  </div>
-                                )}
-                                {detailItem.summary.scope && (
-                                  <div>
-                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Scope: </span>
-                                    {detailItem.summary.scope}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            {detailItem.body && (
-                              <>
-                                <h4 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
-                                  Original description
-                                </h4>
-                                <ReactMarkdown components={createMarkdownComponents(isDark)}>{ensureLabelColons(detailItem.body)}</ReactMarkdown>
-                              </>
-                            )}
-                          </>
-                        ) : (
-                          <ReactMarkdown components={createMarkdownComponents(isDark)}>{ensureLabelColons(detailItem.body || '')}</ReactMarkdown>
-                        )}
-                      </div>
-                    </motion.div>
-                  </motion.div>
+                  <RoadmapDetailModal
+                    key={detailItem.id}
+                    item={detailItem}
+                    onClose={() => setDetailItem(null)}
+                  />
                 )}
               </AnimatePresence>
               </>
