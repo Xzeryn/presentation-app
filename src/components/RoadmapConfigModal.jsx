@@ -219,17 +219,11 @@ function RoadmapConfigModal() {
           exit={{ opacity: 0, y: 4 }}
           onMouseEnter={handleTooltipMouseEnter}
           onMouseLeave={handleTooltipMouseLeave}
-          onClick={() => {
-            toggleItemSelection(tooltipItemId)
-            setTooltipItemId(null)
-            setTooltipRect(null)
-          }}
+          onClick={() => toggleItemSelection(tooltipItemId)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault()
               toggleItemSelection(tooltipItemId)
-              setTooltipItemId(null)
-              setTooltipRect(null)
             }
           }}
           className={`fixed z-[200] w-80 max-w-[calc(100vw-2rem)] p-3 rounded-lg shadow-xl border cursor-pointer ${
