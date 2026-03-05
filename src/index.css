@@ -184,13 +184,16 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  display: flex;
+  justify-content: center;
 }
 
 .roadmap-timeline-track {
   display: flex;
   flex-wrap: nowrap;
-  width: max-content;
-  min-width: min-content;
+  width: 100%;
+  min-width: max-content;
+  flex: 0 0 auto;
 }
 
 .roadmap-timeline-column {

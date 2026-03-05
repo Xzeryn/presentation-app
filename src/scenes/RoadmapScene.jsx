@@ -318,8 +318,10 @@ function RoadmapScene() {
                       <div
                         key={band}
                         ref={(el) => { columnRefs.current[i] = el }}
-                        className={`roadmap-timeline-column flex flex-col shrink-0 border-r last:border-r-0 ${
-                          useMultiColumn ? 'w-[620px]' : 'w-[300px]'
+                        className={`roadmap-timeline-column flex flex-col border-r last:border-r-0 ${
+                          useMultiColumn
+                            ? 'min-w-[620px] max-w-[700px] flex-[1_1_620px]'
+                            : 'min-w-[300px] max-w-[420px] flex-[1_1_300px]'
                         } ${isDark ? 'border-white/30' : 'border-elastic-dev-blue/30'}`}
                       >
                       {/* Band header */}
