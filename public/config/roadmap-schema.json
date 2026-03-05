@@ -1,0 +1,238 @@
+{
+  "discoveredAt": "2026-03-05T17:08:11.455Z",
+  "source": "https://github.com/orgs/elastic/projects/2066",
+  "projectTitle": "Elastic Public Roadmap",
+  "fields": [
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abDo",
+      "name": "Title"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abDs",
+      "name": "Assignees"
+    },
+    {
+      "id": "PVTSSF_lADOAGc3Zs4BDhChzg1abDw",
+      "name": "Status",
+      "options": [
+        {
+          "id": "418e980e",
+          "name": "Aug–Oct 2025  | Shipped"
+        },
+        {
+          "id": "c218a289",
+          "name": "Nov 2025–Jan 2026  | Shipped"
+        },
+        {
+          "id": "d5902aa1",
+          "name": "Recently Shipped"
+        },
+        {
+          "id": "3fc5950b",
+          "name": "In Progress"
+        },
+        {
+          "id": "d1c698b2",
+          "name": "Near-Term"
+        },
+        {
+          "id": "8632cc8e",
+          "name": "Mid-Term"
+        }
+      ]
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abD0",
+      "name": "Labels"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abD4",
+      "name": "Linked pull requests"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abD8",
+      "name": "Milestone"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abEA",
+      "name": "Repository"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abEI",
+      "name": "Reviewers"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abEM",
+      "name": "Parent issue"
+    },
+    {
+      "id": "PVTF_lADOAGc3Zs4BDhChzg1abEQ",
+      "name": "Sub-issues progress"
+    },
+    {
+      "id": "PVTSSF_lADOAGc3Zs4BDhChzg3KArc",
+      "name": "Release Type",
+      "options": [
+        {
+          "id": "ca1470fa",
+          "name": "GA"
+        },
+        {
+          "id": "c1fae10c",
+          "name": "Tech Preview"
+        }
+      ]
+    },
+    {
+      "id": "PVTSSF_lADOAGc3Zs4BDhChzg7Ov50",
+      "name": "Key Initiative",
+      "options": [
+        {
+          "id": "df8359c5",
+          "name": "Agent Builder"
+        },
+        {
+          "id": "adad2458",
+          "name": "APM / RUM"
+        },
+        {
+          "id": "a64d775a",
+          "name": "Cloud marketplace support"
+        },
+        {
+          "id": "f9345d0e",
+          "name": "Cloud region expansion"
+        },
+        {
+          "id": "dc1a226c",
+          "name": "Cloud Security"
+        },
+        {
+          "id": "c789e5c0",
+          "name": "Cost control and transparency"
+        },
+        {
+          "id": "0bf5c7ab",
+          "name": "Discover and Dashboards"
+        },
+        {
+          "id": "7e1a5daf",
+          "name": "Elastic Cloud security"
+        },
+        {
+          "id": "c8a5cb33",
+          "name": "Endpoint"
+        },
+        {
+          "id": "d1fbd14d",
+          "name": "Entity analytics"
+        },
+        {
+          "id": "4e75737a",
+          "name": "ESQL"
+        },
+        {
+          "id": "b5adb72d",
+          "name": "Infra as code"
+        },
+        {
+          "id": "2e6090c3",
+          "name": "I18n"
+        },
+        {
+          "id": "115eeb89",
+          "name": "Jina AI and Elastic Inference Service"
+        },
+        {
+          "id": "91f01abb",
+          "name": "Logs"
+        },
+        {
+          "id": "6d0d9486",
+          "name": "Metrics and Infra Monitoring"
+        },
+        {
+          "id": "fde24a6e",
+          "name": "Monitoring and diagnostics"
+        },
+        {
+          "id": "861ec090",
+          "name": "OTel / Ingest"
+        },
+        {
+          "id": "e7324c62",
+          "name": "Remote cluster security"
+        },
+        {
+          "id": "d78d5881",
+          "name": "Rules and Alerts"
+        },
+        {
+          "id": "304cab99",
+          "name": "Serverless"
+        },
+        {
+          "id": "a1e8e604",
+          "name": "SIEM"
+        },
+        {
+          "id": "9f73e525",
+          "name": "Stateless in self-managed"
+        },
+        {
+          "id": "fa581fe8",
+          "name": "Streams"
+        },
+        {
+          "id": "f760c1ef",
+          "name": "Vectors"
+        },
+        {
+          "id": "c110c645",
+          "name": "Workflows"
+        },
+        {
+          "id": "7823343b",
+          "name": "Cloud Home"
+        }
+      ]
+    }
+  ],
+  "sampleItem": {
+    "id": "PVTI_lADOAGc3Zs4BDhChzggkaVM",
+    "title": "Audit trail for your Elastic Cloud organization",
+    "fieldValues": [
+      {
+        "__typename": "ProjectV2ItemFieldUserValue"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldRepositoryValue"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldLabelValue"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldSingleSelectValue",
+        "value": "Near-Term"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldTextValue",
+        "fieldName": "Title",
+        "value": "Audit trail for your Elastic Cloud organization"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldSingleSelectValue",
+        "value": "GA"
+      },
+      {
+        "__typename": "ProjectV2ItemFieldSingleSelectValue",
+        "value": "Elastic Cloud security"
+      }
+    ]
+  },
+  "suggestedMapping": {
+    "keyInitiatives": "Edit roadmap-field-mapping.json: add the exact field name for Key initiatives",
+    "releaseType": "Edit roadmap-field-mapping.json: add the exact field name for Release type",
+    "status": "Edit roadmap-field-mapping.json: add the exact field name for Status"
+  }
+}

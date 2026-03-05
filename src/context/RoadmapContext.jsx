@@ -7,6 +7,8 @@ const DEFAULT_ROADMAP_CONFIG = {
   filterLabels: [],
   filterKeyInitiatives: [],
   filterReleaseTypes: [],
+  filterStates: [],
+  filterStatus: [],
 }
 
 const RoadmapContext = createContext(null)
@@ -23,6 +25,8 @@ export function RoadmapProvider({ children }) {
           filterLabels: parsed.filterLabels ?? [],
           filterKeyInitiatives: parsed.filterKeyInitiatives ?? [],
           filterReleaseTypes: parsed.filterReleaseTypes ?? [],
+          filterStates: parsed.filterStates ?? [],
+          filterStatus: parsed.filterStatus ?? [],
         }
       } catch {
         return DEFAULT_ROADMAP_CONFIG
@@ -65,6 +69,14 @@ export function RoadmapProvider({ children }) {
     setConfig((prev) => ({ ...prev, filterReleaseTypes: types }))
   }, [])
 
+  const setFilterStates = useCallback((states) => {
+    setConfig((prev) => ({ ...prev, filterStates: states }))
+  }, [])
+
+  const setFilterStatus = useCallback((status) => {
+    setConfig((prev) => ({ ...prev, filterStatus: status }))
+  }, [])
+
   const resetRoadmapConfig = useCallback(() => {
     setConfig(DEFAULT_ROADMAP_CONFIG)
   }, [])
@@ -75,6 +87,8 @@ export function RoadmapProvider({ children }) {
       filterLabels: config.filterLabels ?? [],
       filterKeyInitiatives: config.filterKeyInitiatives ?? [],
       filterReleaseTypes: config.filterReleaseTypes ?? [],
+      filterStates: config.filterStates ?? [],
+      filterStatus: config.filterStatus ?? [],
       configModalOpen,
       openConfigModal,
       closeConfigModal,
@@ -83,6 +97,8 @@ export function RoadmapProvider({ children }) {
       setFilterLabels,
       setFilterKeyInitiatives,
       setFilterReleaseTypes,
+      setFilterStates,
+      setFilterStatus,
       resetRoadmapConfig,
     }),
     [
@@ -95,6 +111,8 @@ export function RoadmapProvider({ children }) {
       setFilterLabels,
       setFilterKeyInitiatives,
       setFilterReleaseTypes,
+      setFilterStates,
+      setFilterStatus,
       resetRoadmapConfig,
     ]
   )

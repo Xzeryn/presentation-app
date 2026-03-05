@@ -1,0 +1,6 @@
+{
+  "keyInitiatives": ["Key Initiative"],
+  "releaseType": ["Release Type"],
+  "status": ["Status"],
+  "productArea": ["Product area", "Product Area"]
+}

@@ -220,13 +220,13 @@ function RoadmapScene() {
                       )
                     })()}
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {item.quarter && (
+                      {item.status && (
                         <span
                           className={`text-xs px-2 py-1 rounded-full ${
                             isDark ? 'bg-white/10 text-white/70' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70'
                           }`}
                         >
-                          {item.quarter}
+                          {item.status}
                         </span>
                       )}
                       {item.releaseType && (
@@ -236,6 +236,15 @@ function RoadmapScene() {
                           }`}
                         >
                           {item.releaseType}
+                        </span>
+                      )}
+                      {item.state && (
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${
+                            isDark ? 'bg-white/10 text-white/70' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70'
+                          }`}
+                        >
+                          {item.state}
                         </span>
                       )}
                     </div>

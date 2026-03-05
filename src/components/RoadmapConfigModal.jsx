@@ -23,15 +23,19 @@ function RoadmapConfigModal() {
     filterLabels,
     filterKeyInitiatives,
     filterReleaseTypes,
+    filterStates,
+    filterStatus,
     setFilterLabels,
     setFilterKeyInitiatives,
     setFilterReleaseTypes,
+    setFilterStates,
+    setFilterStatus,
     resetRoadmapConfig,
   } = useRoadmapConfig()
 
   const [roadmapData, setRoadmapData] = useState({ items: [] })
   const [loading, setLoading] = useState(true)
-  const [filterExpanded, setFilterExpanded] = useState(false)
+  const [filterExpanded, setFilterExpanded] = useState(true)
   const [detailItem, setDetailItem] = useState(null)
   const [tooltipItemId, setTooltipItemId] = useState(null)
   const [tooltipRect, setTooltipRect] = useState(null)
@@ -76,6 +80,20 @@ function RoadmapConfigModal() {
     return [...set].sort()
   }, [roadmapData.items])
 
+  const allStates = useMemo(() => {
+    const set = new Set()
+    roadmapData.items.forEach((item) => item.state && set.add(item.state))
+    return [...set].sort()
+  }, [roadmapData.items])
+
+  const allStatus = useMemo(() => {
+    const set = new Set()
+    roadmapData.items.forEach((item) => {
+      if (item.status) set.add(item.status)
+    })
+    return [...set].sort()
+  }, [roadmapData.items])
+
   // Include filter: show items matching selected filters. When no filters selected, show all.
   // Multiple filter types combine with AND (item must match each active filter category).
   const filteredItems = useMemo(() => {
@@ -88,10 +106,12 @@ function RoadmapConfigModal() {
       const matchesLabels = filterLabels.length === 0 || itemLabels.some((l) => filterLabels.includes(l))
       const matchesInitiatives = filterKeyInitiatives.length === 0 || itemInitiatives.some((k) => filterKeyInitiatives.includes(k))
       const matchesReleaseType = filterReleaseTypes.length === 0 || (itemReleaseType && filterReleaseTypes.includes(itemReleaseType))
+      const matchesState = filterStates.length === 0 || (item.state && filterStates.includes(item.state))
+      const matchesStatus = filterStatus.length === 0 || (item.status && filterStatus.includes(item.status))
 
-      return matchesLabels && matchesInitiatives && matchesReleaseType
+      return matchesLabels && matchesInitiatives && matchesReleaseType && matchesState && matchesStatus
     })
-  }, [roadmapData.items, filterLabels, filterKeyInitiatives, filterReleaseTypes])
+  }, [roadmapData.items, filterLabels, filterKeyInitiatives, filterReleaseTypes, filterStates, filterStatus])
 
   const getDescriptionPreview = (body, maxLength = 120) => {
     if (!body || typeof body !== 'string') return ''
@@ -274,20 +294,31 @@ function RoadmapConfigModal() {
               tooltipContent
             )}
           </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setDetailItem(tooltipItem)
-              setTooltipItemId(null)
-              setTooltipRect(null)
-            }}
-            className={`mt-2 flex items-center gap-1.5 text-xs font-medium ${
-              isDark ? 'text-elastic-teal hover:text-elastic-teal/80' : 'text-elastic-blue hover:text-elastic-blue/80'
+          <div
+            className={`mt-2 pt-2 border-t flex justify-between items-center gap-2 text-[10px] ${
+              isDark ? 'border-white/10 text-white/50' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'
             }`}
           >
-            <FontAwesomeIcon icon={faExpand} className="text-[10px]" />
-            View full
-          </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setDetailItem(tooltipItem)
+                setTooltipItemId(null)
+                setTooltipRect(null)
+              }}
+              className={`flex items-center gap-1.5 font-medium ${
+                isDark ? 'text-elastic-teal hover:text-elastic-teal/80' : 'text-elastic-blue hover:text-elastic-blue/80'
+              }`}
+            >
+              <FontAwesomeIcon icon={faExpand} className="text-[10px]" />
+              View full
+            </button>
+            <div className="flex justify-between gap-3 flex-1 min-w-0">
+              {tooltipItem?.status && <span>{tooltipItem.status}</span>}
+              {tooltipItem?.releaseType && <span>{tooltipItem.releaseType}</span>}
+              {tooltipItem?.state && <span>{tooltipItem.state}</span>}
+            </div>
+          </div>
         </motion.div>
       </AnimatePresence>,
       document.body
@@ -474,6 +505,58 @@ function RoadmapConfigModal() {
                       </div>
                     </div>
                   )}
+                  {allStates.length > 0 && (
+                    <div>
+                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                        State
+                      </span>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {allStates.map((state) => (
+                          <button
+                            key={state}
+                            onClick={() => toggleFilter(state, filterStates, setFilterStates)}
+                            className={`px-2 py-1 rounded text-xs transition-all ${
+                              filterStates.includes(state)
+                                ? isDark
+                                  ? 'bg-elastic-teal/30 text-elastic-teal'
+                                  : 'bg-elastic-blue/30 text-elastic-blue'
+                                : isDark
+                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
+                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                            }`}
+                          >
+                            {state}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {allStatus.length > 0 && (
+                    <div>
+                      <span className={`text-xs font-medium ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                        Status
+                      </span>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {allStatus.map((status) => (
+                          <button
+                            key={status}
+                            onClick={() => toggleFilter(status, filterStatus, setFilterStatus)}
+                            className={`px-2 py-1 rounded text-xs transition-all ${
+                              filterStatus.includes(status)
+                                ? isDark
+                                  ? 'bg-elastic-teal/30 text-elastic-teal'
+                                  : 'bg-elastic-blue/30 text-elastic-blue'
+                                : isDark
+                                  ? 'bg-white/10 text-white/70 hover:bg-white/20'
+                                  : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
+                            }`}
+                          >
+                            {status}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <button
                     onClick={resetRoadmapConfig}
                     className={`flex items-center gap-2 text-xs ${isDark ? 'text-white/50 hover:text-white' : 'text-elastic-dev-blue/50 hover:text-elastic-dev-blue'}`}
@@ -517,22 +600,41 @@ function RoadmapConfigModal() {
                         className={`text-left p-4 rounded-xl border-2 transition-all cursor-pointer ${
                           isSelected
                             ? 'border-green-500 bg-green-500/10'
-                            : isDark
-                              ? 'bg-white/[0.03] border-white/10 hover:border-white/20'
-                              : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10 hover:border-elastic-dev-blue/20'
+                            : item.state === 'CLOSED'
+                              ? isDark
+                                ? 'bg-white/[0.02] border-white/5 opacity-75 hover:opacity-90'
+                                : 'bg-elastic-dev-blue/[0.01] border-elastic-dev-blue/5 opacity-75 hover:opacity-90'
+                              : isDark
+                                ? 'bg-white/[0.03] border-white/10 hover:border-white/20'
+                                : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10 hover:border-elastic-dev-blue/20'
                         }`}
                       >
                         <div className="flex items-start gap-2">
-                          <div
-                            className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                              isSelected ? 'bg-green-500 text-white' : isDark ? 'bg-white/10' : 'bg-elastic-dev-blue/10'
-                            }`}
-                          >
-                            {isSelected ? (
-                              <FontAwesomeIcon icon={faCheck} className="text-xs" />
-                            ) : (
-                              <span className="text-[10px]">○</span>
-                            )}
+                          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+                            <div
+                              className={`w-6 h-6 rounded flex items-center justify-center mt-0.5 ${
+                                isSelected ? 'bg-green-500 text-white' : isDark ? 'bg-white/10' : 'bg-elastic-dev-blue/10'
+                              }`}
+                            >
+                              {isSelected ? (
+                                <FontAwesomeIcon icon={faCheck} className="text-xs" />
+                              ) : (
+                                <span className="text-[10px]">○</span>
+                              )}
+                            </div>
+                            <div
+                              className={`w-2 h-2 rounded-full shrink-0 ${
+                                item.state === 'CLOSED'
+                                  ? isDark
+                                    ? 'bg-white/40'
+                                    : 'bg-gray-400'
+                                  : isDark
+                                    ? 'bg-green-500/80'
+                                    : 'bg-green-500/70'
+                              }`}
+                              title={item.state === 'CLOSED' ? 'Closed' : 'Open'}
+                              aria-hidden="true"
+                            />
                           </div>
                           <div className="flex-1 min-w-0">
                             <h4
@@ -564,15 +666,6 @@ function RoadmapConfigModal() {
                               View full
                             </button>
                             <div className="flex flex-wrap gap-1 mt-1">
-                              {item.quarter && (
-                                <span
-                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                    isDark ? 'bg-white/10 text-white/60' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/60'
-                                  }`}
-                                >
-                                  {item.quarter}
-                                </span>
-                              )}
                               {item.productArea && (
                                 <span
                                   className={`text-[10px] px-1.5 py-0.5 rounded ${
@@ -582,16 +675,6 @@ function RoadmapConfigModal() {
                                   {item.productArea}
                                 </span>
                               )}
-                              {item.labels?.map((label) => (
-                                <span
-                                  key={label}
-                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                    isDark ? 'bg-white/5 text-white/50' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'
-                                  }`}
-                                >
-                                  {label}
-                                </span>
-                              ))}
                               {(Array.isArray(item.keyInitiatives) ? item.keyInitiatives : item.keyInitiatives ? [item.keyInitiatives] : []).map((ki) => (
                                 <span
                                   key={ki}
@@ -602,16 +685,18 @@ function RoadmapConfigModal() {
                                   {ki}
                                 </span>
                               ))}
-                              {item.releaseType && (
-                                <span
-                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                    isDark ? 'bg-white/5 text-white/50' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'
-                                  }`}
-                                >
-                                  {item.releaseType}
-                                </span>
-                              )}
                             </div>
+                            {(item.status || item.releaseType || item.state) && (
+                              <div
+                                className={`mt-2 pt-2 border-t flex justify-between items-center w-full text-[10px] ${
+                                  isDark ? 'border-white/10 text-white/50' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'
+                                }`}
+                              >
+                                {item.status && <span>{item.status}</span>}
+                                {item.releaseType && <span>{item.releaseType}</span>}
+                                {item.state && <span>{item.state}</span>}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </motion.div>

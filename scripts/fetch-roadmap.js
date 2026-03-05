@@ -6,18 +6,25 @@
  * Optional: Set FETCH_ROADMAP_SUMMARIZE=true to add AI summaries via AWS Bedrock.
  * Requires BEDROCK_MODEL_ID, AWS_REGION, and AWS credentials.
  *
+ * Discovery: Set FETCH_ROADMAP_DISCOVER=true to dump project schema and sample field values
+ * to public/config/roadmap-schema.json. Use this to find actual field names, then update
+ * scripts/roadmap-field-mapping.json accordingly.
+ *
  * Usage: npm run fetch:roadmap
  * Or:    GITHUB_TOKEN=xxx node scripts/fetch-roadmap.js
+ * Or:    FETCH_ROADMAP_DISCOVER=true npm run fetch:roadmap
  */
 
 import 'dotenv/config'
-import { writeFileSync, mkdirSync, existsSync } from 'fs'
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT_PATH = join(__dirname, '..', 'public', 'config', 'roadmap.json')
+const SCHEMA_PATH = join(__dirname, '..', 'public', 'config', 'roadmap-schema.json')
+const MAPPING_PATH = join(__dirname, 'roadmap-field-mapping.json')
 
 const SUMMARIZE_PROMPT = `Summarize this product roadmap item for a sales presenter. Output exactly three lines in this format:
 For: [1-line audience - who is this for]
@@ -29,6 +36,35 @@ Be concise. No other text.`
 const GITHUB_GRAPHQL = 'https://api.github.com/graphql'
 const ORG = 'elastic'
 const PROJECT_NUMBER = 2066
+
+function loadFieldMapping() {
+  try {
+    const raw = readFileSync(MAPPING_PATH, 'utf8')
+    const parsed = JSON.parse(raw)
+    return {
+      keyInitiatives: [].concat(parsed.keyInitiatives || []),
+      releaseType: [].concat(parsed.releaseType || []),
+      status: [].concat(parsed.status || []),
+      productArea: [].concat(parsed.productArea || []),
+    }
+  } catch {
+    return {
+      keyInitiatives: ['Key Initiative', 'Key initiatives', 'Key Initiatives'],
+      releaseType: ['Release type', 'Release Type'],
+      status: ['Status'],
+      productArea: ['Product area', 'Product Area'],
+    }
+  }
+}
+
+function getMappedValue(fieldValues, mappingKeys) {
+  for (const key of mappingKeys) {
+    if (fieldValues[key] !== undefined && fieldValues[key] !== null && fieldValues[key] !== '') {
+      return fieldValues[key]
+    }
+  }
+  return null
+}
 
 async function graphql(query, variables = {}) {
   const token = process.env.GITHUB_TOKEN
@@ -65,7 +101,7 @@ async function fetchProjectItems(cursor = null) {
         projectV2(number: $projectNum) {
           id
           title
-          fields(first: 20) {
+          fields(first: 50) {
             nodes {
               ... on ProjectV2Field {
                 id
@@ -77,6 +113,17 @@ async function fetchProjectItems(cursor = null) {
                 options {
                   id
                   name
+                }
+              }
+              ... on ProjectV2IterationField {
+                id
+                name
+                configuration {
+                  iterations {
+                    id
+                    startDate
+                    title
+                  }
                 }
               }
             }
@@ -121,13 +168,13 @@ async function fetchProjectItems(cursor = null) {
                   body
                 }
               }
-              fieldValues(first: 20) {
+              fieldValues(first: 30) {
                 nodes {
                   __typename
                   ... on ProjectV2ItemFieldTextValue {
                     text
                     field {
-                      ... on ProjectV2Field {
+                      ... on ProjectV2FieldCommon {
                         name
                       }
                     }
@@ -136,7 +183,7 @@ async function fetchProjectItems(cursor = null) {
                     name
                     optionId
                     field {
-                      ... on ProjectV2Field {
+                      ... on ProjectV2FieldCommon {
                         name
                       }
                     }
@@ -144,7 +191,7 @@ async function fetchProjectItems(cursor = null) {
                   ... on ProjectV2ItemFieldDateValue {
                     date
                     field {
-                      ... on ProjectV2Field {
+                      ... on ProjectV2FieldCommon {
                         name
                       }
                     }
@@ -152,7 +199,17 @@ async function fetchProjectItems(cursor = null) {
                   ... on ProjectV2ItemFieldNumberValue {
                     number
                     field {
-                      ... on ProjectV2Field {
+                      ... on ProjectV2FieldCommon {
+                        name
+                      }
+                    }
+                  }
+                  ... on ProjectV2ItemFieldIterationValue {
+                    title
+                    startDate
+                    duration
+                    field {
+                      ... on ProjectV2FieldCommon {
                         name
                       }
                     }
@@ -173,6 +230,62 @@ async function fetchProjectItems(cursor = null) {
   })
 
   return data.organization?.projectV2
+}
+
+async function runDiscovery() {
+  console.log('Discovery mode: fetching project schema and sample field values...')
+
+  const project = await fetchProjectItems(null)
+  if (!project) {
+    console.error('Project not found. Check org, project number, and token permissions.')
+    process.exit(1)
+  }
+
+  const fields = project.fields?.nodes || []
+  const sampleItem = project.items?.nodes?.[0]
+  const sampleFieldValues = sampleItem?.fieldValues?.nodes || []
+
+  const schema = {
+    discoveredAt: new Date().toISOString(),
+    source: `https://github.com/orgs/${ORG}/projects/${PROJECT_NUMBER}`,
+    projectTitle: project.title,
+    fields: fields.map((f) => ({
+      id: f.id,
+      name: f.name,
+      __typename: f.__typename,
+      options: f.options,
+      configuration: f.configuration,
+    })),
+    sampleItem: sampleItem
+      ? {
+          id: sampleItem.id,
+          title: sampleItem.content?.title,
+          fieldValues: sampleFieldValues
+            .filter((fv) => fv.field?.name)
+            .map((fv) => ({
+              __typename: fv.__typename,
+              fieldName: fv.field?.name,
+              value:
+                fv.__typename === 'ProjectV2ItemFieldIterationValue'
+                  ? { title: fv.title, startDate: fv.startDate, duration: fv.duration }
+                  : fv.text ?? fv.name ?? fv.date ?? fv.number,
+            })),
+        }
+      : null,
+    suggestedMapping: {
+      keyInitiatives: 'Edit roadmap-field-mapping.json: add the exact field name for Key initiatives',
+      releaseType: 'Edit roadmap-field-mapping.json: add the exact field name for Release type',
+      status: 'Edit roadmap-field-mapping.json: add the exact field name for Status',
+    },
+  }
+
+  const outDir = dirname(SCHEMA_PATH)
+  if (!existsSync(outDir)) {
+    mkdirSync(outDir, { recursive: true })
+  }
+  writeFileSync(SCHEMA_PATH, JSON.stringify(schema, null, 2), 'utf8')
+  console.log(`Wrote schema to ${SCHEMA_PATH}`)
+  console.log('Review the field names in "fields" and "sampleItem.fieldValues", then update scripts/roadmap-field-mapping.json')
 }
 
 async function fetchIssueComments(owner, repo, issueNumber) {
@@ -208,6 +321,8 @@ function parseFieldValues(nodes) {
       result[fieldName] = node.date
     } else if (node.__typename === 'ProjectV2ItemFieldNumberValue') {
       result[fieldName] = node.number
+    } else if (node.__typename === 'ProjectV2ItemFieldIterationValue') {
+      result[fieldName] = node.title || (node.startDate ? quarterFromDate(node.startDate) : null)
     }
   }
   return result
@@ -270,7 +385,14 @@ async function summarizeWithBedrock(item) {
 }
 
 async function main() {
+  const discoverMode = process.env.FETCH_ROADMAP_DISCOVER === 'true' || process.argv.includes('--discover')
+  if (discoverMode) {
+    await runDiscovery()
+    return
+  }
+
   console.log('Fetching Elastic roadmap from GitHub...')
+  const mapping = loadFieldMapping()
 
   const allItems = []
   let cursor = null
@@ -289,18 +411,21 @@ async function main() {
 
       const fieldValues = parseFieldValues(node.fieldValues?.nodes)
       const labels = content.labels?.nodes?.map((l) => l.name) || []
-      const kiRaw = fieldValues['Key initiatives'] || fieldValues['Key Initiatives'] || fieldValues['Key Initiative']
-      const keyInitiatives = Array.isArray(kiRaw) ? kiRaw : kiRaw ? [kiRaw] : []
-      const releaseType = fieldValues['Release type'] || fieldValues['Release Type'] || null
-      const targetDate = fieldValues['Target date'] || fieldValues['Target Date'] || null
-      const quarter = quarterFromDate(targetDate) || fieldValues['Quarter'] || null
 
-      // Infer product area from labels or a custom field
-      const productArea = fieldValues['Product area'] || fieldValues['Product Area'] || labels.find((l) =>
-        ['Search', 'Observability', 'Security', 'Elasticsearch', 'Kibana', 'Fleet'].some((pa) =>
-          l.toLowerCase().includes(pa.toLowerCase())
-        )
-      ) || 'Other'
+      const kiRaw = getMappedValue(fieldValues, mapping.keyInitiatives)
+      const keyInitiatives = Array.isArray(kiRaw) ? kiRaw : kiRaw ? [kiRaw] : []
+      const releaseType = getMappedValue(fieldValues, mapping.releaseType)
+      const status = getMappedValue(fieldValues, mapping.status)
+
+      // Infer product area from mapping, then labels
+      const productArea =
+        getMappedValue(fieldValues, mapping.productArea) ||
+        labels.find((l) =>
+          ['Search', 'Observability', 'Security', 'Elasticsearch', 'Kibana', 'Fleet'].some((pa) =>
+            l.toLowerCase().includes(pa.toLowerCase())
+          )
+        ) ||
+        'Other'
 
       const item = {
         id: node.id,
@@ -312,8 +437,7 @@ async function main() {
         labels,
         keyInitiatives: Array.isArray(keyInitiatives) ? keyInitiatives : [keyInitiatives],
         releaseType,
-        targetDate,
-        quarter,
+        status,
         productArea: String(productArea),
         fieldValues,
       }

@@ -66,6 +66,17 @@ export default function RoadmapDetailModal({ item, onClose }) {
               <FontAwesomeIcon icon={faXmark} className="text-xl" />
             </button>
           </div>
+          {(item.status || item.releaseType || item.state) && (
+            <div
+              className={`px-4 py-2 border-b flex justify-between items-center text-xs ${
+                isDark ? 'border-white/10 text-white/50' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'
+              }`}
+            >
+              {item.status && <span>{item.status}</span>}
+              {item.releaseType && <span>{item.releaseType}</span>}
+              {item.state && <span>{item.state}</span>}
+            </div>
+          )}
           <div
             className={`flex-1 overflow-y-auto p-4 prose prose-sm max-w-none space-y-4 ${
               isDark
