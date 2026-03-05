@@ -48,6 +48,10 @@ function formatProductAreaDisplay(area) {
   return area
 }
 
+function hasLLMValue(item) {
+  return !!item?.summary?.value
+}
+
 function getDisplayPreview(item) {
   if (item.summary?.value) return item.summary.value
   if (item.summary?.for) return item.summary.for
@@ -417,13 +421,13 @@ function RoadmapScene() {
                                 {item.title}
                               </h4>
                               {(item.summary || item.body) && (
-                                <p
-                                  className={`text-xs mt-1 line-clamp-2 ${
-                                    isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'
-                                  }`}
+                                <div
+                                  className={`text-xs mt-1 ${
+                                    hasLLMValue(item) ? '' : 'line-clamp-4'
+                                  } ${isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'}`}
                                 >
-                                  {getDisplayPreview(item)}
-                                </p>
+                                  {hasLLMValue(item) ? item.summary.value : getDisplayPreview(item)}
+                                </div>
                               )}
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {item.releaseType && (
