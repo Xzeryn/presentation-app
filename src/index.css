@@ -131,6 +131,7 @@ body {
 /* Custom scrollbar - Dark */
 .dark ::-webkit-scrollbar {
   width: 6px;
+  height: 8px;
 }
 
 .dark ::-webkit-scrollbar-track {
@@ -145,6 +146,7 @@ body {
 /* Custom scrollbar - Light */
 .light ::-webkit-scrollbar {
   width: 6px;
+  height: 8px;
 }
 
 .light ::-webkit-scrollbar-track {
@@ -154,6 +156,144 @@ body {
 .light ::-webkit-scrollbar-thumb {
   background: var(--elastic-blue);
   border-radius: 3px;
+}
+
+/* Roadmap scene - align-items: center on .scene shrinks children to content width,
+   preventing overflow/scrollbar. Override with align-self: stretch so the container
+   takes full scene width and the timeline can overflow + scroll.
+   Note: do NOT use overflow-x: hidden here - it clips the scrollbar. */
+.roadmap-scene .max-w-7xl {
+  align-self: stretch;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+/* Roadmap timeline - arrow buttons + scroll-snap for presentation-friendly navigation */
+.roadmap-timeline-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.roadmap-timeline-scroll-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.roadmap-timeline-scroll-container.roadmap-timeline-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.roadmap-timeline-track {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: min-content;
+}
+
+.roadmap-timeline-column {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Arrow buttons only - fixed to viewport, vertically centered */
+.roadmap-timeline-edge {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 35;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.roadmap-timeline-edge-left {
+  left: 0.5rem;
+}
+
+.roadmap-timeline-edge-right {
+  right: 0.5rem;
+}
+
+.roadmap-timeline-edge:hover:not(.roadmap-timeline-edge-disabled) {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.roadmap-timeline-edge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-timeline-edge-dark {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.roadmap-timeline-edge-dark:hover:not(.roadmap-timeline-edge-disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.roadmap-timeline-edge-light {
+  background: rgba(16, 28, 63, 0.08);
+  color: rgba(16, 28, 63, 0.7);
+}
+
+.roadmap-timeline-edge-light:hover:not(.roadmap-timeline-edge-disabled) {
+  background: rgba(16, 28, 63, 0.15);
+  color: var(--elastic-dev-blue);
+}
+
+.roadmap-timeline-edge-disabled {
+  pointer-events: none;
+}
+
+.roadmap-timeline-edge-disabled {
+  opacity: 0.25;
+}
+
+/* Horizontal scrollbar for timeline - ensure visible */
+.scene .overflow-x-scroll::-webkit-scrollbar,
+.scene .roadmap-timeline-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scene .overflow-x-scroll::-webkit-scrollbar-track,
+.scene .roadmap-timeline-scroll-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+}
+
+.dark .scene .overflow-x-scroll::-webkit-scrollbar-track,
+.dark .scene .roadmap-timeline-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.scene .overflow-x-scroll::-webkit-scrollbar-thumb,
+.scene .roadmap-timeline-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--elastic-blue);
+  border-radius: 4px;
+}
+
+.dark .scene .overflow-x-scroll::-webkit-scrollbar-thumb,
+.dark .scene .roadmap-timeline-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--elastic-teal);
 }
 
 /* Gradient text utility - Bold Minimalism style */
