@@ -35,6 +35,19 @@ const BAND_LABELS = {
   'Mid-Term': 'Future',
 }
 
+function formatProductAreaDisplay(area) {
+  if (!area || area === 'Other') return 'Other'
+  if (area.startsWith('product-area:')) {
+    const value = area.slice('product-area:'.length)
+    const capitalized = value
+      .split(/[-_]/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ')
+    return `Product Area: ${capitalized}`
+  }
+  return area
+}
+
 function getDisplayPreview(item) {
   if (item.summary?.value) return item.summary.value
   if (item.summary?.for) return item.summary.for
@@ -77,7 +90,10 @@ function RoadmapScene() {
 
   const productAreasWithItems = useMemo(() => {
     const areas = new Set()
-    selectedItems.forEach((item) => item.productArea && areas.add(item.productArea))
+    selectedItems.forEach((item) => {
+      const area = item.productArea || 'Other'
+      areas.add(area)
+    })
     return [...areas].sort()
   }, [selectedItems])
 
@@ -273,7 +289,7 @@ function RoadmapScene() {
                         : {}
                     }
                   >
-                    {area}
+                    {formatProductAreaDisplay(area)}
                   </button>
                 ))}
               </motion.div>
@@ -318,10 +334,8 @@ function RoadmapScene() {
                       <div
                         key={band}
                         ref={(el) => { columnRefs.current[i] = el }}
-                        className={`roadmap-timeline-column flex flex-col border-r last:border-r-0 ${
-                          useMultiColumn
-                            ? 'min-w-[620px] max-w-[700px] flex-[1_1_620px]'
-                            : 'min-w-[300px] max-w-[420px] flex-[1_1_300px]'
+                        className={`roadmap-timeline-column flex flex-col shrink-0 border-r last:border-r-0 ${
+                          useMultiColumn ? 'w-[620px]' : 'w-[300px]'
                         } ${isDark ? 'border-white/30' : 'border-elastic-dev-blue/30'}`}
                       >
                       {/* Band header */}
@@ -331,6 +345,7 @@ function RoadmapScene() {
                         }`}
                       >
                         {BAND_LABELS[band] || band}
+                        <span className="opacity-70 ml-1">({items.length})</span>
                       </div>
                       {/* Items: multi-column grid when many, single column otherwise */}
                       <div
@@ -382,8 +397,14 @@ function RoadmapScene() {
                                 )}
                                 {item.state && (
                                   <span
-                                    className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                      isDark ? 'bg-white/10 text-white/60' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/60'
+                                    className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${
+                                      (item.state || '').toUpperCase() === 'CLOSED'
+                                        ? isDark
+                                          ? 'bg-white/10 text-white/50'
+                                          : 'bg-slate-200/70 text-slate-500'
+                                        : isDark
+                                          ? 'bg-emerald-500/40 text-emerald-300'
+                                          : 'bg-emerald-400/50 text-emerald-700'
                                     }`}
                                   >
                                     {item.state}

@@ -184,16 +184,13 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  display: flex;
-  justify-content: center;
 }
 
 .roadmap-timeline-track {
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
-  min-width: max-content;
-  flex: 0 0 auto;
+  width: max-content;
+  min-width: min-content;
 }
 
 .roadmap-timeline-column {
@@ -201,60 +198,58 @@ body {
   scroll-snap-stop: always;
 }
 
-/* Full-height edge buttons - fixed to viewport, always visible, entire margin clickable */
+/* Arrow buttons only - fixed to viewport, vertically centered */
 .roadmap-timeline-edge {
   position: fixed;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 35;
-  width: min(80px, 8vw);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
-  transition: background 0.2s;
-}
-
-.roadmap-timeline-edge-left {
-  left: 0;
-}
-
-.roadmap-timeline-edge-right {
-  right: 0;
-}
-
-.roadmap-timeline-edge-icon {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 0.75rem;
   transition: transform 0.2s, background 0.2s;
 }
 
-.roadmap-timeline-edge:hover:not(.roadmap-timeline-edge-disabled) .roadmap-timeline-edge-icon {
-  transform: scale(1.1);
+.roadmap-timeline-edge-left {
+  left: 0.5rem;
 }
 
-.roadmap-timeline-edge-dark .roadmap-timeline-edge-icon {
+.roadmap-timeline-edge-right {
+  right: 0.5rem;
+}
+
+.roadmap-timeline-edge:hover:not(.roadmap-timeline-edge-disabled) {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.roadmap-timeline-edge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-timeline-edge-dark {
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.8);
 }
 
-.roadmap-timeline-edge-dark:hover:not(.roadmap-timeline-edge-disabled) .roadmap-timeline-edge-icon {
+.roadmap-timeline-edge-dark:hover:not(.roadmap-timeline-edge-disabled) {
   background: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
-.roadmap-timeline-edge-light .roadmap-timeline-edge-icon {
+.roadmap-timeline-edge-light {
   background: rgba(16, 28, 63, 0.08);
   color: rgba(16, 28, 63, 0.7);
 }
 
-.roadmap-timeline-edge-light:hover:not(.roadmap-timeline-edge-disabled) .roadmap-timeline-edge-icon {
+.roadmap-timeline-edge-light:hover:not(.roadmap-timeline-edge-disabled) {
   background: rgba(16, 28, 63, 0.15);
   color: var(--elastic-dev-blue);
 }
@@ -263,7 +258,7 @@ body {
   pointer-events: none;
 }
 
-.roadmap-timeline-edge-disabled .roadmap-timeline-edge-icon {
+.roadmap-timeline-edge-disabled {
   opacity: 0.25;
 }
 

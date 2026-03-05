@@ -10,6 +10,18 @@ import RoadmapDetailModal from './RoadmapDetailModal'
 const TOOLTIP_DELAY_MS = 250
 const TOOLTIP_PREVIEW_LENGTH = 280
 
+function formatProductAreaDisplay(area) {
+  if (!area || area === 'Other') return 'Other'
+  if (area.startsWith('product-area:')) {
+    const value = area.slice('product-area:'.length)
+    const capitalized = value
+      .split(/[-_]/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ')
+    return `Product Area: ${capitalized}`
+  }
+  return area
+}
 
 function RoadmapConfigModal() {
   const { theme } = useTheme()
@@ -724,7 +736,7 @@ function RoadmapConfigModal() {
                                     isDark ? 'bg-elastic-teal/20 text-elastic-teal' : 'bg-elastic-blue/20 text-elastic-blue'
                                   }`}
                                 >
-                                  {item.productArea}
+                                  {formatProductAreaDisplay(item.productArea)}
                                 </span>
                               )}
                               {(Array.isArray(item.keyInitiatives) ? item.keyInitiatives : item.keyInitiatives ? [item.keyInitiatives] : []).map((ki) => (
