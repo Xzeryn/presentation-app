@@ -378,8 +378,8 @@ function RoadmapScene() {
                       <div
                         key={band}
                         ref={(el) => { columnRefs.current[i] = el }}
-                        className={`roadmap-timeline-column flex flex-col shrink-0 border-r last:border-r-0 ${
-                          useMultiColumn ? 'w-[620px]' : 'w-[300px]'
+                        className={`roadmap-timeline-column flex flex-col shrink-0 border-r last:border-r-0 px-4 ${
+                          useMultiColumn ? 'w-[660px]' : 'w-[348px]'
                         } ${isDark ? 'border-white/30' : 'border-elastic-dev-blue/30'}`}
                       >
                       {/* Band header */}
@@ -393,8 +393,8 @@ function RoadmapScene() {
                       </div>
                       {/* Items: multi-column grid when many, single column otherwise */}
                       <div
-                        className={`p-2 gap-2 min-h-[120px] ${
-                          useMultiColumn ? 'grid grid-cols-[300px_300px]' : 'flex flex-col'
+                        className={`p-2 gap-3 min-h-[120px] ${
+                          useMultiColumn ? 'grid grid-cols-[300px_300px] auto-rows-min content-start items-start' : 'flex flex-col gap-3'
                         } ${isDark ? 'bg-white/[0.02]' : 'bg-elastic-dev-blue/[0.02]'}`}
                       >
                         {items.map((item, index) => (
