@@ -192,16 +192,30 @@ function RoadmapScene() {
                     <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
                       {item.title}
                     </h3>
-                    {item.body && (
-                      <p
-                        className={`text-sm mt-2 line-clamp-3 ${
-                          isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'
-                        }`}
-                      >
-                        {item.body.replace(/[#*_`]/g, '').slice(0, 150)}
-                        {item.body.length > 150 ? '...' : ''}
-                      </p>
-                    )}
+                    {(item.summary || item.body) && (() => {
+                      let display
+                      if (item.summary?.value) display = item.summary.value
+                      else if (item.summary?.for) display = item.summary.for
+                      else {
+                        const stripped = item.body
+                          .replace(/\*\*[^*]+\*\*/g, '')
+                          .replace(/#{1,6}\s/g, '')
+                          .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+                          .replace(/[#*_`]/g, '')
+                          .replace(/\n+/g, ' ')
+                          .trim()
+                        display = stripped.slice(0, 200) + (stripped.length > 200 ? '…' : '')
+                      }
+                      return (
+                        <p
+                          className={`text-sm mt-2 line-clamp-3 ${
+                            isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'
+                          }`}
+                        >
+                          {display}
+                        </p>
+                      )
+                    })()}
                     <div className="flex flex-wrap gap-2 mt-3">
                       {item.quarter && (
                         <span

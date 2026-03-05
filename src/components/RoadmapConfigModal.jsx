@@ -1,9 +1,24 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import ReactMarkdown from 'react-markdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faXmark, faCheck, faFilter, faRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faGear, faXmark, faCheck, faFilter, faRotateLeft, faSquareCheck, faSquare, faExpand } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from '../context/ThemeContext'
 import { useRoadmapConfig } from '../context/RoadmapContext'
+
+const TOOLTIP_DELAY_MS = 250
+const TOOLTIP_PREVIEW_LENGTH = 280
+
+// Ensure colons after common bold labels in GitHub body markdown
+const ensureLabelColons = (body) => {
+  if (!body || typeof body !== 'string') return body
+  return body
+    .replace(/\*\*(What the feature is and who is it for)\*\*(?!:)/g, '**$1:**')
+    .replace(/\*\*(What the feature is and who it's for)\*\*(?!:)/g, '**$1:**')
+    .replace(/\*\*(What the feature is)\*\*(?!:)/g, '**$1:**')
+    .replace(/\*\*(Value proposition)\*\*(?!:)/g, '**$1:**')
+}
 
 function RoadmapConfigModal() {
   const { theme } = useTheme()
@@ -12,19 +27,25 @@ function RoadmapConfigModal() {
     configModalOpen,
     closeConfigModal,
     selectedItemIds,
+    setSelectedItemIds,
     toggleItemSelection,
-    excludedLabels,
-    excludedKeyInitiatives,
-    excludedReleaseTypes,
-    setExcludedLabels,
-    setExcludedKeyInitiatives,
-    setExcludedReleaseTypes,
+    filterLabels,
+    filterKeyInitiatives,
+    filterReleaseTypes,
+    setFilterLabels,
+    setFilterKeyInitiatives,
+    setFilterReleaseTypes,
     resetRoadmapConfig,
   } = useRoadmapConfig()
 
   const [roadmapData, setRoadmapData] = useState({ items: [] })
   const [loading, setLoading] = useState(true)
   const [filterExpanded, setFilterExpanded] = useState(false)
+  const [detailItem, setDetailItem] = useState(null)
+  const [tooltipItemId, setTooltipItemId] = useState(null)
+  const [tooltipRect, setTooltipRect] = useState(null)
+  const tooltipTimerRef = useRef(null)
+  const tooltipAnchorRef = useRef(null)
 
   useEffect(() => {
     if (configModalOpen) {
@@ -64,27 +85,203 @@ function RoadmapConfigModal() {
     return [...set].sort()
   }, [roadmapData.items])
 
+  // Include filter: show items matching selected filters. When no filters selected, show all.
+  // Multiple filter types combine with AND (item must match each active filter category).
   const filteredItems = useMemo(() => {
     return roadmapData.items.filter((item) => {
-      const hasExcludedLabel = item.labels?.some((l) => excludedLabels.includes(l))
+      const itemLabels = item.labels ?? []
       const ki = item.keyInitiatives
       const itemInitiatives = Array.isArray(ki) ? ki : ki ? [ki] : []
-      const hasExcludedInitiative = itemInitiatives.some((k) => excludedKeyInitiatives.includes(k))
-      const hasExcludedReleaseType = item.releaseType && excludedReleaseTypes.includes(item.releaseType)
-      return !hasExcludedLabel && !hasExcludedInitiative && !hasExcludedReleaseType
-    })
-  }, [roadmapData.items, excludedLabels, excludedKeyInitiatives, excludedReleaseTypes])
+      const itemReleaseType = item.releaseType
 
-  const toggleExcluded = (value, current, setter) => {
+      const matchesLabels = filterLabels.length === 0 || itemLabels.some((l) => filterLabels.includes(l))
+      const matchesInitiatives = filterKeyInitiatives.length === 0 || itemInitiatives.some((k) => filterKeyInitiatives.includes(k))
+      const matchesReleaseType = filterReleaseTypes.length === 0 || (itemReleaseType && filterReleaseTypes.includes(itemReleaseType))
+
+      return matchesLabels && matchesInitiatives && matchesReleaseType
+    })
+  }, [roadmapData.items, filterLabels, filterKeyInitiatives, filterReleaseTypes])
+
+  const getDescriptionPreview = (body, maxLength = 120) => {
+    if (!body || typeof body !== 'string') return ''
+    const stripped = body
+      .replace(/\*\*[^*]+\*\*/g, '')
+      .replace(/#{1,6}\s/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/[#*_`]/g, '')
+      .replace(/\n+/g, ' ')
+      .trim()
+    if (stripped.length <= maxLength) return stripped
+    return stripped.slice(0, maxLength).trim() + '…'
+  }
+
+  const getTooltipPreview = (body) => getDescriptionPreview(body, TOOLTIP_PREVIEW_LENGTH)
+
+  const getDisplayPreview = (item) => {
+    if (item.summary?.value) return item.summary.value
+    if (item.summary?.for) return item.summary.for
+    return getDescriptionPreview(item.body)
+  }
+
+  const getTooltipContent = (item) => {
+    if (item.summary?.for || item.summary?.value || item.summary?.scope) {
+      return null // Rendered as structured content with bold headers
+    }
+    return getTooltipPreview(item.body)
+  }
+
+  const hasTooltipSummary = (item) =>
+    !!(item?.summary?.for || item?.summary?.value || item?.summary?.scope)
+
+  const handleCardMouseEnter = (itemId, e) => {
+    tooltipAnchorRef.current = e?.currentTarget ?? null
+    tooltipTimerRef.current = setTimeout(() => setTooltipItemId(itemId), TOOLTIP_DELAY_MS)
+  }
+
+  const handleCardMouseLeave = (e) => {
+    const related = e?.relatedTarget
+    if (related?.closest?.('[data-roadmap-tooltip]')) return
+    if (tooltipTimerRef.current) {
+      clearTimeout(tooltipTimerRef.current)
+      tooltipTimerRef.current = null
+    }
+    tooltipTimerRef.current = setTimeout(() => {
+      setTooltipItemId(null)
+      setTooltipRect(null)
+    }, 200)
+  }
+
+  const handleTooltipMouseEnter = () => {
+    if (tooltipTimerRef.current) {
+      clearTimeout(tooltipTimerRef.current)
+      tooltipTimerRef.current = null
+    }
+  }
+
+  const handleTooltipMouseLeave = () => {
+    setTooltipItemId(null)
+    setTooltipRect(null)
+  }
+
+  // Update tooltip position when shown or when scroll/resize
+  useEffect(() => {
+    if (!tooltipItemId || !tooltipAnchorRef.current) {
+      setTooltipRect(null)
+      return
+    }
+    const update = () => {
+      if (tooltipAnchorRef.current) {
+        setTooltipRect(tooltipAnchorRef.current.getBoundingClientRect())
+      }
+    }
+    update()
+    window.addEventListener('scroll', update, true)
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update, true)
+      window.removeEventListener('resize', update)
+    }
+  }, [tooltipItemId])
+
+  useEffect(() => {
+    return () => {
+      if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+    }
+  }, [])
+
+  const toggleFilter = (value, current, setter) => {
     const next = current.includes(value)
       ? current.filter((x) => x !== value)
       : [...current, value]
     setter(next)
   }
 
+  const selectAllVisible = () => {
+    const idsToAdd = filteredItems.map((i) => i.id)
+    setSelectedItemIds([...new Set([...selectedItemIds, ...idsToAdd])])
+  }
+
+  const unselectAllVisible = () => {
+    const visibleIds = new Set(filteredItems.map((i) => i.id))
+    setSelectedItemIds(selectedItemIds.filter((id) => !visibleIds.has(id)))
+  }
+
   if (!configModalOpen) return null
 
+  const tooltipItem = filteredItems.find((i) => i.id === tooltipItemId)
+  const tooltipContent = tooltipItem ? getTooltipContent(tooltipItem) : null
+  const tooltipHasContent = tooltipContent || (tooltipItem && hasTooltipSummary(tooltipItem))
+
+  const tooltipPortal =
+    tooltipItemId &&
+    tooltipHasContent &&
+    tooltipRect &&
+    createPortal(
+      <AnimatePresence>
+        <motion.div
+          key={tooltipItemId}
+          data-roadmap-tooltip
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 4 }}
+          onMouseEnter={handleTooltipMouseEnter}
+          onMouseLeave={handleTooltipMouseLeave}
+          className={`fixed z-[200] w-80 max-w-[calc(100vw-2rem)] p-3 rounded-lg shadow-xl border ${
+            isDark ? 'bg-elastic-dev-blue border-white/20' : 'bg-white border-elastic-dev-blue/20'
+          }`}
+          style={{
+            left: Math.max(16, Math.min(window.innerWidth - 336, tooltipRect.left + tooltipRect.width / 2 - 160)),
+            top: Math.max(16, tooltipRect.top - 8),
+            transform: 'translateY(-100%)',
+          }}
+        >
+          <div className={`text-xs leading-relaxed whitespace-pre-line space-y-2 ${isDark ? 'text-white/90' : 'text-elastic-dev-blue/90'}`}>
+            {tooltipItem && hasTooltipSummary(tooltipItem) ? (
+              <>
+                {tooltipItem.summary.for && (
+                  <div>
+                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>For: </span>
+                    {tooltipItem.summary.for}
+                  </div>
+                )}
+                {tooltipItem.summary.value && (
+                  <div>
+                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Value: </span>
+                    {tooltipItem.summary.value}
+                  </div>
+                )}
+                {tooltipItem.summary.scope && (
+                  <div>
+                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Scope: </span>
+                    {tooltipItem.summary.scope}
+                  </div>
+                )}
+              </>
+            ) : (
+              tooltipContent
+            )}
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setDetailItem(tooltipItem)
+              setTooltipItemId(null)
+              setTooltipRect(null)
+            }}
+            className={`mt-2 flex items-center gap-1.5 text-xs font-medium ${
+              isDark ? 'text-elastic-teal hover:text-elastic-teal/80' : 'text-elastic-blue hover:text-elastic-blue/80'
+            }`}
+          >
+            <FontAwesomeIcon icon={faExpand} className="text-[10px]" />
+            View full
+          </button>
+        </motion.div>
+      </AnimatePresence>,
+      document.body
+    )
+
   return (
+    <>
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -131,16 +328,44 @@ function RoadmapConfigModal() {
 
           {/* Filters */}
           <div className={`p-4 border-b ${isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'}`}>
-            <button
-              onClick={() => setFilterExpanded(!filterExpanded)}
-              className={`flex items-center gap-2 text-sm font-medium ${
-                isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'
-              }`}
-            >
-              <FontAwesomeIcon icon={faFilter} />
-              Filters (exclude from display)
-              {filterExpanded ? ' ▲' : ' ▼'}
-            </button>
+            <div className="flex items-center justify-between gap-4">
+              <button
+                onClick={() => setFilterExpanded(!filterExpanded)}
+                className={`flex items-center gap-2 text-sm font-medium ${
+                  isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'
+                }`}
+              >
+                <FontAwesomeIcon icon={faFilter} />
+                Filters
+                {filterExpanded ? ' ▲' : ' ▼'}
+              </button>
+              {filteredItems.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={selectAllVisible}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      isDark
+                        ? 'bg-elastic-teal/20 hover:bg-elastic-teal/30 text-elastic-teal'
+                        : 'bg-elastic-blue/20 hover:bg-elastic-blue/30 text-elastic-blue'
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faSquareCheck} className="text-sm" />
+                    Select all
+                  </button>
+                  <button
+                    onClick={unselectAllVisible}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      isDark
+                        ? 'bg-white/10 hover:bg-white/20 text-white/70'
+                        : 'bg-elastic-dev-blue/10 hover:bg-elastic-dev-blue/20 text-elastic-dev-blue/70'
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faSquare} className="text-sm" />
+                    Unselect all
+                  </button>
+                </div>
+              )}
+            </div>
             <AnimatePresence>
               {filterExpanded && (
                 <motion.div
@@ -158,18 +383,18 @@ function RoadmapConfigModal() {
                         {allLabels.map((label) => (
                           <button
                             key={label}
-                            onClick={() => toggleExcluded(label, excludedLabels, setExcludedLabels)}
+                            onClick={() => toggleFilter(label, filterLabels, setFilterLabels)}
                             className={`px-2 py-1 rounded text-xs transition-all ${
-                              excludedLabels.includes(label)
+                              filterLabels.includes(label)
                                 ? isDark
-                                  ? 'bg-red-500/30 text-red-300'
-                                  : 'bg-red-500/20 text-red-600'
+                                  ? 'bg-elastic-teal/30 text-elastic-teal'
+                                  : 'bg-elastic-blue/30 text-elastic-blue'
                                 : isDark
                                   ? 'bg-white/10 text-white/70 hover:bg-white/20'
                                   : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
                             }`}
                           >
-                            {label} {excludedLabels.includes(label) ? '✕' : ''}
+                            {label}
                           </button>
                         ))}
                       </div>
@@ -184,18 +409,18 @@ function RoadmapConfigModal() {
                         {allKeyInitiatives.map((ki) => (
                           <button
                             key={ki}
-                            onClick={() => toggleExcluded(ki, excludedKeyInitiatives, setExcludedKeyInitiatives)}
+                            onClick={() => toggleFilter(ki, filterKeyInitiatives, setFilterKeyInitiatives)}
                             className={`px-2 py-1 rounded text-xs transition-all ${
-                              excludedKeyInitiatives.includes(ki)
+                              filterKeyInitiatives.includes(ki)
                                 ? isDark
-                                  ? 'bg-red-500/30 text-red-300'
-                                  : 'bg-red-500/20 text-red-600'
+                                  ? 'bg-elastic-teal/30 text-elastic-teal'
+                                  : 'bg-elastic-blue/30 text-elastic-blue'
                                 : isDark
                                   ? 'bg-white/10 text-white/70 hover:bg-white/20'
                                   : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
                             }`}
                           >
-                            {ki} {excludedKeyInitiatives.includes(ki) ? '✕' : ''}
+                            {ki}
                           </button>
                         ))}
                       </div>
@@ -210,18 +435,18 @@ function RoadmapConfigModal() {
                         {allReleaseTypes.map((rt) => (
                           <button
                             key={rt}
-                            onClick={() => toggleExcluded(rt, excludedReleaseTypes, setExcludedReleaseTypes)}
+                            onClick={() => toggleFilter(rt, filterReleaseTypes, setFilterReleaseTypes)}
                             className={`px-2 py-1 rounded text-xs transition-all ${
-                              excludedReleaseTypes.includes(rt)
+                              filterReleaseTypes.includes(rt)
                                 ? isDark
-                                  ? 'bg-red-500/30 text-red-300'
-                                  : 'bg-red-500/20 text-red-600'
+                                  ? 'bg-elastic-teal/30 text-elastic-teal'
+                                  : 'bg-elastic-blue/30 text-elastic-blue'
                                 : isDark
                                   ? 'bg-white/10 text-white/70 hover:bg-white/20'
                                   : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/70 hover:bg-elastic-dev-blue/20'
                             }`}
                           >
-                            {rt} {excludedReleaseTypes.includes(rt) ? '✕' : ''}
+                            {rt}
                           </button>
                         ))}
                       </div>
@@ -251,69 +476,224 @@ function RoadmapConfigModal() {
                 pull roadmap data, or adjust filters.
               </div>
             ) : (
+              <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {filteredItems.map((item) => {
                   const isSelected = selectedItemIds.includes(item.id)
                   return (
-                    <motion.button
+                    <motion.div
                       key={item.id}
-                      onClick={() => toggleItemSelection(item.id)}
-                      className={`text-left p-4 rounded-xl border-2 transition-all ${
-                        isSelected
-                          ? 'border-green-500 bg-green-500/10'
-                          : isDark
-                            ? 'bg-white/[0.03] border-white/10 hover:border-white/20'
-                            : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10 hover:border-elastic-dev-blue/20'
-                      }`}
+                      className="relative"
+                      onMouseEnter={(e) => handleCardMouseEnter(item.id, e)}
+                      onMouseLeave={handleCardMouseLeave}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
                     >
-                      <div className="flex items-start gap-2">
-                        <div
-                          className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                            isSelected ? 'bg-green-500 text-white' : isDark ? 'bg-white/10' : 'bg-elastic-dev-blue/10'
-                          }`}
-                        >
-                          {isSelected ? (
-                            <FontAwesomeIcon icon={faCheck} className="text-xs" />
-                          ) : (
-                            <span className="text-[10px]">○</span>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4
-                            className={`font-semibold text-sm truncate ${
-                              isSelected ? 'text-green-600 dark:text-green-400' : isDark ? 'text-white' : 'text-elastic-dark-ink'
+                      {/* Card */}
+                      <motion.div
+                        onClick={() => toggleItemSelection(item.id)}
+                        className={`text-left p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-green-500 bg-green-500/10'
+                            : isDark
+                              ? 'bg-white/[0.03] border-white/10 hover:border-white/20'
+                              : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10 hover:border-elastic-dev-blue/20'
+                        }`}
+                      >
+                        <div className="flex items-start gap-2">
+                          <div
+                            className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                              isSelected ? 'bg-green-500 text-white' : isDark ? 'bg-white/10' : 'bg-elastic-dev-blue/10'
                             }`}
                           >
-                            {item.title}
-                          </h4>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {item.quarter && (
-                              <span
-                                className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                  isDark ? 'bg-white/10 text-white/60' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/60'
-                                }`}
-                              >
-                                {item.quarter}
-                              </span>
-                            )}
-                            {item.productArea && (
-                              <span
-                                className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                  isDark ? 'bg-elastic-teal/20 text-elastic-teal' : 'bg-elastic-blue/20 text-elastic-blue'
-                                }`}
-                              >
-                                {item.productArea}
-                              </span>
+                            {isSelected ? (
+                              <FontAwesomeIcon icon={faCheck} className="text-xs" />
+                            ) : (
+                              <span className="text-[10px]">○</span>
                             )}
                           </div>
+                          <div className="flex-1 min-w-0">
+                            <h4
+                              className={`font-semibold text-sm ${
+                                isSelected ? 'text-green-600 dark:text-green-400' : isDark ? 'text-white' : 'text-elastic-dark-ink'
+                              }`}
+                            >
+                              {item.title}
+                            </h4>
+                            {(item.body || item.summary) && (
+                              <p
+                                className={`text-xs mt-1.5 line-clamp-2 ${
+                                  isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'
+                                }`}
+                              >
+                                {getDisplayPreview(item)}
+                              </p>
+                            )}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setDetailItem(item)
+                              }}
+                              className={`mt-1.5 flex items-center gap-1 text-[10px] font-medium ${
+                                isDark ? 'text-elastic-teal/80 hover:text-elastic-teal' : 'text-elastic-blue/80 hover:text-elastic-blue'
+                              }`}
+                            >
+                              <FontAwesomeIcon icon={faExpand} className="text-[8px]" />
+                              View full
+                            </button>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {item.quarter && (
+                                <span
+                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    isDark ? 'bg-white/10 text-white/60' : 'bg-elastic-dev-blue/10 text-elastic-dev-blue/60'
+                                  }`}
+                                >
+                                  {item.quarter}
+                                </span>
+                              )}
+                              {item.productArea && (
+                                <span
+                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    isDark ? 'bg-elastic-teal/20 text-elastic-teal' : 'bg-elastic-blue/20 text-elastic-blue'
+                                  }`}
+                                >
+                                  {item.productArea}
+                                </span>
+                              )}
+                              {item.labels?.map((label) => (
+                                <span
+                                  key={label}
+                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    isDark ? 'bg-white/5 text-white/50' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'
+                                  }`}
+                                >
+                                  {label}
+                                </span>
+                              ))}
+                              {(Array.isArray(item.keyInitiatives) ? item.keyInitiatives : item.keyInitiatives ? [item.keyInitiatives] : []).map((ki) => (
+                                <span
+                                  key={ki}
+                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    isDark ? 'bg-white/5 text-white/50' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'
+                                  }`}
+                                >
+                                  {ki}
+                                </span>
+                              ))}
+                              {item.releaseType && (
+                                <span
+                                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    isDark ? 'bg-white/5 text-white/50' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'
+                                  }`}
+                                >
+                                  {item.releaseType}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </motion.button>
+                      </motion.div>
+                    </motion.div>
                   )
                 })}
               </div>
+
+              {/* Detail modal */}
+              <AnimatePresence>
+                {detailItem && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+                    onClick={() => setDetailItem(null)}
+                  >
+                    <div
+                      className={`absolute inset-0 ${isDark ? 'bg-black/80' : 'bg-black/60'}`}
+                      aria-hidden="true"
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className={`relative w-full max-w-2xl max-h-[85vh] rounded-2xl overflow-hidden flex flex-col ${
+                        isDark ? 'bg-elastic-dev-blue' : 'bg-white'
+                      } shadow-2xl`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div
+                        className={`flex items-center justify-between p-4 border-b ${
+                          isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'
+                        }`}
+                      >
+                        <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+                          {detailItem.title}
+                        </h3>
+                        <button
+                          onClick={() => setDetailItem(null)}
+                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                            isDark ? 'hover:bg-white/10 text-white/70' : 'hover:bg-elastic-dev-blue/10 text-elastic-dev-blue/70'
+                          }`}
+                        >
+                          <FontAwesomeIcon icon={faXmark} className="text-xl" />
+                        </button>
+                      </div>
+                      <div
+                        className={`flex-1 overflow-y-auto p-4 prose prose-sm max-w-none space-y-4 ${
+                          isDark
+                            ? 'prose-invert prose-headings:text-white prose-p:text-white/80 prose-strong:text-elastic-poppy prose-a:text-elastic-teal'
+                            : 'prose-headings:text-elastic-dark-ink prose-p:text-elastic-dev-blue/80 prose-strong:text-elastic-blue prose-a:text-elastic-blue'
+                        }`}
+                      >
+                        {detailItem.summary?.for || detailItem.summary?.value || detailItem.summary?.scope ? (
+                          <>
+                            <div
+                              className={`rounded-lg p-4 border space-y-3 ${
+                                isDark ? 'bg-white/5 border-white/10' : 'bg-elastic-dev-blue/5 border-elastic-dev-blue/10'
+                              }`}
+                            >
+                              <h4 className={`text-sm font-semibold mb-2 ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>
+                                Summary
+                              </h4>
+                              <div className={`text-sm leading-relaxed space-y-3 ${isDark ? 'text-white/90' : 'text-elastic-dev-blue/90'}`}>
+                                {detailItem.summary.for && (
+                                  <div>
+                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>For: </span>
+                                    {detailItem.summary.for}
+                                  </div>
+                                )}
+                                {detailItem.summary.value && (
+                                  <div>
+                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Value: </span>
+                                    {detailItem.summary.value}
+                                  </div>
+                                )}
+                                {detailItem.summary.scope && (
+                                  <div>
+                                    <span className={`font-bold ${isDark ? 'text-elastic-poppy' : 'text-elastic-blue'}`}>Scope: </span>
+                                    {detailItem.summary.scope}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            {detailItem.body && (
+                              <>
+                                <h4 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+                                  Original description
+                                </h4>
+                                <ReactMarkdown>{ensureLabelColons(detailItem.body)}</ReactMarkdown>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <ReactMarkdown>{ensureLabelColons(detailItem.body || '')}</ReactMarkdown>
+                        )}
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              </>
             )}
           </div>
 
@@ -328,6 +708,8 @@ function RoadmapConfigModal() {
         </motion.div>
       </motion.div>
     </AnimatePresence>
+    {tooltipPortal}
+    </>
   )
 }
 

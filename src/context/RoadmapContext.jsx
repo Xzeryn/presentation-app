@@ -4,9 +4,9 @@ const ROADMAP_STORAGE_KEY = 'presentation-roadmap-config'
 
 const DEFAULT_ROADMAP_CONFIG = {
   selectedItemIds: [],
-  excludedLabels: [],
-  excludedKeyInitiatives: [],
-  excludedReleaseTypes: [],
+  filterLabels: [],
+  filterKeyInitiatives: [],
+  filterReleaseTypes: [],
 }
 
 const RoadmapContext = createContext(null)
@@ -16,7 +16,14 @@ export function RoadmapProvider({ children }) {
     const saved = localStorage.getItem(ROADMAP_STORAGE_KEY)
     if (saved) {
       try {
-        return { ...DEFAULT_ROADMAP_CONFIG, ...JSON.parse(saved) }
+        const parsed = JSON.parse(saved)
+        return {
+          ...DEFAULT_ROADMAP_CONFIG,
+          selectedItemIds: parsed.selectedItemIds ?? DEFAULT_ROADMAP_CONFIG.selectedItemIds,
+          filterLabels: parsed.filterLabels ?? [],
+          filterKeyInitiatives: parsed.filterKeyInitiatives ?? [],
+          filterReleaseTypes: parsed.filterReleaseTypes ?? [],
+        }
       } catch {
         return DEFAULT_ROADMAP_CONFIG
       }
@@ -46,16 +53,16 @@ export function RoadmapProvider({ children }) {
     })
   }, [])
 
-  const setExcludedLabels = useCallback((labels) => {
-    setConfig((prev) => ({ ...prev, excludedLabels: labels }))
+  const setFilterLabels = useCallback((labels) => {
+    setConfig((prev) => ({ ...prev, filterLabels: labels }))
   }, [])
 
-  const setExcludedKeyInitiatives = useCallback((initiatives) => {
-    setConfig((prev) => ({ ...prev, excludedKeyInitiatives: initiatives }))
+  const setFilterKeyInitiatives = useCallback((initiatives) => {
+    setConfig((prev) => ({ ...prev, filterKeyInitiatives: initiatives }))
   }, [])
 
-  const setExcludedReleaseTypes = useCallback((types) => {
-    setConfig((prev) => ({ ...prev, excludedReleaseTypes: types }))
+  const setFilterReleaseTypes = useCallback((types) => {
+    setConfig((prev) => ({ ...prev, filterReleaseTypes: types }))
   }, [])
 
   const resetRoadmapConfig = useCallback(() => {
@@ -65,17 +72,17 @@ export function RoadmapProvider({ children }) {
   const contextValue = useMemo(
     () => ({
       selectedItemIds: config.selectedItemIds,
-      excludedLabels: config.excludedLabels,
-      excludedKeyInitiatives: config.excludedKeyInitiatives,
-      excludedReleaseTypes: config.excludedReleaseTypes,
+      filterLabels: config.filterLabels ?? [],
+      filterKeyInitiatives: config.filterKeyInitiatives ?? [],
+      filterReleaseTypes: config.filterReleaseTypes ?? [],
       configModalOpen,
       openConfigModal,
       closeConfigModal,
       setSelectedItemIds,
       toggleItemSelection,
-      setExcludedLabels,
-      setExcludedKeyInitiatives,
-      setExcludedReleaseTypes,
+      setFilterLabels,
+      setFilterKeyInitiatives,
+      setFilterReleaseTypes,
       resetRoadmapConfig,
     }),
     [
@@ -85,9 +92,9 @@ export function RoadmapProvider({ children }) {
       closeConfigModal,
       setSelectedItemIds,
       toggleItemSelection,
-      setExcludedLabels,
-      setExcludedKeyInitiatives,
-      setExcludedReleaseTypes,
+      setFilterLabels,
+      setFilterKeyInitiatives,
+      setFilterReleaseTypes,
       resetRoadmapConfig,
     ]
   )
